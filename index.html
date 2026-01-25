@@ -2,50 +2,47 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum AI - Gestão Multi-Equipa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quantum AI PRO</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+    
     <style>
         :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; flex-direction: column; overflow: hidden; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
         
-        #header { background: var(--blue); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        #equipaNome { padding: 8px; border-radius: 4px; border: none; width: 150px; font-weight: bold; }
+        #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 50px; box-sizing: border-box; }
+        #equipaNome { padding: 6px; border-radius: 4px; border: none; width: 120px; }
         
-        #main-container { display: flex; flex: 1; overflow: hidden; }
+        #main-container { display: flex; height: calc(100vh - 50px); flex-direction: row; }
         
-        #sidebar { width: 380px; border-right: 1px solid #ccc; display: flex; flex-direction: column; background: #fff; }
-        .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
+        #sidebar { width: 350px; border-right: 1px solid #ccc; display: flex; flex-direction: column; background: #fff; z-index: 1000; }
+        #map { flex: 1; width: 100%; height: 100%; background: #e5e3df; } /* Fundo cinza caso o mapa demore */
+        
+        .tab-bar { display: flex; background: #eee; }
         .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-size: 11px; font-weight: bold; }
-        .tab.active { background: white; border-bottom: 3px solid var(--yellow); color: var(--blue); }
+        .tab.active { background: white; border-bottom: 3px solid var(--yellow); }
         
         #store-list { flex: 1; overflow-y: auto; padding: 10px; background: #f4f4f4; }
-        .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; border-left: 6px solid #ccc; position: relative; }
-        .status-badge { position: absolute; right: 10px; top: 10px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-        .dist-info { font-size: 11px; color: #666; font-weight: bold; margin-top: 5px; display: block; }
+        .store-item { background: white; padding: 12px; margin-bottom: 8px; border-radius: 8px; border-left: 6px solid #ccc; font-size: 13px; }
 
-        #map { flex: 1; }
+        /* Ajuste para Telemóvel */
+        @media (max-width: 768px) {
+            #main-container { flex-direction: column-reverse; }
+            #sidebar { width: 100%; height: 40%; }
+            #map { height: 60%; }
+        }
 
-        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; }
-        .modal-box { background:white; width:90%; max-width:400px; padding:25px; border-radius:15px; text-align: center; }
-        .timer { font-size: 42px; font-weight: bold; margin: 20px 0; color: var(--blue); font-family: monospace; }
-        .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center; }
+        .modal-box { background:white; width:85%; max-width:380px; padding:20px; border-radius:15px; text-align: center; }
+        .btn { padding: 12px; width: 100%; margin: 5px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="header">
-    <div>
-        <h2 style="margin:0; font-size: 18px;">QUANTUM AI PRO</h2>
-        <small id="gps-status">GPS: Procurando...</small>
-    </div>
-    <input type="text" id="equipaNome" placeholder="Nome da Equipa">
+    <h3 style="margin:0; font-size: 16px;">QUANTUM AI PRO</h3>
+    <input type="text" id="equipaNome" placeholder="Equipa">
 </div>
 
 <div id="main-container">
@@ -55,26 +52,35 @@
             <div id="tab-perto" class="tab" onclick="changeTab('perto')">PERTO</div>
             <div id="tab-curso" class="tab" onclick="changeTab('curso')">EM CURSO</div>
         </div>
-        <div id="store-list">Sincronizando...</div>
+        <div id="store-list">A carregar lojas...</div>
     </div>
     <div id="map"></div>
 </div>
 
 <div id="modalTrabalho" class="modal">
     <div class="modal-box">
-        <h2 id="m-nome" style="color: var(--blue); margin: 0;">Loja</h2>
+        <h2 id="m-nome" style="color: var(--blue); margin-top:0;">Loja</h2>
         <p id="m-morada" style="font-size: 12px; color: #666;"></p>
-        <div id="timer" class="timer">00:00:00</div>
-        <div id="status-info" style="margin-bottom: 20px; font-size: 14px; font-weight: bold;"></div>
-        
-        <button class="btn" style="background: var(--green); color:white;" id="btnStart" onclick="dbAction('start')">INICIAR TRABALHO</button>
-        <button class="btn" style="background: var(--yellow);" id="btnPause" onclick="dbAction('pause')">PAUSA / ALMOÇO</button>
-        <button class="btn" style="background: var(--red); color:white;" id="btnFinish" onclick="dbAction('finish')">FINALIZAR TAREFA</button>
-        <button class="btn" style="background: #eee;" onclick="closeModal()">VOLTAR</button>
+        <div id="status-info" style="margin: 15px 0; font-weight: bold;"></div>
+        <button class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR TRABALHO</button>
+        <button class="btn" style="background: var(--yellow);" onclick="dbAction('pause')">PAUSA / ALMOÇO</button>
+        <button class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR TAREFA</button>
+        <button class="btn" style="background: #eee;" onclick="closeModal()">FECHAR</button>
     </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
 <script>
+    // Inicializar Mapa Imediatamente
+    const map = L.map('map', { tap: false }).setView([39.5, -8.0], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
     const firebaseConfig = {
         apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY",
         authDomain: "lidl-audit.firebaseapp.com",
@@ -87,15 +93,14 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    const map = L.map('map').setView([39.5, -8.0], 7);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
     let baseLojas = [];
     let statusRealtime = {};
     let lojaAtiva = null;
     let userPos = null;
     let currentTab = 'todas';
+    const markersLayer = L.layerGroup().addTo(map);
 
+    // Carregar CSV
     Papa.parse("https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv", {
         download: true, header: true, skipEmptyLines: true,
         complete: function(results) {
@@ -114,11 +119,10 @@
 
     function monitorarGPS() {
         if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(pos => {
+            navigator.geolocation.getCurrentPosition(pos => {
                 userPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-                document.getElementById('gps-status').innerText = "GPS: OK";
                 if(currentTab === 'perto') renderList();
-            });
+            }, null, { enableHighAccuracy: true });
         }
     }
 
@@ -140,6 +144,8 @@
     function renderList() {
         const container = document.getElementById('store-list');
         container.innerHTML = '';
+        markersLayer.clearLayers();
+        
         let lojasParaExibir = [...baseLojas];
 
         if (userPos) {
@@ -153,46 +159,47 @@
         lojasParaExibir.forEach((loja, idx) => {
             const id = "loja_" + (loja.originalIndex !== undefined ? loja.originalIndex : idx);
             const status = statusRealtime[id] || { estado: 'LIVRE' };
+            
             if(currentTab === 'curso' && status.estado !== 'EM_CURSO') return;
 
+            // Criar Pin no Mapa
+            const pinColor = status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'green' : 'blue');
+            const marker = L.circleMarker([loja.Latitude, loja.Longitude], {
+                radius: 8, fillOpacity: 0.8, color: 'white', weight: 2, fillColor: pinColor
+            }).bindPopup(`<b>${loja.Nome}</b><br>${status.estado}`);
+            
+            marker.on('click', () => abrirLoja(id, loja));
+            markersLayer.addLayer(marker);
+
+            // Criar Item na Lista
             const div = document.createElement('div');
             div.className = 'store-item';
-            div.style.borderLeftColor = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#ccc');
-            
-            div.innerHTML = `
-                <b>${loja.Nome}</b><br><small>${loja.Morada}</small>
-                ${loja.dist ? `<span class="dist-info">📍 ${loja.dist.toFixed(1)} km</span>` : ''}
-                <span class="status-badge" style="background:${status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee')}">
-                    ${status.estado}
-                </span>`;
-            
-            div.onclick = () => abrirLoja(id, loja);
+            div.style.borderLeftColor = pinColor;
+            div.innerHTML = `<b>${loja.Nome}</b><br>${loja.dist ? `<small>📍 ${loja.dist.toFixed(1)} km</small>` : ''}`;
+            div.onclick = () => {
+                abrirLoja(id, loja);
+                map.setView([loja.Latitude, loja.Longitude], 14);
+            };
             container.appendChild(div);
         });
     }
 
     function abrirLoja(id, loja) {
         lojaAtiva = { id, ...loja };
-        document.getElementById('m-nome').innerText = "LIDL " + loja.Nome;
+        document.getElementById('m-nome').innerText = loja.Nome;
         document.getElementById('m-morada').innerText = loja.Morada;
+        const status = statusRealtime[id] || { estado: 'LIVRE' };
+        document.getElementById('status-info').innerText = "STATUS: " + status.estado;
         document.getElementById('modalTrabalho').style.display = 'flex';
-        
-        const status = statusRealtime[id] || {};
-        const info = document.getElementById('status-info');
-        info.innerText = status.estado === 'EM_CURSO' ? `EM CURSO POR: ${status.equipa}` : (status.estado === 'CONCLUIDO' ? `FINALIZADO POR: ${status.equipa}` : "DISPONÍVEL");
-        info.style.color = status.estado === 'EM_CURSO' ? 'var(--blue)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#666');
-        
-        map.setView([loja.Latitude, loja.Longitude], 15);
     }
 
     function dbAction(acao) {
         const equipa = document.getElementById('equipaNome').value;
-        if(!equipa) return alert("Insere o nome da Equipa no topo!");
+        if(!equipa) return alert("Insere o nome da Equipa!");
         const ref = db.ref('trabalhos/' + lojaAtiva.id);
-        
         if(acao === 'start') {
             ref.set({ estado: 'EM_CURSO', equipa: equipa, inicio: Date.now() });
-            closeModal(); // FECHA AUTOMATICAMENTE APÓS INICIAR
+            closeModal();
         } else if(acao === 'finish') {
             ref.update({ estado: 'CONCLUIDO', fim: Date.now() });
             closeModal();
@@ -200,6 +207,9 @@
     }
 
     function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
+
+    // Corrigir bug de tamanho do mapa no telemóvel
+    setTimeout(() => { map.invalidateSize(); }, 500);
 </script>
 </body>
 </html>
