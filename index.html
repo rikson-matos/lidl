@@ -192,6 +192,7 @@
         
         if(acao === 'start') {
             ref.set({ estado: 'EM_CURSO', equipa: equipa, inicio: Date.now() });
+            closeModal(); // FECHA AUTOMATICAMENTE APÓS INICIAR
         } else if(acao === 'finish') {
             ref.update({ estado: 'CONCLUIDO', fim: Date.now() });
             closeModal();
