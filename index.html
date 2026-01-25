@@ -6,7 +6,7 @@
     <title>Quantum AI PRO - Audit</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; }
+        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; }
@@ -27,12 +27,42 @@
         .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; }
         .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
         
-        /* Botão Localizar-me */
+        /* Botão Localizar-me Melhorado */
         .gps-button { 
-            position: absolute; bottom: 20px; right: 20px; z-index: 1000;
-            background: white; width: 50px; height: 50px; border-radius: 50%;
+            position: absolute; bottom: 30px; right: 20px; z-index: 1000;
+            background: white; width: 55px; height: 55px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2); border: none; cursor: pointer; font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); cursor: pointer; color: var(--blue);
+        }
+
+        /* Animação de Pulsação do GPS */
+        .pulse-marker {
+            background: var(--gps-blue);
+            border-radius: 50%;
+            height: 14px;
+            width: 14px;
+            position: absolute;
+            left: -7px;
+            top: -7px;
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .pulse-marker::after {
+            content: "";
+            border: 3px solid var(--gps-blue);
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            position: absolute;
+            left: -16px;
+            top: -16px;
+            animation: pulsate 1.5s ease-out infinite;
+            opacity: 0;
+        }
+        @keyframes pulsate {
+            0% { transform: scale(0.1); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
         }
 
         #obs-container { margin-top: 15px; text-align: left; display: none; }
@@ -73,7 +103,9 @@
         <div id="store-list">Sincronizando...</div>
         <div id="map-container">
             <div id="map"></div>
-            <button class="gps-button" onclick="focarUtilizador()">⌖</button>
+            <button class="gps-button" onclick="focarUtilizador()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3m0 14v3m10-10h-3M5 12H2"></path></svg>
+            </button>
         </div>
     </div>
 </div>
@@ -118,7 +150,14 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     
     const markersLayer = L.layerGroup().addTo(map);
-    const userMarker = L.circleMarker([0,0], { radius: 7, fillColor: '#007bff', color: '#fff', weight: 3, fillOpacity: 1 }).addTo(map);
+
+    // Criar o Marcador Pulsante com HTML/CSS personalizado
+    const pulseIcon = L.divIcon({
+        className: 'custom-pulse-icon',
+        html: '<div class="pulse-marker"></div>',
+        iconSize: [0, 0]
+    });
+    const userMarker = L.marker([0,0], { icon: pulseIcon }).addTo(map);
 
     function fazerLogin() {
         auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPass').value)
@@ -185,8 +224,8 @@
     }
 
     function focarUtilizador() {
-        if(userPos) map.setView([userPos.lat, userPos.lon], 15);
-        else alert("Ainda a obter GPS...");
+        if(userPos) map.flyTo([userPos.lat, userPos.lon], 16);
+        else alert("A obter GPS...");
     }
 
     function monitorarGPS() {
