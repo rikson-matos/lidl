@@ -1,0 +1,300 @@
+Código,Nome,Regional,Prioridade,Morada,Latitude,Longitude,Estado_GPS
+113,TORRES NOVAS,94 - TON,Normal,Estrada da Varzea,39.471139,-8.534169,OK
+114,ABRANTES,94 - TON,Normal,Av D João I Vale Rãs,39.468772,-8.203542,OK
+115,MARINHA GRANDE,94 - TON,Normal,Av 1º de Maio,39.742903,-8.928569,OK
+117,CASTELO BRANCO,94 - TON,Normal,R Camilo CasteloBranco18,39.820881,-7.486308,OK
+119,AMADORA - R DE ANGOLA,11 - LOU,Normal,"R de Angola, n13",38.7592396,-9.2438885,OK
+123,TORRES VEDRAS,11 - LOU,Normal,R António AugustoCabral,39.081923,-9.264010,OK
+125,LOURES,11 - LOU,Normal,R G. Lt1 Vinha GrandeAreeira,38.826667,-9.165278,OK
+127,LOURES - PORTELA,11 - LOU,Normal,Qta da Vitória - R Vasco Gama,38.785164,-9.116781,OK
+129,SINTRA - TAPADA MERCES,11 - LOU,Normal,Estr. de Mercês-Algueirão,38.800327,-9.325723,OK
+137,ALCOBAÇA,94 - TON,Normal,R de Leiria,39.547642,-8.967203,OK
+138,PENICHE,94 - TON,Normal,R Dr. Azeredo Perdigão,39.365628,-9.380628,OK
+139,RIO MAIOR,94 - TON,Normal,Av Dr Mário Soares,39.336908,-8.930644,OK
+141,ODIVELAS - CANECAS,11 - LOU,Normal,Estrada de Montemor,38.814444,-9.2149999,OK
+142,V.F.XIRA - P.STA.IRIA,11 - LOU,Normal,"EN 10, km 134,7",38.852222,-9.074444,OK
+144,V.F.XIRA - ALVERCA,11 - LOU,Normal,R de Santa Maria,38.892095,-9.038755,OK (Manual)
+145,PORTALEGRE,94 - TON,Normal,R Prof. Angelo Monteiro,39.2795913,-7.4313855,OK
+148,LISBOA - AV. C.E.G.,11 - LOU,Normal,Av Cor Eduardo Galhardo,38.729750,-9.126485,OK (Manual)
+149,LISBOA - XABREGAS,11 - LOU,Normal,"R Bispo de Coxim, n1",38.725278,-9.112222,OK
+153,CASCAIS - ALCOITÃO,11 - LOU,Normal,"Av da República, n2562",38.7352133,-9.3977743,OK
+155,LISBOA - R J.FARINHA,11 - LOU,Normal,"Rua José Farinha, n21",38.749556,-9.192078,OK (Manual)
+157,SALVATERRA DE MAGOS,94 - TON,Normal,EN 118,39.0225342,-8.7939071,OK
+158,SASSOEIROS,11 - LOU,Normal,"R Luis de Camões, n8",38.701667,-9.326944,OK
+159,ODIVELAS - ARROJA,11 - LOU,Normal,Av das Acácias,38.7957222,-9.1987537,OK
+163,PONTE DE SÔR,94 - TON,Normal,R de Angola ,39.258147,-8.016239,OK
+166,LISBOA - RIO JANEIRO,11 - LOU,Normal,"Av Rio de Janeiro, n26",38.752311,-9.143892,OK (Manual)
+168,SANTAREM,94 - TON,Normal,Av Bernardo Santareno,39.239133,-8.697475,OK
+173,LISBOA-AV.INF.D.HENRIQUE,11 - LOU,Normal,"Av Inf D Henrique, Lts. 17-18",38.7575001,-9.103611,OK
+174,CORUCHE,93 - PAL,Normal,"Quinta das Baleias, Lt18",38.961028,-8.520147,OK
+175,BOMBARRAL,94 - TON,Normal,R Mouzinho de Albuquerque,39.264636,-9.155136,OK
+176,CALDAS DA RAINHA,94 - TON,Normal,RDrBernardinoACPargana,39.410739,-9.141178,OK
+177,OEIRAS - ALGES,11 - LOU,Normal,"R João Chagas, n130",38.706111,-9.238333,OK
+178,MAFRA - MALVEIRA,11 - LOU,Normal,R Casal das Queimadas,38.930826,-9.251945,OK
+179,SINTRA - ALGUEIRAO,11 - LOU,Normal,Casal Vale do Milho,38.804444,-9.356111,OK
+180,LISBOA-R ENG PAULO BARROS,11 - LOU,Normal,"R Eng Paulo de Barros, n1D",38.748722,-9.167814,OK (Manual)
+181,MAFRA - ERICEIRA,11 - LOU,Normal,"EN 116 - Capa Rosa, Km 1",38.965116,-9.407725,OK
+183,ARRUDA DOS VINHOS,11 - LOU,Normal,EN248-C.Vale Quente,38.993056,-9.078889,OK
+185,SINTRA - AGUALVA,11 - LOU,Normal,R Antonio A M Oliveira,38.771111,-9.287778,OK
+186,SINTRA - TERRUGEM,11 - LOU,Normal,"Av 29 de Agosto, n80",38.844394,-9.375811,OK
+188,LISBOA - R MARIA DA FONTE,11 - LOU,Normal,"R M. Fonte - M. F.Tijolo, Lj37",38.724985,-9.133722,OK (Manual)
+189,LISBOA - ALVALAXIA,11 - LOU,Normal,R Professor Fernando Fonseca,38.761685,-9.160654,OK (Manual)
+190,LISBOA - AV.LUSIADA,11 - LOU,Normal,"Av. Lusiada BL4, 12D",38.750235,-9.173139,OK
+191,LISBOA - VISCONDE VALMOR,11 - LOU,Normal,"Av Visconde Valmor, n68",38.739712,-9.148685,OK (Manual)
+201,VISEU - PASCOAL,96 - SAN,Normal,EN 16 -  Lugar de Pascoal,40.692536,-7.929758,OK
+204,GONDOMAR - S.PEDRO DA COVA,96 - SAN,Normal,Estrada D. Miguel,41.153783,-8.516492,OK
+207,MATOSINHOS - MT.DOS BURGOS,96 - SAN,Normal,R Eng.António Costa Reis,41.184753,-8.632167,OK
+214,SANTO TIRSO,96 - SAN,Normal,R do Jornal de St Tirso,41.343512,-8.473521,OK (Manual)
+221,OLIVEIRA DE AZEMEIS,96 - SAN,Normal,R Joaq. SilvaLandeau,40.852169,-8.477700,OK
+222,POMBAL,94 - TON,Normal,Estrada de Ansião,39.9166001,-8.622292,OK
+223,ÁGUEDA,96 - SAN,Normal,R da Misericórdia,40.57765,-8.450683,OK
+227,V.N.GAIA - STA.MARINHA,96 - SAN,Normal,Av. dos Descobrimentos,41.119669,-8.626378,OK
+228,MATOSINHOS - SRA DA HORA,96 - SAN,Normal,Av. Ant. Domingues Santos,41.1856986,-8.69433,OK
+230,PAREDES,96 - SAN,Normal,R D Maria Sotto Mayor Meneses,41.199044,-8.333242,OK
+235,FIGUEIRA DA FOZ,94 - TON,Normal,Av. Dom João II,40.167017,-8.884039,OK
+241,GUARDA,94 - TON,Normal,R Vila de Manteigas,40.5442281,-7.2612848,OK
+242,PORTO - R AGRAMONTE,96 - SAN,Normal,"R Agramonte, n33 ",41.157669,-8.633533,OK
+244,FAMALICAO - A.M.H.D.,96 - SAN,Normal,AvMarechalHumbertoDelgado,41.402246,-8.516336,OK
+247,MANGUALDE,94 - TON,Normal,Av Combatentes Grande Guerra,40.608972,-7.762319,OK
+249,VILA DO CONDE,96 - SAN,Normal,R 5 de Outubro,41.348391,-8.747087,OK
+250,V.N.GAIA - S.FELIX MARINHA,96 - SAN,Normal,"R dos Loureiro, n35",41.030578,-8.640747,OK
+255,MAIA - NOGUEIRA,96 - SAN,Normal,"R Senhora da Hora, n108",41.2292384,-8.5853783,OK
+256,V.N.GAIA - PEDROSO,96 - SAN,Normal,Lgo das Alminhas das Barrancas,41.0463309,-8.5657445,OK
+258,TONDELA,94 - TON,Normal,R Maestro J Ribeiro Azevedo,40.505767,-8.080397,OK
+259,BRAGANCA,96 - SAN,Normal,R Dr Alexandre Faria,41.8106358,-6.7638634,OK
+261,COIMBRA - SANTA CLARA,94 - TON,Normal,"Rdo Lagar, Lt1",40.198583,-8.440192,OK
+262,PACOS DE FERREIRA,96 - SAN,Normal,R Dr Jaime de Barros,41.279736,-8.375858,OK
+263,VALENCA,96 - SAN,Normal,Av Dr Tito Fontes,42.026875,-8.637486,OK
+264,COIMBRA - EIRAS,94 - TON,Normal,R Dr Manuel Almeida e Sousa,40.227301,-8.438700,OK
+267,ESPOSENDE,96 - SAN,Normal,Av. Visconde São Januário,41.501667,-8.759722,OK
+268,FAFE,96 - SAN,Normal,"R Cidade de Guimarães, n285",41.451906,-8.188453,OK
+269,LAMEGO,96 - SAN,Normal,Lugar de Calvilhe,41.081139,-7.799092,OK
+272,ANADIA,94 - TON,Normal,R das Flores,40.441986,-8.449781,OK
+273,LOUSADA,96 - SAN,Normal,"R Antonio Gomes Ribeiro, n123",41.271067,-8.284650,OK
+274,V.N.GAIA - GULPILHARES,96 - SAN,Normal,R Salvador Brandão 1316,41.071664,-8.626017,OK
+277,LECA DA PALMEIRA,96 - SAN,Normal,"R da Bataria, n45",41.2045671,-8.6988239,OK
+278,CONDEIXA-A-NOVA,94 - TON,Normal,"Urb. Faia Nova, Lt B2",40.110028,-8.507597,OK
+279,PENAFIEL,96 - SAN,Normal,R do Sameiro - Circular Sul,41.2111845,-8.2708463,OK
+281,SEVER VOUGA,96 - SAN,Normal,R da APCDI,40.721603,-8.361439,OK
+282,POVOA DO LANHOSO,96 - SAN,Normal,R Poça de Chidelas,41.575320,-8.277815,OK (Manual)
+285,MIRANDELA,96 - SAN,Normal,Lugar Quinta Branca,41.4941762,-7.1841292,OK
+287,CASTELO DE PAIVA,96 - SAN,Normal,Variante à EN 222,41.038281,-8.261994,OK
+288,BARCELOS,96 - SAN,Normal,Lugar de Pena - Gamil,41.522400,-8.592739,OK
+290,S.PEDRO DO SUL,96 - SAN,Normal,Av da Ponte,40.7610215,-8.0628096,OK
+291,MACEDO DE CAVALEIROS,96 - SAN,Normal,R Viriato Martins,41.544158,-6.959786,OK
+292,MEALHADA,94 - TON,Normal,R das Padeiras da Mealhada,40.373692,-8.449236,OK
+293,PONTE DE LIMA,96 - SAN,Normal,"Rua da Lebre, n7",41.7725023,-8.5773757,OK
+295,VIEIRA DO MINHO,96 - SAN,Normal,Av. João Torre,41.636639,-8.142603,OK
+297,VIZELA,96 - SAN,Normal,R Guilherme Caldas Peixoto,41.371539,-8.312236,OK
+298,CHAVES,96 - SAN,Normal,Av da Trindade,41.759597,-7.4725857,OK
+318,EVORA,93 - PAL,Normal,"R Horta de Figueiras, Lt1",38.5589217,-7.9140226,OK
+321,ELVAS,93 - PAL,Normal,"EN 4, Av. de Badajoz",38.8753679,-7.1616967,OK
+323,PALMELA,93 - PAL,Normal,"EN 379, km 34,9",38.5773663,-8.8984037,OK
+326,SEIXAL - AMORA,93 - PAL,Normal,Av. Baía Natural do Seixal,38.630608,-9.118686,OK
+328,BEJA,93 - PAL,Normal,"Variante à EN 18,121,122",38.0054384,-7.8736245,OK
+330,PORTIMAO,93 - PAL,Normal,"Barranco do Rodrigo, V 7",37.134242,-8.546100,OK
+336,SESIMBRA - AV J. PAULO II,93 - PAL,Normal,Av João Paulo II,38.485156,-9.104419,OK
+338,OLHAO,93 - PAL,Normal,EN 125 - Pechão,37.029572,-7.853464,OK
+339,FARO - BOM JOAO,93 - PAL,Normal,"Bom João, Lt 1",37.013786,-7.919061,OK
+340,ALMADA - FEIJO,11 - LOU,Normal,"R dos Castanheiros, n30",38.660145,-9.166412,OK (Manual)
+341,TAVIRA,93 - PAL,Normal,Lg de Santo Amaro,37.119326,-7.6561402,OK
+342,SETUBAL - S.SEBASTIAO,93 - PAL,Normal,Av da Bela Vista,38.521536,-8.872692,OK
+344,LOULE,93 - PAL,Normal,Av. Andrade de Sousa,37.135556,-8.030892,OK
+345,V.REAL STO ANTONIO,93 - PAL,Normal,Hortas - EN 122,37.192156,-7.424872,OK
+346,ODEMIRA,93 - PAL,Normal,EN 393,37.5917135,-8.6694242,OK
+351,MONTEMOR-O-NOVO,93 - PAL,Normal,"R Curvo Semedo, Lt13",38.647877,-8.222552,OK
+352,ALCOCHETE,93 - PAL,Normal,Lagoa do Láparo,38.7512824,-8.9578271,OK
+353,LAGOS,93 - PAL,Normal,Av da República,37.107442,-8.68175,OK
+354,Alcacer Do Sal,93 - PAL,Normal,Rua Olival da Capela,38.380228,-8.512631,OK
+356,PINHAL NOVO,93 - PAL,Normal,Villas do Terrim,38.6192158,-8.919838,OK
+357,ALBUFEIRA,93 - PAL,Normal,R Baden Powell,37.095664,-8.249486,OK
+358,S. BRAS DE ALPORTEL,93 - PAL,Normal,EN 2,37.14965,-7.893842,OK
+359,SINES,93 - PAL,Normal,"Loteamento Ponte Serva, Lt A3",37.958953,-8.871728,OK
+360,ALMADA - SOBREDA,11 - LOU,Normal,"R Quinta do Salgado, n14",38.646583,-9.180244,OK
+361,VENDAS NOVAS,93 - PAL,Normal,R do Polígono,38.6786532,-8.451643,OK
+362,SEIXAL - MIRATEJO,11 - LOU,Normal,R Ferreira de Castro,38.649822,-9.142722,OK
+363,VILA VICOSA,93 - PAL,Normal,EN 255,38.785908,-7.422575,OK
+364,SETUBAL - AZEITAO,93 - PAL,Normal,R José da Silva Xavier Lt 41,38.5231054,-9.0201175,OK
+365,REGUENGOS DE MONSARAZ,93 - PAL,Normal,Via do Grande Lago n25,38.423992,-7.545872,OK
+367,ALMADA - PRAGAL,11 - LOU,Normal,"R Abel Salazar, n11",38.671019,-9.171019,OK
+369,GRANDOLA,93 - PAL,Normal,R D Nuno Álvares Pereira,38.185025,-8.568542,OK
+370,SETUBAL - ESTR. ALGERUZ,93 - PAL,Normal,Estrada de Algeruz,38.539513,-8.867519,OK
+371,SANTIAGO CACEM - ST ANDRE,93 - PAL,Normal,"R do Mercado, ZIL 1",38.0577272,-8.7904783,OK
+372,VILA DO BISPO,93 - PAL,Normal,"Senhora do Amparo, EN268",37.080331,-8.913081,OK
+373,SESIMBRA - QTA DO CONDE,93 - PAL,Normal,"Cova dos Vidros, Lt 84",38.566218,-9.040185,OK
+401,LEIRIA - MARRAZES,94 - TON,Normal,R da Carreira de Tiro,39.762761,-8.817978,OK
+402,MONTEMOR-O-VELHO,94 - TON,Normal,Antiga EN 111,40.183889,-8.670556,OK
+403,MIRANDA DO CORVO,94 - TON,Normal,R 25 de Abril,40.091417,-8.326200,OK
+404,TÁBUA,94 - TON,Normal,Quinta de Fora,40.364380,-8.025694,OK
+405,ALCANENA,94 - TON,Normal,Av Ilha do Sal,39.463422,-8.661758,OK
+406,SANTA COMBA DÃO,94 - TON,Normal,Av de Santo Estevão,40.403886,-8.130167,OK
+407,GOUVEIA,94 - TON,Normal,EN 232,40.4943215,-7.6025377,OK
+408,NELAS,94 - TON,Normal,Av Dr Fortunato de Almeida,40.5399306,-7.8578684,OK
+409,ALCOBAÇA - BENEDITA,94 - TON,Normal,EN 8,39.433378,-8.978858,OK
+410,OLIVEIRA DO BAIRRO,96 - SAN,Normal,EN 235 - Nó Norte,40.522181,-8.503400,OK
+411,OURÉM,94 - TON,Normal,Av D Nuno Álvares Pereira,39.656667,-8.583611,OK
+412,PENACOVA,94 - TON,Normal,R Dr Homero Pimentel,40.272578,-8.287489,OK
+413,NAZARÉ,94 - TON,Normal,Av Abílio Santos e Sousa,39.612132,-9.063252,OK
+414,ENTRONCAMENTO,94 - TON,Normal,R Dr FranciscoSáCarneiro,39.473239,-8.476550,OK
+417,FELGUEIRAS,96 - SAN,Normal,R Prof Joaquim Barros Leite,41.361192,-8.197931,OK
+418,S. JOAO DA MADEIRA,96 - SAN,Normal,"Av D Renato Araújo, n865",40.884061,-8.488681,OK
+419,V.N.GAIA - MAFAMUDE,96 - SAN,Normal,"R 14 de Outubro, n1069",41.126768,-8.600557,OK
+420,BRAGA - AV.R.SMITH,96 - SAN,Normal,Av Robert Smith,41.542469,-8.399797,OK
+421,V.N.GAIA - AVINTES,96 - SAN,Normal,"EN 222, Km 5,9",41.094106,-8.551006,OK
+422,PESO DA REGUA,96 - SAN,Normal,Av Sacadura Cabral,41.165144,-7.798200,OK
+423,PORTO - AV.CAMILO,96 - SAN,Normal,"Av Camilo, n26",41.149286,-8.594028,OK
+425,CASTELO BRANCO-MONTALVÃO,94 - TON,Normal,Av. Prof Dr Egas Moniz,39.8102446,-7.512907,OK
+426,V.N.GAIA - CANIDELO,96 - SAN,Normal,R Nova de Alvites N231,41.1276151,-8.6509323,OK
+427,FELGUEIRAS - LIXA,96 - SAN,Normal,EN15 - Alto da Lixa,41.3161183,-8.1414512,OK
+428,GUIMARAES - PEVIDEM,96 - SAN,Normal,Av Soc Musical de Pevidém,41.421486,-8.355444,OK
+429,FAMALICAO - RIBEIRAO,96 - SAN,Normal,"Av Portas do Minho, n344",41.3531068,-8.5580657,OK
+430,SOURE,94 - TON,Normal,Lugar de Fujaco,40.064119,-8.619289,OK
+431,MAIA - VERMOIM,96 - SAN,Normal,"R Avelino Francisco Pereira, n55",41.2263529,-8.6132964,OK
+432,GUIMARAES - MESAO FRIO,96 - SAN,Normal,"R da Arcela, n2064",41.4539116,-8.2789733,OK
+434,SINTRA - M RIO MOURO,11 - LOU,Normal,Av Gil Eanes,38.775338,-9.324316,OK (Manual)
+435,MOSCAVIDE,11 - LOU,Normal,Rua Cidade de Goa,38.780833,-9.103611,OK
+436,SEIXAL - CORROIOS,11 - LOU,Normal,Av Vieira da Silva,38.633444,-9.150689,OK
+437,FUNDAO,94 - TON,Normal,EN 18 - Vale de Canas,40.154353,-7.497539,OK
+439,BATALHA,94 - TON,Normal,"Casal da Amieira, Antiga EN 1",39.645950,-8.842106,OK
+440,MAIA - MOREIRA,96 - SAN,Normal,R Engenheiro Frederico Ulrich,41.256169,-8.651464,OK
+441,LISBOA - R LEÃO OLIVEIRA,11 - LOU,Normal,R Leão de Oliveira,38.706155,-9.181825,OK (Manual)
+442,VIDIGUEIRA,93 - PAL,Normal,Zona Industrial,38.20564,-7.80081,OK
+443,GONDOMAR - BAGUIM DO MONTE,96 - SAN,Normal,R D António Castro Meireles,41.1827001,-8.537744,OK
+444,ALENQUER,11 - LOU,Normal,Variante Alvaro Pedro,39.040245,-8.988891,OK
+445,PERO PINHEIRO,11 - LOU,Normal,"Av. da Liberdade, 151",38.861389,-9.326944,OK
+446,POVOA DE VARZIM,96 - SAN,Normal,R Eng Ezequiel Campos,41.395103,-8.766531,OK
+447,QUARTEIRA,93 - PAL,Normal,Urb. Al-Sakia - Fonte Santa,37.073669,-8.078867,OK
+448,CASCAIS - TORRE,11 - LOU,Normal,"Estr. Torre, N 831",38.703056,-9.442778,OK
+449,ESTREMOZ,93 - PAL,Normal,Adega do Perdigão,38.8493811,-7.5849768,OK
+451,GONDOMAR - S.COSME,96 - SAN,Normal,R Dr. Carlos Moura Guedes,41.137306,-8.536861,OK
+452,MONTIJO - AFONSOEIRO,93 - PAL,Normal,Alto Vinhas Grandes,38.706522,-8.959012,OK (Manual)
+453,MATOSINHOS,96 - SAN,Normal,R Roberto Ivens,41.179417,-8.690384,OK
+454,CANTANHEDE,94 - TON,Normal,Av Prof Anibal de Oliveira,40.3481093,-8.5842977,OK
+455,SEIXAL - BELVERDE,93 - PAL,Normal,"Av. do Mar, Lt1",38.5976873,-9.1436627,OK
+457,MATOSINHOS - S.MAM.INFESTA,96 - SAN,Normal,Rua Santos Dias 725,41.198764,-8.610433,OK
+458,SEIXAL - MUNDET,93 - PAL,Normal,Av Albano Narciso Pereira,38.6408977,-9.1026857,OK
+460,BARREIRO - LAVRADIO,93 - PAL,Normal,"R da Indústria, n19 ",38.668169,-9.055611,OK
+461,SEIXAL - FOGUETEIRO,93 - PAL,Normal,Av Resistentes Antifascistas 60,38.615264,-9.108811,OK
+463,SILVES,93 - PAL,Normal,Rua Cruz da Palmeira,37.186328,-8.440358,OK
+464,BARCELOS,96 - SAN,Normal,R Filipa Borges,41.5325797,-8.6289453,OK
+465,ESPINHO,96 - SAN,Normal,"R 43, n582",41.0000651,-8.641499,OK
+466,CASCAIS - ABOBODA,11 - LOU,Normal,R Luis Amaro Bexiga,38.727678,-9.336544,OK
+467,FIGUEIRA DA FOZ - BILLERUD,94 - TON,Normal,R.Celulose de Billerud,40.1574634,-8.8522557,OK
+468,PORTO - AREOSA,96 - SAN,Normal,"R Diamantina, n 238",41.1800862,-8.5814651,OK
+469,ALFRAGIDE,11 - LOU,Normal,"Est. da Ponte,  Lt 4/5",38.74092,-9.224724,OK
+470,VIANA DO CASTELO,96 - SAN,Normal,R Eça de Queiroz,41.706308,-8.819658,OK
+471,SINTRA - LINHO,11 - LOU,Normal,Avenida Pedro Alvares Cabral,38.7595126,-9.3800714,OK
+472,LOURES - SACAVEM,11 - LOU,Normal,Quinta S João das Areias,38.796061,-9.116989,OK
+473,ESTARREJA,96 - SAN,Normal,"R Alexandre Miranda, n1",40.764622,-8.568518,OK
+474,CASCAIS - TIRES,11 - LOU,Normal,Rua Manuel Vieira Rosa 1,38.714822,-9.3449397,OK
+475,Vila Verde,96 - SAN,Normal,Rua dos Bombeiros,41.6474272,-8.4398259,OK
+476,LOUROSA,96 - SAN,Normal,"Av. Principal, km 284",40.980000,-8.536336,OK
+477,MONCAO,96 - SAN,Normal,"EN 101, km 15,3",42.0668376,-8.4972833,OK
+478,CASCAIS - S.JOSE,11 - LOU,Normal,Rua S.Jose,38.709078,-9.421583,OK
+479,LAGOA - PARCHAL,93 - PAL,Normal,"Rua Foz do Arade, n5",37.136783,-8.519586,OK
+480,TOMAR,94 - TON,Normal,R de Coimbra,39.6101535,-8.403638,OK
+481,COVILHA,94 - TON,Normal,Variante 18 a Covilha,40.268694,-7.505110,OK
+482,Porto - R Diogo Botelho,96 - SAN,Normal,"Rua Diogo Botelho, 440",41.152281,-8.652734,OK
+483,SINTRA - CASAL DE CAMBRA,11 - LOU,Normal,Av. de Lisboa,38.7876945,-9.2292652,OK
+484,VAGOS,96 - SAN,Normal,R do Gremio da Lavoura,40.5466874,-8.6795295,OK
+486,Casal Ribeiro,11 - LOU,Normal,Av.Casal Ribeiro,38.732278,-9.142056,OK
+487,Viana do Castelo - Darque,96 - SAN,Normal,Rua Arriscado Queirós,41.681339,-8.775156,OK
+488,Cascais - Rebelva,11 - LOU,Normal,Rua Feliciano Moreira Nº 1,38.6957378,-9.343172,OK
+489,VILA REAL,96 - SAN,Normal,Av da Universidade - S Pedro,41.293053,-7.735832,OK
+490,Barreiro-Qt Canas,93 - PAL,Normal,Av. Esc. Fuzileiros Navais,38.643278,-9.060056,OK
+492,BOLIQUEIME,93 - PAL,Normal,Av Prof Dr Anibal Cavaco Silva,37.12905,-8.151675,OK
+494,Rio Tinto,96 - SAN,Normal,AvDrDomingosGoncalves Sa 381,41.175622,-8.556581,OK
+495,Bairro Azul,11 - LOU,Normal,Av. Ressano Garcia 1 C/V,38.733745,-9.155412,OK (Manual)
+496,Braga-Infias,96 - SAN,Normal,ua Americo Rodrigues Barbosa,41.560464,-8.416756,OK
+497,Seixal - Fernão Ferro,93 - PAL,Normal,Qª do Morgado - Qª Godim,38.556036,-9.087206,OK
+498,LISBOA - SETE RIOS,11 - LOU,Normal,Av. Columbano Bordalo Pinheiro,38.739355,-9.165485,OK (Manual)
+499,Santa Maria da Feira,96 - SAN,Normal,Rua de Santo Andre,40.930809,-8.552218,OK
+500,Porto - Fernao Magalhaes,96 - SAN,Normal,Av Fernao Magalhaes,41.158394,-8.593606,OK
+501,Caldas da Rainha,94 - TON,Normal,R Sao Joao de Deus,39.398867,-9.137544,OK
+502,LOURES- FRIELAS,11 - LOU,Normal,EN 250,38.815278,-9.148333,OK
+503,Lisboa-Entrecampos,11 - LOU,Normal,Rua Cordeiro de Sousa,38.747812,-9.151112,OK (Manual)
+504,V.N. Gaia - Centro,96 - SAN,Normal,R. de Alvares Cabral,41.128639,-8.609172,OK
+505,VN.Famalicao - P Saramagos,96 - SAN,Normal,"EN 206, Lugar de Veigas ",41.4262001,-8.433494,OK
+507,Lisboa Olivais Sul,11 - LOU,Normal,R Cidade de Bolama,38.7624953,-9.117499,OK
+509,Leiria Guimarota,94 - TON,Normal,R Vale de Lobos,39.731392,-8.799453,OK
+510,Lousã,94 - TON,Normal,Rua Cordeiro de Sousa,40.119139,-8.249522,OK
+511,Odivelas,11 - LOU,Normal,Rua Heróis do Chaimite,38.794167,-9.168611,OK
+512,Lourinha,11 - LOU,Normal,"Av Antonio Jose Almeida, 49",39.250278,-9.313333,OK
+513,Almeirim,94 - TON,Normal,"R Condessa da Junqueira, Lt17",39.2008547,-8.6208093,OK
+514,Viseu,96 - SAN,Normal,Rua APPACDM,40.632911,-7.930947,OK
+515,Seia,94 - TON,Normal,Avenida Terras de Sena,40.430314,-7.717294,OK
+516,Setubal - Sao Juliao,93 - PAL,Normal,Qt Paraiso - Av. Moçambique,38.539174,-8.886780,OK
+517,Aveiro-Esgueira,96 - SAN,Normal,"Avenida Europa, 458 - Esgueira",40.6630482,-8.6121601,OK
+520,Amarante - S.Gonçalo,96 - SAN,Normal,R. Manuel António da Mota,41.2740482,-8.0915761,OK
+523,Guimarães Fermentões,96 - SAN,Normal,Rua Sta Eulalia-Lg do Motelo,41.461208,-8.313214,OK
+524,BRAGA - IMACULADA CONCEICAO,96 - SAN,Normal,Av da Imaculada Conceicao,41.543781,-8.427272,OK
+525,V.F.XIRA - EN 10,11 - LOU,Normal,Caminho Municipal 1237,38.9761745,-8.9787819,OK
+526,Oeiras - Porto Salvo,11 - LOU,Normal,Praca Sergio Vieira de Melo,38.71581,-9.300485,OK
+527,Oeiras-Linda-a-Velha,11 - LOU,Normal,Av.25 de Abril n21B,38.716111,-9.239722,OK
+528,Barreiro - Luso,93 - PAL,Normal,Rua Miguel Bombarda,38.656883,-9.071317,OK
+529,Belenenses,11 - LOU,Normal,Estadio do Restelo AV Restelo,38.701528,-9.208008,OK
+533,V.N. Gaia - Monte da Virgem,96 - SAN,Normal,Rua da Conceição Fernandes,41.108667,-8.593000,OK
+534,Arganil,94 - TON,Normal,R Mariano Lopes Morgado 360,40.223806,-8.057222,OK
+535,St.Tirso - Vila das Aves,96 - SAN,Normal,Calcada Azenha do Pisco,41.3630001,-8.396333,OK
+536,Serpa,93 - PAL,Normal,Circular Interna de Serpa,37.9426515,-7.6082723,OK
+538,Charneca da Caparica,93 - PAL,Normal,Vale Rosal - Estrada de Palhais,38.618055,-9.204522,OK (Manual)
+539,Massama,11 - LOU,Normal,Rua da Matilde,38.758312,-9.284511,OK (Manual)
+541,Armacao de Pera,93 - PAL,Normal,Panasqueira,37.104194,-8.363778,OK
+543,Rio Mouro,11 - LOU,Normal,Av. M. G. Machado de Sousa,38.783194,-9.336583,OK
+544,V.F.XIRA - Vialonga,11 - LOU,Normal,Rua Prof. Egas Moniz,38.87125,-9.084361,OK
+545,Cartaxo,94 - TON,Normal,Rua do Progresso Lote nº 2,39.165362,-8.782801,OK
+546,Loures-Santa Iria da Azoia,11 - LOU,Normal,Rua D. Pedro V,38.837528,-9.083861,OK
+548,Odivelas - R.S.R,11 - LOU,Normal,"Rua Soares dos Reis, Lt 42",38.7977636,-9.1773738,OK
+549,Porto - Rotunda AEP,96 - SAN,Normal,Porto-Est Interior Circunvalação,41.1771001,-8.655239,OK
+550,Marco de Canaveses,96 - SAN,Normal,Lg da Feira,41.1810116,-8.154007,OK
+551,Leiria - Av 25 Abril,94 - TON,Normal,Av 25 de Abril,39.746872,-8.815711,OK
+552,Amadora - Venda Nova,11 - LOU,Normal,Rua Joao de Deus 5,38.754444,-9.217778,OK
+553,Valongo - Fonseca e Dias,96 - SAN,Normal,"Rua Fonseca Dias, 584",41.1835001,-8.484806,OK
+554,Valongo - Ermesinde,96 - SAN,Normal,Rua Prof. Joaquim Teixeira,41.212886,-8.550475,OK
+556,V. do Conde,96 - SAN,Normal,AV Julio Graca,41.348391,-8.747087,OK
+558,Guimaraes - Silvares,96 - SAN,Normal,Rua 25 de Abril (EN206),41.447389,-8.344222,OK
+559,Valongo-Alfena,96 - SAN,Normal,Rua 1º de Maio EN105,41.2400001,-8.529028,OK
+560,Moita - Quinta das vargas,93 - PAL,Normal,Quinta das Vargas,38.648333,-8.9969999,OK
+561,Porto Alto,94 - TON,Normal,Rua 25 de Abril,38.922306,-8.881806,OK
+562,Mem Martins,11 - LOU,Normal,EN 249 KM14,38.780000,-9.348889,OK
+563,Vila Nova Famalicão,96 - SAN,Normal,Av. Eng. Pinheiro Braga,41.415972,-8.518583,OK
+564,Vila do Conde,96 - SAN,Normal,Rua Nova da Gândara,41.359215,-8.741022,OK (Manual)
+565,Viseu - Satao,96 - SAN,Normal,Rua António Augusto Ferreira,40.663694,-7.898500,OK
+569,Oeiras - Area de Servicos,11 - LOU,Normal,"A5, Km 10.1",38.718012,-9.278055,OK (Manual)
+571,Oliveira do Hospital,94 - TON,Normal,Dr.João AfonsoFerreiraDinis,40.361250,-7.855306,OK
+572,Ovar,96 - SAN,Normal,R. da Pardala,40.884296,-8.615851,OK
+574,Montijo - Av. De Olivenca,93 - PAL,Normal,Avenida de Olivença,38.714228,-8.972639,OK
+576,S. J. M. - Oliveira Junior,96 - SAN,Normal,Rua Oliveira Junior,40.905796,-8.494608,OK
+579,Porto - J.Bastos,96 - SAN,Normal,Rua Prof. Joaquim Bastos,41.1694051,-8.6105419,OK
+582,MonteCaparica-UniNovaLisboa,93 - PAL,Normal,Campus da Caparica,38.658889,-9.203611,OK
+584,Arcos de Valdevez,96 - SAN,Normal,Lugar de Souto,41.841522,-8.423011,OK (Manual)
+585,Albergaria a Velha,96 - SAN,URGENTE,Variante do Sobreiro,40.697512,-8.486522,OK (Manual)
+586,Mozelos,96 - SAN,URGENTE,Rua de Meladas,40.982515,-8.579012,OK (Manual)
+588,Vieira de Leiria,94 - TON,Normal,Rua da Marinha Grande,39.869028,-8.939972,OK
+590,TorresVedrasSilveira,11 - LOU,Normal,R. Inácio Nunes da Costa,39.114056,-9.367639,OK
+594,Almancil,93 - PAL,Normal,Vale das Éguas,37.092564,-8.040711,OK
+596,Lourel,11 - LOU,Normal,Estrada de Mafra,38.817400,-9.361700,OK
+599,Vale Cambra,96 - SAN,Normal,Rua do Hospital,40.848387,-8.391129,OK
+603,Castro Verde,93 - PAL,Normal,Rua Nova da Feira,37.694389,-8.088611,OK
+605,Seixal-Paivas,93 - PAL,Normal,Azinhaga Roque,38.625512,-9.117522,OK (Manual)
+608,Leiria - Rua Paulo VI,94 - TON,Normal,Rua Paulo VI,39.7627778,-8.7833333,OK
+609,Mertola,93 - PAL,Normal,Rua da Achada de São Sebastião,37.643512,-7.659022,OK (Manual)
+610,Mafra - Mafra,11 - LOU,Normal,R. Almirante Gago Coutinho,38.932222,-9.328889,OK
+611,Maia Bras Oleiro,96 - SAN,Normal,R.Quinta Palmeira,41.1974977,-8.5769482,OK
+612,Faro,93 - PAL,Normal,Rua Eng. Nuno Abecassis,37.028944,-7.942056,OK
+613,Matosinhos Custoias,96 - SAN,URGENTE,Rua Cândido dos Reis,41.196512,-8.653022,OK (Manual)
+618,Sintra - Cacém,11 - LOU,Normal,Rua da Bela vista 31,38.7627609,-9.3070083,OK
+619,Matosinhos - Parafita,96 - SAN,Normal,Rua Silva Aroso,41.2285,-8.69767,OK
+620,Alcains,94 - TON,Normal,Estrada de São Domingos,39.918305,-7.470622,OK
+622,Loule Caliços,93 - PAL,Normal,Av. Algarve - Caliços,37.102168,-8.00149,OK
+624,Trofa,96 - SAN,Normal,Rua das Indústrias,41.332102,-8.563493,OK
+636,AveiroVerdemilho,96 - SAN,Normal,Avenida da Europa,40.613353,-8.655592,OK
+637,Agueda,96 - SAN,URGENTE,Avenida 25 de Abril,40.570015,-8.448512,OK (Manual)
+639,Sines Cidade Desportiva,93 - PAL,URGENTE,Loteamento Municipal da Cidade Desportiva,37.962012,-8.865522,OK (Manual)
+642,V.F.X - Alverca Norte,11 - LOU,URGENTE,E.N. 10,38.903015,-9.030522,OK (Manual)
+645,Parque das Nações,11 - LOU,Normal,Avenida Fernando Pessoa,38.763515,-9.098522,OK (Manual)
+557,Évora - Horta das Figueiras,93 - PAL,URGENTE,Rua Horta das Figueiras,38.56206,-7.913297,OK (Manual)
+595,Santarem - Av Dr Francisco Sá Carneiro,94 - TON,URGENTE,Av Dr Francisco Sá Carneiro,39.249152,-8.6943678,OK (Manual)
+Sede,Sede - Linhó,Sede,URGENTE,Linhó,38.758863,-9.377809,OK (Manual)
+Entreposto,Entreposto TON,94 - TON,URGENTE,Logística,38.818648,-9.190407,OK (Manual)
+Entreposto,Entreposto LOU,11 - LOU,URGENTE,Logística,38.817442,-9.187325,OK (Manual)
