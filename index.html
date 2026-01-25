@@ -3,70 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quantum AI PRO - Audit</title>
+    <title>Quantum AI PRO - Fleet Control</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
+        
+        /* Telas Principais */
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; }
+        .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         #app-content { display: none; height: 100%; flex-direction: column; }
+        
+        /* Header e Stats */
         #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
         #stats-bar { background: var(--dark); color: white; padding: 8px; font-size: 10px; display: flex; justify-content: space-around; text-align: center; }
         .stat-box b { display: block; font-size: 14px; color: var(--yellow); }
+        
+        /* Tabs */
         .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
         .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 10px; font-weight: bold; text-transform: uppercase; color: #666; }
         .tab.active { background: white; border-bottom: 4px solid var(--yellow); color: var(--blue); }
+        
+        /* Conteúdo */
         #content-wrapper { height: calc(100vh - 110px); position: relative; }
         #store-list { height: 100%; overflow-y: auto; padding: 10px; box-sizing: border-box; }
         #map-container { height: 100%; width: 100%; display: none; position: absolute; top: 0; left: 0; }
         #map { height: 100%; width: 100%; }
+        
+        /* Itens da Lista */
         .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 6px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        
+        /* Modal */
         .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; }
         .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; }
         .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
         
-        /* Botão Localizar-me Melhorado */
-        .gps-button { 
-            position: absolute; bottom: 30px; right: 20px; z-index: 1000;
-            background: white; width: 55px; height: 55px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); cursor: pointer; color: var(--blue);
-        }
+        /* Botão Localizar-me */
+        .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); cursor: pointer; color: var(--blue); }
 
-        /* Animação de Pulsação do GPS */
-        .pulse-marker {
-            background: var(--gps-blue);
-            border-radius: 50%;
-            height: 14px;
-            width: 14px;
-            position: absolute;
-            left: -7px;
-            top: -7px;
-            border: 2px solid white;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-        .pulse-marker::after {
-            content: "";
-            border: 3px solid var(--gps-blue);
-            border-radius: 50%;
-            height: 40px;
-            width: 40px;
-            position: absolute;
-            left: -16px;
-            top: -16px;
-            animation: pulsate 1.5s ease-out infinite;
-            opacity: 0;
-        }
-        @keyframes pulsate {
-            0% { transform: scale(0.1); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: scale(1.2); opacity: 0; }
-        }
+        /* --- ANIMAÇÕES DE PULSAÇÃO --- */
+        
+        /* O MEU PULSO (AZUL) */
+        .pulse-marker { background: var(--gps-blue); border-radius: 50%; height: 14px; width: 14px; position: absolute; left: -7px; top: -7px; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        .pulse-marker::after { content: ""; border: 3px solid var(--gps-blue); border-radius: 50%; height: 40px; width: 40px; position: absolute; left: -16px; top: -16px; animation: pulsate 1.5s ease-out infinite; opacity: 0; }
+        
+        /* PULSO DOS COLEGAS (PRETO/CINZA) */
+        .pulse-colega { background: #333; border-radius: 50%; height: 10px; width: 10px; position: absolute; left: -5px; top: -5px; border: 2px solid white; }
+        .pulse-colega::after { content: ""; border: 2px solid #666; border-radius: 50%; height: 30px; width: 30px; position: absolute; left: -12px; top: -12px; animation: pulsate 2s ease-out infinite; opacity: 0; }
 
-        #obs-container { margin-top: 15px; text-align: left; display: none; }
-        #obs-texto { width: 100%; height: 80px; border-radius: 8px; border: 1px solid #ccc; padding: 10px; box-sizing: border-box; font-family: inherit; resize: none; }
+        @keyframes pulsate { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
+
+        .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: bold; white-space: nowrap; border: 1px solid white; position: relative; top: 15px; left: -50%; }
+        
+        #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; font-family: inherit; }
     </style>
 </head>
 <body>
@@ -115,10 +105,7 @@
         <h2 id="m-nome" style="color: var(--blue); margin-top:0;">Loja</h2>
         <p id="m-morada" style="font-size: 12px; color: #666;"></p>
         <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px; font-size: 13px;"></div>
-        <div id="obs-container">
-            <label style="font-size: 11px; font-weight: bold; color: #444;">OBSERVAÇÕES:</label>
-            <textarea id="obs-texto" placeholder="Relate aqui qualquer imprevisto..."></textarea>
-        </div>
+        <textarea id="obs-texto" placeholder="Relate aqui o trabalho ou imprevistos..."></textarea>
         <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR TRABALHO</button>
         <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR TAREFA</button>
         <button class="btn" style="background: #eee;" onclick="closeModal()">VOLTAR</button>
@@ -146,24 +133,25 @@
     const db = firebase.database();
 
     let currentUser = null, baseLojas = [], statusRealtime = {}, lojaAtiva = null, userPos = null, currentTab = 'todas';
+    let colegasMarkers = {};
+
     const map = L.map('map', { tap: false, zoomControl: false }).setView([39.5, -8.0], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    
     const markersLayer = L.layerGroup().addTo(map);
 
-    // Criar o Marcador Pulsante com HTML/CSS personalizado
-    const pulseIcon = L.divIcon({
-        className: 'custom-pulse-icon',
-        html: '<div class="pulse-marker"></div>',
-        iconSize: [0, 0]
-    });
+    // Ícone do Próprio Utilizador
+    const pulseIcon = L.divIcon({ className: 'custom-pulse-icon', html: '<div class="pulse-marker"></div>', iconSize: [0, 0] });
     const userMarker = L.marker([0,0], { icon: pulseIcon }).addTo(map);
 
     function fazerLogin() {
         auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPass').value)
             .catch(() => document.getElementById('loginError').innerText = "Dados incorretos");
     }
-    function fazerLogout() { auth.signOut().then(() => location.reload()); }
+    
+    function fazerLogout() {
+        if(currentUser) db.ref('presenca/' + currentUser.uid).remove();
+        auth.signOut().then(() => location.reload());
+    }
 
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -172,6 +160,7 @@
             document.getElementById('app-content').style.display = 'flex';
             document.getElementById('userDisplay').innerText = user.email.split('@')[0];
             carregarDados();
+            ouvirPresenca();
         }
     });
 
@@ -190,12 +179,47 @@
         });
     }
 
+    function monitorarGPS() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(pos => {
+                userPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+                userMarker.setLatLng([userPos.lat, userPos.lon]);
+                if(currentUser) {
+                    db.ref('presenca/' + currentUser.uid).set({
+                        nome: currentUser.email.split('@')[0],
+                        lat: userPos.lat, lon: userPos.lon,
+                        lastSeen: Date.now()
+                    });
+                }
+            }, null, { enableHighAccuracy: true });
+        }
+    }
+
+    function ouvirPresenca() {
+        db.ref('presenca').on('value', snap => {
+            const lista = snap.val() || {};
+            Object.keys(colegasMarkers).forEach(id => {
+                if(!lista[id]) { map.removeLayer(colegasMarkers[id]); delete colegasMarkers[id]; }
+            });
+            Object.keys(lista).forEach(id => {
+                if(id === currentUser.uid) return;
+                const c = lista[id];
+                const colegaIcon = L.divIcon({
+                    className: 'custom-colega-icon',
+                    html: `<div class="pulse-colega"></div><div class="colega-label">${c.nome}</div>`,
+                    iconSize: [0, 0]
+                });
+                if(colegasMarkers[id]) { colegasMarkers[id].setLatLng([c.lat, c.lon]); }
+                else { colegasMarkers[id] = L.marker([c.lat, c.lon], { icon: colegaIcon }).addTo(map); }
+            });
+        });
+    }
+
     function renderList() {
         const container = document.getElementById('store-list');
         if(currentTab !== 'mapa') container.innerHTML = '';
         markersLayer.clearLayers();
         let exibir = [...baseLojas];
-
         if (userPos) {
             exibir.forEach((l, i) => {
                 l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.Latitude), parseFloat(l.Longitude));
@@ -203,39 +227,22 @@
             });
             if (currentTab === 'perto') exibir.sort((a, b) => a.dist - b.dist);
         }
-
         exibir.forEach((loja, idx) => {
             const id = "loja_" + (loja.originalIndex !== undefined ? loja.originalIndex : idx);
             const status = statusRealtime[id] || { estado: 'LIVRE' };
             const pinColor = status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'green' : 'blue');
-            
-            L.circleMarker([loja.Latitude, loja.Longitude], {radius: 8, fillColor: pinColor, color: '#fff', fillOpacity: 0.8, weight: 2})
-                .on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
-
+            L.circleMarker([loja.Latitude, loja.Longitude], {radius: 8, fillColor: pinColor, color: '#fff', fillOpacity: 0.8, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
             if((currentTab === 'curso' && status.estado !== 'EM_CURSO') || (currentTab === 'concluidas' && status.estado !== 'CONCLUIDO') || currentTab === 'mapa') return;
-
             const div = document.createElement('div');
             div.className = 'store-item';
             div.style.borderLeftColor = pinColor;
             div.innerHTML = `<b>${loja.Nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km' : ''} - ${status.estado}</small>`;
-            div.onclick = () => { abrirLoja(id, loja); changeTab('mapa'); map.setView([loja.Latitude, loja.Longitude], 15); };
+            div.onclick = () => { abrirLoja(id, loja); changeTab('mapa'); map.flyTo([loja.Latitude, loja.Longitude], 15); };
             container.appendChild(div);
         });
     }
 
-    function focarUtilizador() {
-        if(userPos) map.flyTo([userPos.lat, userPos.lon], 16);
-        else alert("A obter GPS...");
-    }
-
-    function monitorarGPS() {
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(pos => {
-                userPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-                userMarker.setLatLng([userPos.lat, userPos.lon]);
-            }, null, { enableHighAccuracy: true });
-        }
-    }
+    function focarUtilizador() { if(userPos) map.flyTo([userPos.lat, userPos.lon], 16); }
 
     function abrirLoja(id, loja) {
         lojaAtiva = { id, ...loja };
@@ -243,15 +250,12 @@
         document.getElementById('m-morada').innerText = loja.Morada;
         const status = statusRealtime[id] || { estado: 'LIVRE' };
         const info = document.getElementById('status-info');
+        const obs = document.getElementById('obs-texto');
         info.innerText = status.estado + (status.equipa ? " (" + status.equipa + ")" : "");
         info.style.background = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee');
-        
-        const obsContainer = document.getElementById('obs-container');
-        const obsInput = document.getElementById('obs-texto');
-        obsInput.value = status.obs || "";
-        obsContainer.style.display = (status.estado === 'EM_CURSO' || status.estado === 'CONCLUIDO') ? 'block' : 'none';
-        obsInput.readOnly = status.estado === 'CONCLUIDO';
-
+        obs.style.display = (status.estado === 'EM_CURSO' || status.estado === 'CONCLUIDO') ? 'block' : 'none';
+        obs.value = status.obs || "";
+        obs.readOnly = status.estado === 'CONCLUIDO';
         document.getElementById('btnStart').style.display = status.estado === 'LIVRE' ? 'block' : 'none';
         document.getElementById('btnFinish').style.display = status.estado === 'EM_CURSO' ? 'block' : 'none';
         document.getElementById('modalTrabalho').style.display = 'flex';
@@ -290,7 +294,6 @@
         const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
         return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
     }
-
     function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
 </script>
 </body>
