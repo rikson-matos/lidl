@@ -3,60 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIDL - Quantum AI</title>
+    <title>Quantum AI - Gestão LIDL</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; }
-        #map { height: 100vh; width: 100%; }
-        .header {
-            position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; background: white; padding: 12px 25px;
-            border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            font-weight: bold; color: #0050aa; border: 2px solid #ffcc00;
+        :root { --lidl-blue: #0050aa; --lidl-yellow: #ffcc00; --lidl-red: #df0000; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; }
+        
+        /* Menu Lateral */
+        #sidebar { width: 350px; background: white; box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 1001; display: flex; flex-direction: column; }
+        .header { background: var(--lidl-blue); color: white; padding: 20px; text-align: center; }
+        
+        .tabs { display: flex; background: #eee; }
+        .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-bottom: 3px solid transparent; font-weight: bold; font-size: 12px; }
+        .tab.active { border-bottom: 3px solid var(--lidl-yellow); color: var(--lidl-blue); background: white; }
+        
+        #stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; background: #f9f9f9; }
+        .stat-card { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
+        .stat-card span { display: block; font-size: 18px; font-weight: bold; color: var(--lidl-blue); }
+        
+        #store-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .store-item { padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; border-radius: 5px; transition: 0.2s; }
+        .store-item:hover { background: #f0f7ff; }
+        .store-item b { color: var(--lidl-blue); display: block; }
+        
+        #map { flex: 1; z-index: 1; }
+        
+        /* Mobile adjustment */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            #sidebar { width: 100%; height: 40%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">LIDL - 299 Lojas (Quantum AI)</div>
-    <div id="map"></div>
+<div id="sidebar">
+    <div class="header">
+        <h2 style="margin:0">Quantum AI</h2>
+        <small>Gestão de Auditorias LIDL</small>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="filterStores('all')">TODAS</div>
+        <div class="tab" onclick="filterStores('pendente')">A FAZER</div>
+        <div class="tab" onclick="filterStores('feito')">FEITOS</div>
+        <div class="tab" onclick="filterStores('perto')">PERTO DE MIM</div>
+    </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <div id="stats">
+        <div class="stat-card">Total<span id="count-total">0</span></div>
+        <div class="stat-card">Feito<span id="count-feito" style="color: green;">0</span></div>
+    </div>
 
-    <script>
-        // Inicializa o mapa focado em Portugal
-        const map = L.map('map').setView([39.5, -8.0], 7);
+    <div id="store-list">
+        <div style="text-align:center; padding:20px;">Carregando lojas...</div>
+    </div>
+</div>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+<div id="map"></div>
 
-        // Carrega o CSV diretamente do teu GitHub
-        Papa.parse("https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv", {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                results.data.forEach(loja => {
-                    const lat = parseFloat(loja.Latitude);
-                    const lng = parseFloat(loja.Longitude);
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
-                    if (!isNaN(lat) && !isNaN(lng)) {
-                        L.marker([lat, lng])
-                            .addTo(map)
-                            .bindPopup(`
-                                <div style="text-align: center;">
-                                    <b style="color: #0050aa;">LIDL ${loja.Nome}</b><br>
-                                    <span style="font-size: 12px;">${loja.Morada}</span><br>
-                                    <hr>
-                                    <small>Código: ${loja.Código} | Regional: ${loja.Regional}</small>
-                                </div>
-                            `);
-                    }
-                });
+<script>
+    const map = L.map('map').setView([39.5, -8.0], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    let allStores = [];
+    const markers = L.layerGroup().addTo(map);
+
+    // Carregar o CSV
+    Papa.parse("https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv", {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+            allStores = results.data;
+            updateUI(allStores);
+        }
+    });
+
+    function updateUI(stores) {
+        markers.clearLayers();
+        const listDiv = document.getElementById('store-list');
+        listDiv.innerHTML = '';
+        
+        let feitos = 0;
+        
+        stores.forEach(loja => {
+            const lat = parseFloat(loja.Latitude);
+            const lng = parseFloat(loja.Longitude);
+            
+            if (!isNaN(lat) && !isNaN(lng)) {
+                // Adicionar ao Mapa
+                const marker = L.marker([lat, lng]).bindPopup(`<b>LIDL ${loja.Nome}</b><br>${loja.Morada}`);
+                markers.addLayer(marker);
+
+                // Adicionar à Lista Lateral
+                const item = document.createElement('div');
+                item.className = 'store-item';
+                item.innerHTML = `<b>${loja.Nome}</b><small>${loja.Morada}</small>`;
+                item.onclick = () => map.setView([lat, lng], 15);
+                listDiv.appendChild(item);
+                
+                if(loja.Estado_GPS === 'FEITO') feitos++;
             }
         });
-    </script>
+
+        document.getElementById('count-total').innerText = stores.length;
+        document.getElementById('count-feito').innerText = feitos;
+    }
+
+    function filterStores(type) {
+        // Atualizar abas
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+
+        if (type === 'all') updateUI(allStores);
+        else if (type === 'feito') updateUI(allStores.filter(s => s.Estado_GPS === 'FEITO'));
+        else if (type === 'pendente') updateUI(allStores.filter(s => s.Estado_GPS !== 'FEITO'));
+        // Perto de mim requer lógica de geolocalização que podemos adicionar depois
+    }
+</script>
+
 </body>
 </html>
