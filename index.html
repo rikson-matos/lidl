@@ -3,64 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum AI - Auditoria Pro</title>
+    <title>Quantum AI - Gestão Profissional Multi-Equipa</title>
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
-        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; }
-        body { margin: 0; font-family: sans-serif; display: flex; height: 100vh; flex-direction: column; }
-        #header { background: var(--blue); color: white; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; flex-direction: column; overflow: hidden; }
+        
+        /* Header e Controles */
+        #header { background: var(--blue); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        #equipaNome { padding: 8px; border-radius: 4px; border: none; width: 150px; font-weight: bold; }
+        
         #main-container { display: flex; flex: 1; overflow: hidden; }
-        #sidebar { width: 350px; border-right: 1px solid #ccc; display: flex; flex-direction: column; background: #f8f9fa; }
+        
+        /* Sidebar */
+        #sidebar { width: 380px; border-right: 1px solid #ccc; display: flex; flex-direction: column; background: #fff; }
+        .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
+        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.3s; }
+        .tab.active { background: white; border-bottom: 3px solid var(--yellow); color: var(--blue); }
+        
+        /* Lista de Lojas */
+        #store-list { flex: 1; overflow-y: auto; padding: 10px; background: #f4f4f4; }
+        .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; border-left: 6px solid #ccc; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .store-item:hover { transform: translateY(-2px); transition: 0.2s; }
+        .status-badge { position: absolute; right: 10px; top: 10px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+        .dist-info { font-size: 11px; color: #666; font-weight: bold; margin-top: 5px; display: block; }
+
+        /* Mapa */
         #map { flex: 1; }
-        .tab-bar { display: flex; background: #ddd; }
-        .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-size: 12px; font-weight: bold; border-bottom: 3px solid transparent; }
-        .tab.active { background: white; border-bottom-color: var(--yellow); }
-        #store-list { flex: 1; overflow-y: auto; padding: 5px; }
-        .store-item { background: white; padding: 12px; margin-bottom: 5px; border-radius: 5px; cursor: pointer; border-left: 5px solid #ccc; position: relative; }
-        .status-badge { position: absolute; right: 10px; top: 10px; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
-        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center; }
-        .modal-box { background:white; width:90%; max-width:450px; padding:20px; border-radius:10px; text-align: center; }
-        .btn { padding: 12px; width: 100%; margin: 5px 0; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+
+        /* Modal de Trabalho */
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; }
+        .modal-box { background:white; width:90%; max-width:450px; padding:25px; border-radius:15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        .timer { font-size: 36px; font-weight: bold; margin: 20px 0; color: var(--blue); font-family: monospace; }
+        .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .btn:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
 
 <div id="header">
-    <h3 style="margin:0">Quantum AI PRO</h3>
-    <input type="text" id="equipaNome" placeholder="Nome da Equipa" style="padding:5px; border-radius:4px; border:none;">
+    <div>
+        <h2 style="margin:0; font-size: 18px;">QUANTUM AI PRO</h2>
+        <small id="gps-status">GPS: Aguardando...</small>
+    </div>
+    <input type="text" id="equipaNome" placeholder="Nome da Equipa">
 </div>
 
 <div id="main-container">
     <div id="sidebar">
         <div class="tab-bar">
-            <div class="tab active" onclick="renderLojas('todas')">TODAS</div>
-            <div class="tab" onclick="renderLojas('perto')">PERTO</div>
-            <div class="tab" onclick="renderLojas('curso')">EM CURSO</div>
+            <div id="tab-todas" class="tab active" onclick="changeTab('todas')">TODAS</div>
+            <div id="tab-perto" class="tab" onclick="changeTab('perto')">PERTO DE MIM</div>
+            <div id="tab-curso" class="tab" onclick="changeTab('curso')">EM CURSO</div>
         </div>
-        <div id="store-list">Carregando lojas...</div>
+        <div id="store-list">Sincronizando dados...</div>
     </div>
     <div id="map"></div>
 </div>
 
 <div id="modalTrabalho" class="modal">
     <div class="modal-box">
-        <h2 id="m-nome">Loja</h2>
-        <div id="timer" style="font-size: 30px; margin: 15px 0; color: var(--blue);">00:00:00</div>
-        <div id="status-info" style="margin-bottom: 10px; font-size: 14px; color: #666;"></div>
-        <button class="btn" style="background: green; color:white;" id="btnStart" onclick="dbAction('start')">INICIAR TRABALHO</button>
-        <button class="btn" style="background: orange;" id="btnPause" onclick="dbAction('pause')">PAUSA / ALMOÇO</button>
-        <button class="btn" style="background: red; color:white;" id="btnFinish" onclick="dbAction('finish')">FINALIZAR (3 FOTOS)</button>
-        <button class="btn" style="background: #ccc;" onclick="closeModal()">FECHAR</button>
+        <h2 id="m-nome" style="color: var(--blue); margin-bottom: 5px;">Loja</h2>
+        <p id="m-morada" style="font-size: 13px; color: #666; margin-bottom: 15px;"></p>
+        <div id="timer" class="timer">00:00:00</div>
+        <div id="status-info" style="margin-bottom: 20px; font-size: 14px; font-weight: bold;"></div>
+        
+        <button class="btn" style="background: var(--green); color:white;" id="btnStart" onclick="dbAction('start')">INICIAR TRABALHO</button>
+        <button class="btn" style="background: var(--yellow);" id="btnPause" onclick="dbAction('pause')">PAUSA / ALMOÇO</button>
+        <button class="btn" style="background: var(--red); color:white;" id="btnFinish" onclick="dbAction('finish')">FINALIZAR (CAPTURAR 3 FOTOS)</button>
+        <button class="btn" style="background: #eee;" onclick="closeModal()">FECHAR JANELA</button>
     </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-
 <script>
-    // Configuração do Firebase que enviaste
+    // Configuração do teu Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY",
         authDomain: "lidl-audit.firebaseapp.com",
@@ -79,61 +101,140 @@
     let baseLojas = [];
     let statusRealtime = {};
     let lojaAtiva = null;
-    let userLoc = null;
+    let userPos = null;
+    let currentTab = 'todas';
 
-    // Carregar CSV
+    // 1. Carregar o CSV do GitHub
     Papa.parse("https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv", {
-        download: true, header: true, complete: function(results) {
+        download: true, 
+        header: true, 
+        skipEmptyLines: true,
+        complete: function(results) {
             baseLojas = results.data;
             iniciarSincronizacao();
+            monitorarGPS();
         }
     });
 
+    // 2. Sincronização em Tempo Real (Firebase)
     function iniciarSincronizacao() {
         db.ref('trabalhos').on('value', snapshot => {
             statusRealtime = snapshot.val() || {};
-            renderLojas();
+            renderList();
         });
     }
 
-    function renderLojas(filtro = 'todas') {
+    // 3. Monitorização GPS e Distâncias
+    function monitorarGPS() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(pos => {
+                userPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+                document.getElementById('gps-status').innerText = "GPS: Ativo";
+                if(currentTab === 'perto') renderList();
+            });
+        }
+    }
+
+    function calcDist(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2-lat1) * Math.PI / 180;
+        const dLon = (lon2-lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+    }
+
+    // 4. Interface e Filtros
+    function changeTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        renderList();
+    }
+
+    function renderList() {
         const container = document.getElementById('store-list');
         container.innerHTML = '';
         
-        baseLojas.forEach((loja, index) => {
-            const id = "loja_" + index;
+        let lojasParaExibir = [...baseLojas];
+
+        // Calcular distâncias se GPS ativo
+        if (userPos) {
+            lojasParaExibir.forEach((l, i) => {
+                l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.Latitude), parseFloat(l.Longitude));
+                l.originalIndex = i;
+            });
+            if (currentTab === 'perto') {
+                lojasParaExibir.sort((a, b) => a.dist - b.dist);
+            }
+        }
+
+        lojasParaExibir.forEach((loja, idx) => {
+            const id = "loja_" + (loja.originalIndex !== undefined ? loja.originalIndex : idx);
             const status = statusRealtime[id] || { estado: 'LIVRE' };
             
-            if(filtro === 'curso' && status.estado === 'LIVRE') return;
+            if(currentTab === 'curso' && status.estado !== 'EM_CURSO') return;
 
             const div = document.createElement('div');
             div.className = 'store-item';
-            div.style.borderLeftColor = status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'green' : '#ccc');
-            div.innerHTML = `<b>${loja.Nome}</b><br><small>${loja.Morada}</small>
-                             <span class="status-badge" style="background:${status.estado === 'EM_CURSO' ? 'var(--yellow)' : '#eee'}">${status.estado}</span>`;
+            div.style.borderLeftColor = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#ccc');
+            
+            const distTxt = loja.dist ? `<span class="dist-info">📍 a ${loja.dist.toFixed(1)} km</span>` : '';
+            
+            div.innerHTML = `
+                <b>${loja.Nome}</b><br><small>${loja.Morada}</small>
+                ${distTxt}
+                <span class="status-badge" style="background:${status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee')}; color:${status.estado === 'LIVRE' ? '#666' : 'white'}">
+                    ${status.estado}
+                </span>`;
+            
             div.onclick = () => abrirLoja(id, loja);
             container.appendChild(div);
         });
     }
 
+    // 5. Ações do Trabalho (Firebase)
     function abrirLoja(id, loja) {
         lojaAtiva = { id, ...loja };
-        document.getElementById('m-nome').innerText = loja.Nome;
+        document.getElementById('m-nome').innerText = "LIDL " + loja.Nome;
+        document.getElementById('m-morada').innerText = loja.Morada;
         document.getElementById('modalTrabalho').style.display = 'flex';
+        
         const status = statusRealtime[id] || {};
-        document.getElementById('status-info').innerText = status.equipa ? `Pela equipa: ${status.equipa}` : "Livre para iniciar";
+        const info = document.getElementById('status-info');
+        
+        if (status.estado === 'EM_CURSO') {
+            info.innerHTML = `TRABALHO EM CURSO<br><small>Responsável: ${status.equipa}</small>`;
+            info.style.color = "var(--yellow)";
+        } else if (status.estado === 'CONCLUIDO') {
+            info.innerHTML = `TRABALHO FINALIZADO<br><small>Pela equipa: ${status.equipa}</small>`;
+            info.style.color = "var(--green)";
+        } else {
+            info.innerText = "LOJA DISPONÍVEL";
+            info.style.color = "#666";
+        }
+
+        map.setView([loja.Latitude, loja.Longitude], 15);
     }
 
     function dbAction(acao) {
         const equipa = document.getElementById('equipaNome').value;
-        if(!equipa) return alert("Escreve o nome da tua equipa!");
+        if(!equipa) return alert("Por favor, identifique a sua Equipa no topo!");
         
         const ref = db.ref('trabalhos/' + lojaAtiva.id);
+        
         if(acao === 'start') {
-            ref.set({ estado: 'EM_CURSO', equipa: equipa, inicio: Date.now() });
+            ref.set({ 
+                estado: 'EM_CURSO', 
+                equipa: equipa, 
+                inicio: Date.now(),
+                timestamp: firebase.database.ServerValue.TIMESTAMP 
+            });
         } else if(acao === 'finish') {
-            ref.update({ estado: 'CONCLUIDO', fim: Date.now() });
-            alert("Trabalho Concluído! Não esqueças as 3 fotos.");
+            if(!confirm("Deseja finalizar o trabalho? Garanta que capturou as 3 fotos obrigatórias.")) return;
+            ref.update({ 
+                estado: 'CONCLUIDO', 
+                fim: Date.now() 
+            });
             closeModal();
         }
     }
