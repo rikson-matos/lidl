@@ -9,41 +9,45 @@
         :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
         
-        /* Telas */
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         #app-content { display: none; height: 100%; flex-direction: column; }
         
-        /* UI */
         #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
-        #stats-bar { background: var(--dark); color: white; padding: 8px; font-size: 10px; display: flex; justify-content: space-around; text-align: center; }
-        .stat-box b { display: block; font-size: 14px; color: var(--yellow); }
+        
+        /* Barra de Pesquisa */
+        .search-container { background: white; padding: 10px; border-bottom: 1px solid #ddd; }
+        #searchInput { width: 100%; padding: 10px; border: 2px solid #eee; border-radius: 8px; box-sizing: border-box; font-size: 14px; outline: none; }
+        #searchInput:focus { border-color: var(--blue); }
+
+        /* Stats Bar interativa */
+        #stats-bar { background: var(--dark); color: white; padding: 10px 5px; font-size: 10px; display: flex; justify-content: space-around; text-align: center; }
+        .stat-box { flex: 1; cursor: pointer; transition: transform 0.1s; border-radius: 5px; padding: 4px; }
+        .stat-box:active { transform: scale(0.95); background: #444; }
+        .stat-box.active-filter { background: #555; border: 1px solid var(--yellow); }
+        .stat-box b { display: block; font-size: 15px; color: var(--yellow); }
+        
         .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
-        .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 10px; font-weight: bold; color: #666; }
+        .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 11px; font-weight: bold; color: #666; }
         .tab.active { background: white; border-bottom: 4px solid var(--yellow); color: var(--blue); }
         
-        #content-wrapper { height: calc(100vh - 110px); position: relative; }
+        #content-wrapper { flex-grow: 1; position: relative; overflow: hidden; }
         #store-list { height: 100%; overflow-y: auto; padding: 10px; box-sizing: border-box; }
         #map-container { height: 100%; width: 100%; display: none; position: absolute; top: 0; left: 0; }
         #map { height: 100%; width: 100%; }
         
         .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 6px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         
-        /* Modal */
         .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; }
         .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; }
         .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
         
         .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); }
 
-        /* Pulsações */
         .pulse-marker { background: var(--gps-blue); border-radius: 50%; height: 14px; width: 14px; position: absolute; left: -7px; top: -7px; border: 2px solid white; }
         .pulse-marker::after { content: ""; border: 3px solid var(--gps-blue); border-radius: 50%; height: 40px; width: 40px; position: absolute; left: -16px; top: -16px; animation: pulsate 1.5s ease-out infinite; opacity: 0; }
         
-        .pulse-colega { background: #333; border-radius: 50%; height: 10px; width: 10px; position: absolute; left: -5px; top: -5px; border: 2px solid white; }
-        .pulse-colega::after { content: ""; border: 2px solid #666; border-radius: 50%; height: 30px; width: 30px; position: absolute; left: -12px; top: -12px; animation: pulsate 2s ease-out infinite; opacity: 0; }
-
         @keyframes pulsate { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
         .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: bold; position: relative; top: 15px; left: -50%; }
         #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; font-family: inherit; }
@@ -66,17 +70,32 @@
         <div><h3 style="margin:0; font-size: 16px;">LIDL AUDIT</h3><small id="userDisplay"></small></div>
         <button onclick="fazerLogout()" style="background:none; border:1px solid white; color:white; border-radius:4px; font-size:10px; padding:4px 8px;">SAIR</button>
     </div>
-    <div id="stats-bar">
-        <div class="stat-box"><b id="stat-total">0</b>Lojas</div>
-        <div class="stat-box"><b id="stat-feitas" style="color: var(--green);">0</b>Feitas</div>
-        <div class="stat-box"><b id="stat-falta" style="color: var(--red);">0</b>Faltam</div>
-        <div class="stat-box"><b id="stat-pct">0%</b>Progresso</div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Procurar por loja ou código..." oninput="handleSearch()">
     </div>
+
+    <div id="stats-bar">
+        <div class="stat-box active-filter" id="filter-all" onclick="setStatusFilter('all')">
+            <b id="stat-total">0</b>Lojas
+        </div>
+        <div class="stat-box" id="filter-done" onclick="setStatusFilter('done')">
+            <b id="stat-feitas" style="color: var(--green);">0</b>Feitas
+        </div>
+        <div class="stat-box" id="filter-pending" onclick="setStatusFilter('pending')">
+            <b id="stat-falta" style="color: var(--red);">0</b>Faltam
+        </div>
+        <div class="stat-box" style="cursor: default;">
+            <b id="stat-pct">0%</b>Progresso
+        </div>
+    </div>
+
     <div class="tab-bar">
         <div id="tab-todas" class="tab active" onclick="changeTab('todas')">LISTA</div>
         <div id="tab-perto" class="tab" onclick="changeTab('perto')">PERTO</div>
         <div id="tab-mapa" class="tab" style="background:#ddd" onclick="changeTab('mapa')">📍 MAPA</div>
     </div>
+
     <div id="content-wrapper">
         <div id="store-list">Sincronizando...</div>
         <div id="map-container">
@@ -92,9 +111,7 @@
     <div class="modal-box">
         <h2 id="m-nome" style="color: var(--blue); margin-top:0;">Loja</h2>
         <p id="m-morada" style="font-size: 12px; color: #666;"></p>
-        
         <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 COMO CHEGAR (ROTA)</button>
-        
         <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px; font-size: 13px;"></div>
         <textarea id="obs-texto" placeholder="Notas do trabalho..."></textarea>
         <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR TRABALHO</button>
@@ -110,7 +127,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
 <script>
-    // CONFIGURAÇÃO FIREBASE
     const firebaseConfig = {
         apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY",
         authDomain: "lidl-audit.firebaseapp.com",
@@ -123,15 +139,14 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth(), db = firebase.database();
 
-    let currentUser = null, baseLojas = [], statusRealtime = {}, lojaAtiva = null, userPos = null, currentTab = 'todas';
+    let currentUser = null, baseLojas = [], statusRealtime = {}, lojaAtiva = null, userPos = null;
+    let currentTab = 'todas', currentStatusFilter = 'all', currentSearch = '';
     let colegasMarkers = {};
 
     const map = L.map('map', { tap: false, zoomControl: false }).setView([39.5, -8.0], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     const markersLayer = L.layerGroup().addTo(map);
-
-    const pulseIcon = L.divIcon({ className: 'c-pulse', html: '<div class="pulse-marker"></div>', iconSize: [0, 0] });
-    const userMarker = L.marker([0,0], { icon: pulseIcon }).addTo(map);
+    const userMarker = L.marker([0,0], { icon: L.divIcon({ className: 'c-pulse', html: '<div class="pulse-marker"></div>', iconSize: [0, 0] }) }).addTo(map);
 
     function fazerLogin() {
         auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPass').value).catch(() => alert("Erro no Login"));
@@ -186,43 +201,68 @@
             Object.keys(lista).forEach(id => {
                 if(id === currentUser.uid) return;
                 const c = lista[id];
-                const colegaIcon = L.divIcon({
-                    className: 'c-colega',
-                    html: `<div class="pulse-colega"></div><div class="colega-label">${c.nome}</div>`,
-                    iconSize: [0, 0]
-                });
                 if(colegasMarkers[id]) { colegasMarkers[id].setLatLng([c.lat, c.lon]); }
-                else { colegasMarkers[id] = L.marker([c.lat, c.lon], { icon: colegaIcon }).addTo(map); }
+                else { 
+                    const icon = L.divIcon({ className: 'c-colega', html: `<div style="background:#333; border:2px solid white; border-radius:50%; width:10px; height:10px;"></div><div class="colega-label">${c.nome}</div>`, iconSize: [0,0]});
+                    colegasMarkers[id] = L.marker([c.lat, c.lon], { icon }).addTo(map); 
+                }
             });
         });
     }
 
-    // FUNÇÃO DE ROTA
-    function abrirRota() {
-        if(!lojaAtiva) return;
-        const lat = lojaAtiva.Latitude;
-        const lon = lojaAtiva.Longitude;
-        // Tenta abrir App de Mapas nativo (funciona em Android e iOS)
-        const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving`;
-        window.open(url, '_blank');
+    // Filtros e Pesquisa
+    function handleSearch() {
+        currentSearch = document.getElementById('searchInput').value.toLowerCase();
+        renderList();
+    }
+
+    function setStatusFilter(filter) {
+        currentStatusFilter = filter;
+        document.querySelectorAll('.stat-box').forEach(b => b.classList.remove('active-filter'));
+        if(filter === 'all') document.getElementById('filter-all').classList.add('active-filter');
+        if(filter === 'done') document.getElementById('filter-done').classList.add('active-filter');
+        if(filter === 'pending') document.getElementById('filter-pending').classList.add('active-filter');
+        renderList();
     }
 
     function renderList() {
         const container = document.getElementById('store-list');
         if(currentTab !== 'mapa') container.innerHTML = '';
         markersLayer.clearLayers();
-        let exibir = [...baseLojas];
-        
+
+        let exibir = baseLojas.map((l, i) => ({ ...l, originalIndex: i }));
+
+        // 1. Filtro de Pesquisa (Nome ou Código)
+        if (currentSearch) {
+            exibir = exibir.filter(l => 
+                l.Nome.toLowerCase().includes(currentSearch) || 
+                l.Código.toString().includes(currentSearch)
+            );
+        }
+
+        // 2. Filtro de Status (Feitas / Faltam)
+        if (currentStatusFilter !== 'all') {
+            exibir = exibir.filter(l => {
+                const status = statusRealtime["loja_" + l.originalIndex]?.estado || 'LIVRE';
+                return currentStatusFilter === 'done' ? status === 'CONCLUIDO' : status !== 'CONCLUIDO';
+            });
+        }
+
+        // 3. Cálculo de distância e Ordenação
         if (userPos) {
-            exibir.forEach((l, i) => {
+            exibir.forEach(l => {
                 l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.Latitude), parseFloat(l.Longitude));
-                l.originalIndex = i;
             });
             if (currentTab === 'perto') exibir.sort((a, b) => a.dist - b.dist);
         }
 
-        exibir.forEach((loja, idx) => {
-            const id = "loja_" + (loja.originalIndex !== undefined ? loja.originalIndex : idx);
+        if (exibir.length === 0) {
+            if(currentTab !== 'mapa') container.innerHTML = '<center style="padding:20px; color:#999;">Nenhuma loja encontrada.</center>';
+            return;
+        }
+
+        exibir.forEach((loja) => {
+            const id = "loja_" + loja.originalIndex;
             const status = statusRealtime[id] || { estado: 'LIVRE' };
             const pinColor = status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'green' : 'blue');
             
@@ -232,8 +272,8 @@
             const div = document.createElement('div');
             div.className = 'store-item';
             div.style.borderLeftColor = pinColor;
-            div.innerHTML = `<b>${loja.Nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km' : ''} - ${status.estado}</small>`;
-            div.onclick = () => { abrirLoja(id, loja); };
+            div.innerHTML = `<b>[${loja.Código}] ${loja.Nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km' : ''} - ${status.estado}</small>`;
+            div.onclick = () => abrirLoja(id, loja);
             container.appendChild(div);
         });
     }
@@ -243,8 +283,7 @@
         document.getElementById('m-nome').innerText = loja.Nome;
         document.getElementById('m-morada').innerText = loja.Morada;
         const status = statusRealtime[id] || { estado: 'LIVRE' };
-        const info = document.getElementById('status-info');
-        const obs = document.getElementById('obs-texto');
+        const info = document.getElementById('status-info'), obs = document.getElementById('obs-texto');
         
         info.innerText = status.estado;
         info.style.background = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee');
@@ -274,6 +313,7 @@
     }
 
     function focarUtilizador() { if(userPos) map.flyTo([userPos.lat, userPos.lon], 16); }
+    
     function atualizarStats() {
         const total = baseLojas.length;
         let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
@@ -282,12 +322,19 @@
         document.getElementById('stat-falta').innerText = total - feitas;
         document.getElementById('stat-pct').innerText = total > 0 ? Math.round((feitas/total)*100) + "%" : "0%";
     }
+
     function calcDist(lat1, lon1, lat2, lon2) {
         const R = 6371;
         const dLat = (lat2-lat1) * Math.PI / 180, dLon = (lon2-lon1) * Math.PI / 180;
         const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
         return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
     }
+
+    function abrirRota() {
+        if(!lojaAtiva) return;
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.Latitude},${lojaAtiva.Longitude}&travelmode=driving`, '_blank');
+    }
+
     function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
 </script>
 </body>
