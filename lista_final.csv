@@ -109,6 +109,7 @@ Código,Nome,Regional,Prioridade,Morada,Latitude,Longitude,Estado_GPS
 356,PINHAL NOVO,93 - PAL,Normal,Villas do Terrim,38.6192158,-8.919838,OK
 357,ALBUFEIRA,93 - PAL,Normal,R Baden Powell,37.095664,-8.249486,OK
 358,S. BRAS DE ALPORTEL,93 - PAL,Normal,EN 2,37.14965,-7.893842,OK
+359,SINES,93 - PAL,Normal,"Loteamento Ponte Serva, Lt A3",37.958953,-8.871728,OK
 360,ALMADA - SOBREDA,11 - LOU,Normal,"R Quinta do Salgado, n14",38.646583,-9.180244,OK
 361,VENDAS NOVAS,93 - PAL,Normal,R do Polígono,38.6786532,-8.451643,OK
 362,SEIXAL - MIRATEJO,11 - LOU,Normal,R Ferreira de Castro,38.649822,-9.142722,OK
@@ -297,4 +298,3 @@ Código,Nome,Regional,Prioridade,Morada,Latitude,Longitude,Estado_GPS
 Sede,Sede - Linhó,Sede,URGENTE,Linhó,38.758863,-9.377809,OK (Manual)
 Entreposto,Entreposto TON,94 - TON,URGENTE,Logística,38.818648,-9.190407,OK (Manual)
 Entreposto,Entreposto LOU,11 - LOU,URGENTE,Logística,38.817442,-9.187325,OK (Manual)
-
