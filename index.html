@@ -3,65 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LIDL Auditoria - Quantum AI</title>
+    <title>Quantum AI PRO - Fleet Control</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f4f4f4; overflow: hidden; }
-        #header { background: var(--blue); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .stats-bar { display: flex; background: white; padding: 10px; border-bottom: 2px solid var(--yellow); }
-        .stat-item { text-align: center; flex: 1; font-size: 11px; color: #666; }
-        .stat-val { font-weight: bold; font-size: 16px; display: block; color: var(--blue); }
-        #map { height: calc(100vh - 170px); width: 100%; }
-        #store-list { height: calc(100vh - 170px); overflow-y: auto; display: none; background: white; padding-bottom: 80px; }
-        .store-card { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .store-card:active { background: #f0f0f0; }
-        .tabs { display: flex; background: white; border-top: 1px solid #ddd; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 1000; }
-        .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none; background: none; font-size: 12px; color: #888; font-weight: bold; }
-        .tab.active { color: var(--blue); border-top: 3px solid var(--blue); background: #f9f9f9; }
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999; }
-        .modal-content { background: white; width: 85%; max-width: 400px; padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
-        .badge { background: #fff3cd; border: 2px dashed #ffc107; padding: 15px; margin: 15px 0; border-radius: 10px; font-size: 22px; font-weight: bold; color: #856404; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 14px; text-transform: uppercase; }
+        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; --orange-return: #FFA500; } /* Adicionei uma cor para o retorno */
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
+        
+        /* Telas */
+        #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
+        .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        #app-content { display: none; height: 100%; flex-direction: column; }
+        
+        /* UI */
+        #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        #stats-bar { background: var(--dark); color: white; padding: 8px; font-size: 10px; display: flex; justify-content: space-around; text-align: center; }
+        .stat-box { cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s; }
+        .stat-box:active { background: #444; }
+        .stat-box b { display: block; font-size: 14px; color: var(--yellow); }
+        .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
+        .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 10px; font-weight: bold; color: #666; }
+        .tab.active { background: white; border-bottom: 4px solid var(--yellow); color: var(--blue); }
+        
+        #content-wrapper { height: calc(100vh - 110px); position: relative; }
+        #store-list { height: 100%; overflow-y: auto; padding: 10px; box-sizing: border-box; }
+        #map-container { height: 100%; width: 100%; display: none; position: absolute; top: 0; left: 0; }
+        #map { height: 100%; width: 100%; }
+        
+        .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 6px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        
+        /* Modal */
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; }
+        .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; }
+        .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        
+        .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); }
+
+        /* Pulsações */
+        .pulse-marker { background: var(--gps-blue); border-radius: 50%; height: 14px; width: 14px; position: absolute; left: -7px; top: -7px; border: 2px solid white; }
+        .pulse-marker::after { content: ""; border: 3px solid var(--gps-blue); border-radius: 50%; height: 40px; width: 40px; position: absolute; left: -16px; top: -16px; animation: pulsate 1.5s ease-out infinite; opacity: 0; }
+        
+        .pulse-colega { background: #333; border-radius: 50%; height: 10px; width: 10px; position: absolute; left: -5px; top: -5px; border: 2px solid white; }
+        .pulse-colega::after { content: ""; border: 2px solid #666; border-radius: 50%; height: 30px; width: 30px; position: absolute; left: -12px; top: -12px; animation: pulsate 2s ease-out infinite; opacity: 0; }
+
+        @keyframes pulsate { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
+        .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: bold; position: relative; top: 15px; left: -50%; }
+        #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; font-family: inherit; }
+        /* Novos estilos para o ID do Posto e Data de Vinilização */
+        .modal-info-details { text-align: left; margin-top: 15px; padding: 10px; background: #f9f9f9; border-radius: 8px; border: 1px solid #eee; display: none; }
+        .modal-info-details p { margin: 5px 0; font-size: 12px; color: #555; }
+        .modal-info-details b { color: var(--blue); }
     </style>
 </head>
 <body>
 
-<div id="header">LIDL FASE 2 <span style="font-size: 10px; opacity: 0.8;">v3.0 - 112 LOJAS</span></div>
-
-<div class="stats-bar">
-    <div class="stat-item"><span class="stat-val" id="stat-total">0</span>LOJAS</div>
-    <div class="stat-item"><span class="stat-val" id="stat-feitas" style="color:var(--green)">0</span>FEITAS</div>
-    <div class="stat-item"><span class="stat-val" id="stat-pct">0%</span>MÉDIA</div>
-</div>
-
-<div id="map"></div>
-<div id="store-list"></div>
-
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <h3 id="m-nome">---</h3>
-        <p id="m-morada" style="font-size: 13px; color: #666;"></p>
-        <div class="badge"><small style="font-size: 10px; display: block; margin-bottom: 5px;">ID POSTO:</small><span id="m-posto">---</span></div>
-        <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 IR PARA LOJA (WAZE/MAPS)</button>
-        <button id="btn-concluir" class="btn" style="background: var(--green); color: white;" onclick="marcarFeito()">✅ CONCLUÍDO</button>
-        <button class="btn" style="background: #eee; color: #333;" onclick="fecharModal()">VOLTAR</button>
+<div id="login-screen">
+    <div class="login-box">
+        <h2 style="color: var(--blue); margin-top: 0;">QUANTUM AI</h2>
+        <input type="email" id="loginEmail" placeholder="E-mail">
+        <input type="password" id="loginPass" placeholder="Senha">
+        <button class="btn" style="background: var(--yellow); color: var(--blue);" onclick="fazerLogin()">ENTRAR</button>
+        <div id="loginError" style="color: red; font-size: 11px; margin-top: 10px;"></div>
     </div>
 </div>
 
-<div class="tabs">
-    <button class="tab active" id="tab-mapa" onclick="switchTab('mapa')">🗺️ MAPA</button>
-    <button class="tab" id="tab-lista" onclick="switchTab('lista')">📋 LISTA</button>
+<div id="app-content">
+    <div id="header">
+        <div><h3 style="margin:0; font-size: 16px;">LIDL AUDIT</h3><small id="userDisplay"></small></div>
+        <button onclick="fazerLogout()" style="background:none; border:1px solid white; color:white; border-radius:4px; font-size:10px; padding:4px 8px;">SAIR</button>
+    </div>
+    <div id="stats-bar">
+        <div class="stat-box" onclick="setFilter('todas')"><b id="stat-total">0</b>Lojas</div>
+        <div class="stat-box" onclick="setFilter('feitas')"><b id="stat-feitas" style="color: var(--green);">0</b>Feitas</div>
+        <div class="stat-box" onclick="setFilter('faltam')"><b id="stat-falta" style="color: var(--red);">0</b>Faltam</div>
+        <div class="stat-box" onclick="setFilter('retorno')"><b id="stat-retorno" style="color: var(--orange-return);">0</b>Retorno</div> <!-- Novo stat box -->
+        <div class="stat-box"><b id="stat-pct">0%</b>Progresso</div>
+    </div>
+    <div class="tab-bar">
+        <div id="tab-todas" class="tab active" onclick="changeTab('todas')">LISTA</div>
+        <div id="tab-perto" class="tab" onclick="changeTab('perto')">PERTO</div>
+        <div id="tab-mapa" class="tab" style="background:#ddd" onclick="changeTab('mapa')">📍 MAPA</div>
+    </div>
+    <div id="content-wrapper">
+        <div id="store-list">Sincronizando...</div>
+        <div id="map-container">
+            <div id="map"></div>
+            <button class="gps-button" onclick="focarUtilizador()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3m0 14v3m10-10h-3M5 12H2"></path></svg>
+            </button>
+        </div>
+    </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<div id="modalTrabalho" class="modal">
+    <div class="modal-box">
+        <h2 id="m-nome" style="color: var(--blue); margin-top:0;">Loja</h2>
+        <p id="m-morada" style="font-size: 12px; color: #666;"></p>
+        
+        <div id="modal-return-info" class="modal-info-details"> <!-- Novo div para info de retorno -->
+            <p><b>ID Posto:</b> <span id="m-id-posto"></span></p>
+            <p><b>Data Vinilização:</b> <span id="m-data-vinilizacao"></span></p>
+        </div>
+        
+        <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 COMO CHEGAR (ROTA)</button>
+        
+        <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px; font-size: 13px;"></div>
+        <textarea id="obs-texto" placeholder="Notas do trabalho..."></textarea>
+        
+        <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR TRABALHO</button>
+        <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR TAREFA</button>
+        <button id="btnCancel" class="btn" style="background: #333; color:white; font-size: 11px;" onclick="dbAction('cancel')">⚠️ CANCELAR / LIMPAR REGISTRO</button>
+        
+        <button class="btn" style="background: #eee;" onclick="closeModal()">VOLTAR</button>
+    </div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
 <script>
-    // 1. CONFIGURAÇÃO FIREBASE
     const firebaseConfig = {
-        apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY",
+        apiKey: "AIzaSyBdQpPtOWD6kPZfa0ofvrjpoa-XqXgP_tY",
         authDomain: "lidl-audit.firebaseapp.com",
         databaseURL: "https://lidl-audit-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "lidl-audit",
@@ -70,227 +135,264 @@
         appId: "1:913435364403:web:b46e176fd05ad7daaa6746"
     };
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    const auth = firebase.auth(), db = firebase.database();
 
-    // 2. TODAS AS 112 LOJAS
-    const baseLojas = [
-        {id:"119", n:"Amadora - Rua de Angola", p:"AMD-00109", m:"R de Angola, n13", lat:38.7592396, lon:-9.2438885},
-        {id:"125", n:"Loures", p:"LRS-00147", m:"R G. Lt1 Vinha GrandeAreeira", lat:38.826667, lon:-9.165278},
-        {id:"127", n:"Loures - Portela", p:"LRS-00145", m:"Qta da Vitória - R Vasco Gama", lat:38.785164, lon:-9.116781},
-        {id:"129", n:"Sintra - Tapada das Mercês", p:"SNT-00192", m:"Estrada de Mercês-Algueirão", lat:38.800327, lon:-9.325723},
-        {id:"134", n:"Sintra - Cacém", p:"SNT-00193", m:"Rua da Bela vista 31", lat:38.7627609, lon:-9.3070083},
-        {id:"141", n:"Odivelas - Caneças", p:"ODV-00049", m:"Estrada de Montemor", lat:38.814444, lon:-9.2149999},
-        {id:"142", n:"V.F.Xira-Póvoa Sta Iria", p:"VFX-00098", m:"EN 10, km 134,7", lat:38.852222, lon:-9.074444},
-        {id:"144", n:"Vila Franca de Xira - Alverca", p:"VFX-00097", m:"R de Santa Maria", lat:38.892095, lon:-9.038755},
-        {id:"149", n:"Lisboa - Xabregas", p:"LSB-00979", m:"R Bispo de Coxim, n1", lat:38.725278, lon:-9.112222},
-        {id:"153", n:"Cascais - Alcoitão", p:"CSC-00415", m:"Av da República, n2562", lat:38.7352133, lon:-9.3977743},
-        {id:"157", n:"Salvaterra de Magos", p:"SMG-00014", m:"EN 118", lat:39.0225342, lon:-8.7939071},
-        {id:"158", n:"Sassoeiros", p:"CSC-00416", m:"R Luis de Camões, n8", lat:38.701667, lon:-9.326944},
-        {id:"159", n:"Odivelas - Arroja", p:"ODV-00050", m:"Av das Acácias", lat:38.7957222, lon:-9.1987537},
-        {id:"173", n:"Lisboa - Av. Infante D. Henrique", p:"LSB-00977", m:"Av Inf D Henrique, Lts. 17-18", lat:38.7575001, lon:-9.103611},
-        {id:"174", n:"Coruche", p:"CCH-00007", m:"Quinta das Baleias, Lt18", lat:38.961028, lon:-8.520147},
-        {id:"177", n:"Oeiras - Algés", p:"OER-00254", m:"R João Chagas, n130", lat:38.706111, lon:-9.238333},
-        {id:"179", n:"Sintra - Algueirão", p:"SNT-00198", m:"Casal Vale do Milho", lat:38.804444, lon:-9.356111},
-        {id:"186", n:"Sintra - Terrugem", p:"SNT-00197", m:"Av 29 de Agosto, n80", lat:38.844394, lon:-9.375811},
-        {id:"194", n:"Mem Martins", p:"SNT-00194", m:"Rua da Liberdade", lat:38.794697, lon:-9.345844},
-        {id:"197", n:"Sintra - S.Pedro Penafirim", p:"SNT-00201", m:"Chão de Meninas", lat:38.789167, lon:-9.371389},
-        {id:"199", n:"S. Domingos de Rana", p:"CSC-00424", m:"Abóboda - R Dr. José Joaquim", lat:38.7214755, lon:-9.3361099},
-        {id:"212", n:"Mafra", p:"MFR-00049", m:"Av. Francisco Sá Carneiro", lat:38.943187, lon:-9.325983},
-        {id:"216", n:"Ericeira", p:"MFR-00052", m:"Rua do Arrabalde", lat:38.959146, lon:-9.408792},
-        {id:"226", n:"Carnaxide", p:"OER-00260", m:"Rua do Proletariado", lat:38.723611, lon:-9.243333},
-        {id:"235", n:"Lisboa - Telheiras", p:"LSB-00994", m:"Av Nações Unidas", lat:38.764516, lon:-9.167231},
-        {id:"236", n:"Oeiras - Porto Salvo", p:"OER-00262", m:"Lagoas Park", lat:38.711904, lon:-9.303975},
-        {id:"241", n:"Queluz", p:"SNT-00191", m:"Rua D. Pedro IV", lat:38.750555, lon:-9.261944},
-        {id:"244", n:"Torres Vedras", p:"TVD-00062", m:"Rua Principal - Casal da Areia", lat:39.0975, lon:-9.244722},
-        {id:"246", n:"Castanheira do Ribatejo", p:"VFX-00115", m:"Rua de Moçambique", lat:38.991666, lon:-8.977222},
-        {id:"247", n:"Azambuja", p:"AZB-00008", m:"Av. do Século", lat:39.066922, lon:-8.872741},
-        {id:"252", n:"Carregado", p:"ALN-00010", m:"EN 3, km 1", lat:39.013589, lon:-8.98399},
-        {id:"253", n:"Alenquer", p:"ALN-00011", m:"Rua de Olivença, Lt 1 a 4", lat:39.052062, lon:-9.011808},
-        {id:"321", n:"Elvas", p:"ELV-00018", m:"EN 4, Av. de Badajoz", lat:38.8753679, lon:-7.1616967},
-        {id:"328", n:"Beja", p:"BJA-00021", m:"Variante à EN 18,121,122", lat:38.0054384, lon:-7.8736245},
-        {id:"330", n:"Portimão", p:"PTM-00093", m:"Barranco do Rodrigo, V 7", lat:37.134242, lon:-8.5461},
-        {id:"338", n:"Olhão", p:"OLH-00033", m:"EN 125 - Pechão", lat:37.029572, lon:-7.853464},
-        {id:"339", n:"Faro - Bom João", p:"FAO-00047", m:"Bom João, Lt 1", lat:37.013786, lon:-7.919061},
-        {id:"341", n:"Tavira", p:"TVR-00030", m:"Lg de Santo Amaro", lat:37.119326, lon:-7.6561402},
-        {id:"344", n:"Faro - Montenegro", p:"FAO-00048", m:"Rua João de Brito Elvas", lat:37.0315, lon:-7.9482},
-        {id:"345", n:"V.R.S. António", p:"VRS-00016", m:"Rua de Angola", lat:37.1953, lon:-7.4124},
-        {id:"346", n:"Loulé", p:"LLE-00067", m:"Av. Laginha Serafim", lat:37.1425, lon:-8.0163},
-        {id:"351", n:"Évora - Bacelo", p:"EVR-00045", m:"Rua de Timor", lat:38.5833, lon:-7.9012},
-        {id:"353", n:"Alverca - Ribatejo", p:"VFX-00099", m:"Estrada do Adarse", lat:38.9056, lon:-9.0287},
-        {id:"354", n:"Samora Correia", p:"BEN-00015", m:"Av. Egas Moniz", lat:38.9324, lon:-8.8723},
-        {id:"357", n:"Montijo - Canha", p:"MTJ-00055", m:"Rua José Joaquim de Almeida", lat:38.7654, lon:-8.7612},
-        {id:"358", n:"Benavente", p:"BEN-00016", m:"Av. Dr. Manuel Lopes de Almeida", lat:38.9812, lon:-8.8054},
-        {id:"359", n:"Moita", p:"MTA-00033", m:"Rua João da Nova", lat:38.6523, lon:-8.9912},
-        {id:"361", n:"V.N.S. André", p:"SCM-00021", m:"Av. Sines", lat:38.0567, lon:-8.7894},
-        {id:"363", n:"Almada - Sobreda", p:"ALM-00104", m:"Rua Quinta do Secretário", lat:38.6489, lon:-9.1765},
-        {id:"365", n:"Sesimbra - Cotovia", p:"SSB-00033", m:"Av. João Paulo II", lat:38.4852, lon:-9.1044},
-        {id:"369", n:"Almada - Pragal", p:"ALM-00103", m:"Rua Direita do Pragal", lat:38.6743, lon:-9.1723},
-        {id:"371", n:"Seixal - Arrentela", p:"SXL-00105", m:"Av. Metalúrgicos", lat:38.6212, lon:-9.1023},
-        {id:"372", n:"Barreiro - Lavradio", p:"BRR-00066", m:"Rua Resistentes Antifascistas", lat:38.6654, lon:-9.0567},
-        {id:"435", n:"Albufeira - Caliços", p:"ABF-00059", m:"Av. Algarve", lat:37.1022, lon:-8.0015},
-        {id:"442", n:"Lagos", p:"LGS-00027", m:"Rua José Afonso", lat:37.1123, lon:-8.6789},
-        {id:"445", n:"Loulé - Quarteira", p:"LLE-00068", m:"Av. Dr. Francisco de Sá Carneiro", lat:37.0734, lon:-8.0987},
-        {id:"447", n:"Silves", p:"SLV-00019", m:"Rua da Cruz de Portugal", lat:37.1923, lon:-8.4345},
-        {id:"448", n:"Lagoa", p:"LGA-00023", m:"Rua da Liberdade", lat:37.1345, lon:-8.4521},
-        {id:"449", n:"Grândola", p:"GDL-00015", m:"Av. António Inácio da Cruz", lat:38.1765, lon:-8.5678},
-        {id:"463", n:"Sines", p:"SNS-00021", m:"Av. General Humberto Delgado", lat:37.9543, lon:-8.8654},
-        {id:"466", n:"Beja - Sta. Maria", p:"BJA-00022", m:"Rua de Lisboa", lat:38.0212, lon:-7.8654},
-        {id:"469", n:"Moura", p:"MOU-00011", m:"Rua de Serpa", lat:38.1345, lon:-7.4521},
-        {id:"471", n:"Odemira", p:"ODM-00012", m:"Rua do Mercado", lat:37.5967, lon:-8.6432},
-        {id:"472", n:"Serpa", p:"SRP-00011", m:"Rua da Abegoaria", lat:37.9432, lon:-7.5987},
-        {id:"474", n:"Alandroal", p:"ADL-00011", m:"Av. de Olivença", lat:38.7023, lon:-7.4012},
-        {id:"478", n:"Reguengos Monsaraz", p:"RMZ-00011", m:"Av. de Mourão", lat:38.4234, lon:-7.5345},
-        {id:"479", n:"Vendas Novas", p:"VNV-00011", m:"Rua de Domingos Sávio", lat:38.6789, lon:-8.4567},
-        {id:"483", n:"Alcácer do Sal", p:"ASL-00012", m:"Av. José de Matos Victória", lat:38.3745, lon:-8.5123},
-        {id:"486", n:"Ferreira do Alentejo", p:"FAL-00011", m:"Rua de Beja", lat:38.0567, lon:-8.1123},
-        {id:"488", n:"S. Teotónio", p:"ODM-00013", m:"Rua de Odemira", lat:37.5123, lon:-8.6987},
-        {id:"492", n:"Almodôvar", p:"ADV-00011", m:"Rua de Mértola", lat:37.5134, lon:-8.0654},
-        {id:"502", n:"Castro Verde", p:"CVR-00011", m:"Av. 1º de Maio", lat:37.7023, lon:-8.0876},
-        {id:"507", n:"Estremoz", p:"ETZ-00011", m:"Rua de S. Domingos", lat:38.8456, lon:-7.5876},
-        {id:"511", n:"Mértola", p:"MTL-00011", m:"Rua de Beja", lat:37.6432, lon:-7.6654},
-        {id:"526", n:"Albufeira - Guia", p:"ABF-00060", m:"E.N. 125", lat:37.1234, lon:-8.3012},
-        {id:"527", n:"Monchique", p:"MCQ-00011", m:"Rua de Portimão", lat:37.3123, lon:-8.5567},
-        {id:"529", n:"Vila do Bispo", p:"VBP-00011", m:"Rua de Lagos", lat:37.0876, lon:-8.9123},
-        {id:"536", n:"S. Bartolomeu Messines", p:"SLV-00020", m:"Rua da Liberdade", lat:37.2567, lon:-8.2876},
-        {id:"539", n:"Aljezur", p:"AJZ-00011", m:"Rua da Escola", lat:37.3123, lon:-8.8012},
-        {id:"544", n:"S. Brás de Alportel", p:"SBA-00011", m:"Av. da Liberdade", lat:37.1567, lon:-7.8876},
-        {id:"546", n:"Castro Marim", p:"CTM-00011", m:"Rua de Espanha", lat:37.2123, lon:-7.4432},
-        {id:"548", n:"Portel", p:"PRL-00011", m:"Rua de Évora", lat:38.3012, lon:-7.7023},
-        {id:"552", n:"Alter do Chão", p:"ALT-00011", m:"Rua de Portalegre", lat:39.1987, lon:-7.6654},
-        {id:"557", n:"Arraiolos", p:"ARL-00011", m:"Rua de Évora", lat:38.7234, lon:-7.9876},
-        {id:"561", n:"Redondo", p:"RDD-00011", m:"Rua de Évora", lat:38.6432, lon:-7.5432},
-        {id:"562", n:"Mourão", p:"MRN-00011", m:"Rua de Reguengos", lat:38.3876, lon:-7.3456},
-        {id:"594", n:"Olhão - Quelfes", p:"OLH-00034", m:"Av. Bernardino da Silva", lat:37.0345, lon:-7.8432},
-        {id:"596", n:"Faro - Penha", p:"FAO-00049", m:"Rua da Penha", lat:37.0212, lon:-7.9321},
-        {id:"603", n:"V. N. Gaia - Canidelo", p:"VNG-00123", m:"Rua da Bélgica", lat:41.1248, lon:-8.6472},
-        {id:"609", n:"Matosinhos - Leça", p:"MAT-00101", m:"Rua de Santa Catarina", lat:41.1923, lon:-8.6987},
-        {id:"612", n:"Faro - Estoi", p:"FAO-00050", m:"Rua de Faro", lat:37.0987, lon:-7.8965},
-        {id:"618", n:"Sintra - Cacém", p:"SNT-00194", m:"Rua da Bela vista 31", lat:38.7627, lon:-9.3070},
-        {id:"622", n:"Loulé - Caliços", p:"LLE-00069", m:"Av. Algarve - Caliços", lat:37.1021, lon:-8.0014},
-        {id:"639", n:"Aveiro - Verdemilho", p:"AVR-00045", m:"Avenida da Europa", lat:40.6133, lon:-8.6555},
-        {id:"642", n:"Albufeira - Ferreiras", p:"ABF-00061", m:"Rua das Ferreiras", lat:37.1234, lon:-8.2456},
-        {id:"250", n:"Gaia - S.Felix Marinha", p:"VFR-00101", m:"R dos Loureiro n35", lat:41.0305, lon:-8.6407},
-        {id:"256", n:"Gaia - Pedroso", p:"VNG-00124", m:"Lgo Alminhas Barrancas", lat:41.0463, lon:-8.5657},
-        {id:"274", n:"Gaia - Gulpilhares", p:"VNG-00125", m:"R Salvador Brandão 1316", lat:41.0716, lon:-8.6260},
-        {id:"323", n:"Palmela", p:"PLM-00045", m:"EN 379, km 34,9", lat:38.5773, lon:-8.8984},
-        {id:"326", n:"Seixal - Amora", p:"SXL-00106", m:"Av. Baía do Seixal", lat:38.6306, lon:-9.1186},
-        {id:"336", n:"Sesimbra - Alfarim", p:"SSB-00034", m:"Av João Paulo II", lat:38.4851, lon:-9.1044},
-        {id:"342", n:"Setúbal - S.Sebastião", p:"STB-00055", m:"Av da Bela Vista", lat:38.5215, lon:-8.8726},
-        {id:"563", n:"Viseu - Repeses", p:"VIS-00115", m:"E.N. 2", lat:40.6432, lon:-7.9123},
-        {id:"565", n:"Viseu - Estrada de Satão", p:"VIS-00116", m:"Estrada de Satão", lat:40.6654, lon:-7.9012},
-        {id:"570", n:"Anadia", p:"AND-00031", m:"Rua das Flores", lat:40.4419, lon:-8.4497},
-        {id:"571", n:"Oliveira Hospital", p:"OHP-00022", m:"Rotunda do Empresário", lat:40.3567, lon:-7.8543},
-        {id:"572", n:"Ovar", p:"OVR-00032", m:"Rua de Timor", lat:40.8567, lon:-8.6234},
-        {id:"576", n:"S. J. Madeira", p:"SJM-00051", m:"Rua Oliveira Júnior", lat:40.9012, lon:-8.4987},
-        {id:"579", n:"Porto - Joaquim Bastos", p:"PRT-00311", m:"Rua Joaquim Bastos", lat:41.1567, lon:-8.6432},
-        {id:"584", n:"Arcos de Valdevez", p:"AVV-00013", m:"Rua Dr. Joaquim Barros", lat:41.8456, lon:-8.4123},
-        {id:"585", n:"Albergaria a Velha", p:"ALB-00032", m:"Rua da Liberdade", lat:40.6912, lon:-8.4765},
-        {id:"586", n:"Mozelos", p:"VFR-00100", m:"Rua Silva Aroso", lat:41.2285, lon:-8.6976}
-    ];
+    let currentUser = null, baseLojas = [], returnLojas = [], statusRealtime = {}, lojaAtiva = null, userPos = null;
+    let currentTab = 'todas'; // LISTA vs PERTO vs MAPA
+    let currentFilter = 'todas'; // todas vs feitas vs faltam vs retorno
+    let colegasMarkers = {};
 
-    let map, markers = {}, statusRealtime = {}, lojaAtiva = null;
+    const map = L.map('map', { tap: false, zoomControl: false }).setView([39.5, -8.0], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    const markersLayer = L.layerGroup().addTo(map);
 
-    function initMap() {
-        // Inicia o mapa centrado em Portugal
-        map = L.map('map', { zoomControl: false }).setView([39.5, -8.5], 7);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        
-        // Criar marcadores
-        baseLojas.forEach(s => {
-            const m = L.circleMarker([s.lat, s.lon], {
-                radius: 10, color: 'white', weight: 2, fillColor: '#df0000', fillOpacity: 0.9
-            }).addTo(map);
-            m.on('click', () => abrirLoja(s));
-            markers[s.id] = m;
-        });
+    const pulseIcon = L.divIcon({ className: 'c-pulse', html: '<div class="pulse-marker"></div>', iconSize: [0, 0] });
+    const userMarker = L.marker([0,0], { icon: pulseIcon }).addTo(map);
 
-        ouvirFirebase();
+    function fazerLogin() {
+        auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPass').value).catch(() => alert("Erro no Login"));
     }
+    
+    function fazerLogout() { if(currentUser) db.ref('presenca/' + currentUser.uid).remove().then(() => auth.signOut().then(() => location.reload())); }
 
-    function ouvirFirebase() {
-        db.ref('fase2').on('value', snap => {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            currentUser = user;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'flex';
+            document.getElementById('userDisplay').innerText = user.email.split('@')[0];
+            carregarDados();
+        }
+    });
+
+    async function carregarDados() { // Adicionei async para lidar com as promessas do Papa.parse
+        const urlLojasPrincipais = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
+        const urlLojasRetorno = "https://raw.githubusercontent.com/rikson-matos/lidl/main/Lista%20de%20Station%20ID_Lojas.csv"; // URL da sua nova lista
+
+        // Carregar lista principal
+        const resLojasPrincipais = await new Promise(resolve => {
+            Papa.parse(urlLojasPrincipais, {
+                download: true, header: true, skipEmptyLines: true,
+                complete: resolve
+            });
+        });
+        baseLojas = resLojasPrincipais.data;
+
+        // Carregar lista de retorno
+        const resLojasRetorno = await new Promise(resolve => {
+            Papa.parse(urlLojasRetorno, {
+                download: true, header: true, skipEmptyLines: true,
+                complete: resolve
+            });
+        });
+        // Remove as linhas vazias ou sem dados úteis no início do CSV de retorno
+        returnLojas = resLojasRetorno.data.filter(row => row['Nº Loja'] && row['Nº Loja'].trim() !== '');
+
+        processarDadosLojas(); // Processa os dados após o carregamento de ambas as listas
+
+        db.ref('trabalhos').on('value', snap => {
             statusRealtime = snap.val() || {};
-            atualizarUI();
+            atualizarStats();
+            renderList();
         });
+        monitorarGPS();
+        ouvirPresenca();
     }
 
-    function atualizarUI() {
-        let feitas = 0;
-        
-        // Atualiza Marcadores no Mapa
-        baseLojas.forEach(s => {
-            const isFeito = statusRealtime[s.id] === 'OK';
-            if(isFeito) {
-                feitas++;
-                if(markers[s.id]) markers[s.id].setStyle({fillColor: '#28a745'});
-            } else {
-                if(markers[s.id]) markers[s.id].setStyle({fillColor: '#df0000'});
+    // NOVA FUNÇÃO para processar e cruzar os dados
+    function processarDadosLojas() {
+        const returnMap = new Map();
+        returnLojas.forEach(rLoja => {
+            // Usa o "Nº Loja" como chave para mapear as informações de retorno
+            if (rLoja['Nº Loja']) {
+                returnMap.set(rLoja['Nº Loja'].toString(), {
+                    idPosto: rLoja['ID Posto'],
+                    dataVinilizacao: rLoja['Data de Vinilização'],
+                    marca: rLoja['Marca'],
+                    localEntregaEtiquetas: rLoja['Local Entrega Etiquetas']
+                });
             }
         });
 
-        // Estatísticas
-        document.getElementById('stat-total').innerText = baseLojas.length;
-        document.getElementById('stat-feitas').innerText = feitas;
-        document.getElementById('stat-pct').innerText = Math.round((feitas/baseLojas.length)*100) + '%';
-
-        // Lista
-        document.getElementById('store-list').innerHTML = baseLojas.map(s => `
-            <div class="store-card" onclick='abrirLoja(${JSON.stringify(s)})'>
-                <div><strong>${s.id} - ${s.n}</strong><br><small style="color:#666">${s.p}</small></div>
-                <div style="font-size: 20px; color:${statusRealtime[s.id] === 'OK' ? 'var(--green)' : '#ccc'}">●</div>
-            </div>
-        `).join('');
+        baseLojas.forEach(loja => {
+            // Verifica se a loja na lista principal existe na lista de retorno
+            if (loja.Código && returnMap.has(loja.Código.toString())) {
+                loja.needsReturn = true;
+                Object.assign(loja, returnMap.get(loja.Código.toString())); // Adiciona as info de retorno à loja principal
+            } else {
+                loja.needsReturn = false;
+            }
+        });
+        console.log("Dados de retorno processados.", baseLojas); // Para depuração
     }
 
-    function abrirLoja(s) {
-        lojaAtiva = s;
-        document.getElementById('m-nome').innerText = s.n;
-        document.getElementById('m-morada').innerText = s.m;
-        document.getElementById('m-posto').innerText = s.p;
-        
-        const btn = document.getElementById('btn-concluir');
-        if(statusRealtime[s.id] === 'OK') {
-            btn.innerText = "REVER (ESTÁ CONCLUÍDO)";
-            btn.style.background = "#666";
-        } else {
-            btn.innerText = "MARCAR COMO CONCLUÍDO";
-            btn.style.background = "var(--green)";
+    function monitorarGPS() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(pos => {
+                userPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+                userMarker.setLatLng([userPos.lat, userPos.lon]);
+                db.ref('presenca/' + currentUser.uid).set({
+                    nome: currentUser.email.split('@')[0],
+                    lat: userPos.lat, lon: userPos.lon,
+                    ts: Date.now()
+                });
+            }, null, { enableHighAccuracy: true });
         }
-        
-        document.getElementById('modal').style.display = 'flex';
     }
 
-    function marcarFeito() {
-        if(lojaAtiva) {
-            const novoEstado = statusRealtime[lojaAtiva.id] === 'OK' ? null : 'OK';
-            db.ref('fase2/' + lojaAtiva.id).set(novoEstado);
-            fecharModal();
-        }
+    function ouvirPresenca() {
+        db.ref('presenca').on('value', snap => {
+            const lista = snap.val() || {};
+            Object.keys(colegasMarkers).forEach(id => { if(!lista[id]) { map.removeLayer(colegasMarkers[id]); delete colegasMarkers[id]; } });
+            Object.keys(lista).forEach(id => {
+                if(id === currentUser.uid) return;
+                const c = lista[id];
+                const colegaIcon = L.divIcon({
+                    className: 'c-colega',
+                    html: `<div class="pulse-colega"></div><div class="colega-label">${c.nome}</div>`,
+                    iconSize: [0, 0]
+                });
+                if(colegasMarkers[id]) { colegasMarkers[id].setLatLng([c.lat, c.lon]); }
+                else { colegasMarkers[id] = L.marker([c.lat, c.lon], { icon: colegaIcon }).addTo(map); }
+            });
+        });
     }
 
     function abrirRota() {
-        if(lojaAtiva) {
-            // Tenta abrir no Waze/Google Maps
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.lat},${lojaAtiva.lon}`);
+        if(!lojaAtiva) return;
+        const lat = lojaAtiva.Latitude;
+        const lon = lojaAtiva.Longitude;
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving`;
+        window.open(url, '_blank');
+    }
+
+    function setFilter(filter) {
+        currentFilter = filter;
+        if(currentTab === 'mapa') changeTab('todas'); // Redireciona para a lista ao mudar de filtro, se estiver no mapa
+        renderList();
+    }
+
+    function renderList() {
+        const container = document.getElementById('store-list');
+        if(currentTab !== 'mapa') container.innerHTML = '';
+        markersLayer.clearLayers();
+        
+        let exibir = baseLojas.map((l, i) => ({...l, originalIndex: i}));
+        
+        if (userPos) {
+            exibir.forEach(l => {
+                l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.Latitude), parseFloat(l.Longitude));
+            });
+            if (currentTab === 'perto') exibir.sort((a, b) => a.dist - b.dist);
+        }
+
+        exibir.forEach((loja) => {
+            const id = "loja_" + loja.originalIndex;
+            const status = statusRealtime[id] || { estado: 'LIVRE' };
+            
+            // Lógica de Filtro do Stats Bar
+            if (currentFilter === 'feitas' && status.estado !== 'CONCLUIDO') return;
+            if (currentFilter === 'faltam' && status.estado === 'CONCLUIDO') return;
+            if (currentFilter === 'retorno' && !loja.needsReturn) return; // NOVO FILTRO para lojas de retorno
+
+            let pinColor = '';
+            if (loja.needsReturn) { // Prioridade de cor para retorno se for o caso
+                pinColor = 'var(--orange-return)';
+            } else if (status.estado === 'EM_CURSO') {
+                pinColor = 'orange';
+            } else if (status.estado === 'CONCLUIDO') {
+                pinColor = 'var(--green)';
+            } else {
+                pinColor = 'var(--blue)';
+            }
+            
+            L.circleMarker([loja.Latitude, loja.Longitude], {radius: 8, fillColor: pinColor, color: '#fff', fillOpacity: 0.8, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
+            
+            if(currentTab === 'mapa') return;
+            
+            const div = document.createElement('div');
+            div.className = 'store-item';
+            div.style.borderLeftColor = pinColor;
+            div.innerHTML = `<b>${loja.Nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km' : ''} - ${status.estado} ${loja.needsReturn ? ' (RETORNO)' : ''}</small>`;
+            div.onclick = () => { abrirLoja(id, loja); };
+            container.appendChild(div);
+        });
+
+        if(container.innerHTML === '' && currentTab !== 'mapa') {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">Nenhuma loja encontrada neste filtro.</div>';
         }
     }
 
-    function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+    function abrirLoja(id, loja) {
+        lojaAtiva = { id, ...loja };
+        document.getElementById('m-nome').innerText = loja.Nome;
+        document.getElementById('m-morada').innerText = loja.Morada;
+        const status = statusRealtime[id] || { estado: 'LIVRE' };
+        const info = document.getElementById('status-info');
+        const obs = document.getElementById('obs-texto');
+        const modalReturnInfo = document.getElementById('modal-return-info');
 
-    function switchTab(tab) {
+        // Exibe ou oculta as informações de retorno no modal
+        if (loja.needsReturn) {
+            document.getElementById('m-id-posto').innerText = loja.idPosto || 'N/A';
+            document.getElementById('m-data-vinilizacao').innerText = loja.dataVinilizacao || 'N/A';
+            modalReturnInfo.style.display = 'block';
+        } else {
+            modalReturnInfo.style.display = 'none';
+        }
+        
+        info.innerText = status.estado;
+        info.style.background = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee');
+        obs.style.display = (status.estado === 'EM_CURSO' || status.estado === 'CONCLUIDO') ? 'block' : 'none';
+        obs.value = status.obs || "";
+        
+        document.getElementById('btnStart').style.display = status.estado === 'LIVRE' ? 'block' : 'none';
+        document.getElementById('btnFinish').style.display = status.estado === 'EM_CURSO' ? 'block' : 'none';
+        document.getElementById('btnCancel').style.display = (status.estado === 'EM_CURSO' || status.estado === 'CONCLUIDO') ? 'block' : 'none';
+        
+        document.getElementById('modalTrabalho').style.display = 'flex';
+    }
+
+    function dbAction(acao) {
+        const ref = db.ref('trabalhos/' + lojaAtiva.id);
+        if(acao === 'start') ref.set({ estado: 'EM_CURSO', equipa: currentUser.email.split('@')[0], inicio: Date.now() });
+        else if(acao === 'finish') ref.update({ estado: 'CONCLUIDO', fim: Date.now(), obs: document.getElementById('obs-texto').value });
+        else if(acao === 'cancel') { if(confirm("Deseja limpar o registro desta loja?")) ref.remove(); }
+        closeModal();
+    }
+
+    function changeTab(tab) {
+        currentTab = tab;
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         document.getElementById('tab-' + tab).classList.add('active');
-        
-        document.getElementById('map').style.display = tab === 'mapa' ? 'block' : 'none';
-        document.getElementById('store-list').style.display = tab === 'lista' ? 'block' : 'none';
-        
-        if(tab === 'mapa') {
-            setTimeout(() => map.invalidateSize(), 100);
-        }
+        document.getElementById('store-list').style.display = tab === 'mapa' ? 'none' : 'block';
+        document.getElementById('map-container').style.display = tab === 'mapa' ? 'block' : 'none';
+        if(tab === 'mapa') setTimeout(() => map.invalidateSize(), 200);
+        renderList();
     }
 
-    window.onload = initMap;
-</script>
+    function focarUtilizador() { if(userPos) map.flyTo([userPos.lat, userPos.lon], 16); }
+    
+    function atualizarStats() {
+        const total = baseLojas.length;
+        let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
+        let retorno = baseLojas.filter(loja => loja.needsReturn).length; // Conta lojas que precisam de retorno
 
+        document.getElementById('stat-total').innerText = total;
+        document.getElementById('stat-feitas').innerText = feitas;
+        document.getElementById('stat-falta').innerText = total - feitas;
+        document.getElementById('stat-retorno').innerText = retorno; // Atualiza o novo stat box
+        document.getElementById('stat-pct').innerText = total > 0 ? Math.round((feitas/total)*100) + "%" : "0%";
+    }
+    
+    function calcDist(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2-lat1) * Math.PI / 180, dLon = (lon2-lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+        return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+    }
+    
+    function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
+</script>
 </body>
 </html>
