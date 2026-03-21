@@ -3,222 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LIDL - Fase 2: Correção de IDs</title>
+    <title>LIDL - Correção de IDs</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
-        
-        #header { background: var(--blue); color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000; position: relative; }
-        
-        #map-container { height: calc(100% - 110px); width: 100%; position: relative; }
-        #map { height: 100%; width: 100%; }
-
-        .stat-bar { background: white; padding: 8px; display: flex; justify-content: space-around; font-size: 11px; border-bottom: 1px solid #ddd; }
-        .stat-item { text-align: center; }
-        .stat-item strong { display: block; font-size: 14px; color: var(--blue); }
-
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 30000; }
-        .modal-box { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; position: relative; text-align: center; }
-        
-        .id-badge { background: #fff3cd; border: 2px dashed #ffc107; padding: 15px; margin: 15px 0; border-radius: 8px; }
-        .id-badge small { display: block; color: #856404; font-weight: bold; margin-bottom: 5px; }
-        .id-badge strong { font-size: 28px; letter-spacing: 1px; color: black; }
-
-        .btn { width: 100%; padding: 14px; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
-        textarea { width: 100%; height: 60px; margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-
-        #tab-bar { position: fixed; bottom: 0; width: 100%; height: 60px; background: white; display: flex; border-top: 1px solid #ddd; z-index: 1000; }
-        .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; color: #666; }
-        .tab.active { color: var(--blue); font-weight: bold; }
-        
-        #store-list { height: calc(100% - 110px); overflow-y: auto; background: white; display: none; }
-        .store-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f4f4f4; overflow: hidden; }
+        #header { background: var(--blue); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .stats-bar { display: flex; background: white; padding: 10px; border-bottom: 2px solid var(--yellow); }
+        .stat-item { text-align: center; flex: 1; font-size: 12px; }
+        .stat-val { font-weight: bold; font-size: 16px; display: block; color: var(--blue); }
+        #map { height: calc(100vh - 175px); width: 100%; }
+        #store-list { height: calc(100vh - 175px); overflow-y: auto; display: none; background: white; }
+        .store-card { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .tabs { display: flex; background: white; border-top: 1px solid #ddd; position: fixed; bottom: 0; width: 100%; height: 60px; }
+        .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none; background: none; font-size: 12px; color: #888; }
+        .tab.active { color: var(--blue); border-top: 3px solid var(--blue); }
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .modal-content { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 15px; text-align: center; }
+        .badge { background: #fff3cd; border: 2px dashed #ffc107; padding: 15px; margin: 15px 0; border-radius: 10px; font-size: 24px; font-weight: bold; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="header">
-        <div><h3 style="margin:0; font-size: 16px;">LIDL - FASE 2</h3><small>Correção de Numeração</small></div>
-        <div id="user-info" style="font-size: 11px; text-align: right;"></div>
+<div id="header"><strong>LIDL FASE 2</strong><span>Operador</span></div>
+
+<div class="stats-bar">
+    <div class="stat-item"><span class="stat-val" id="stat-total">0</span>Total</div>
+    <div class="stat-item"><span class="stat-val" id="stat-feitas" style="color:var(--green)">0</span>Feitas</div>
+    <div class="stat-item"><span class="stat-val" id="stat-pct">0%</span>Progresso</div>
+</div>
+
+<div id="map"></div>
+<div id="store-list"></div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h3 id="m-nome">Loja</h3>
+        <p id="m-morada" style="font-size: 12px; color: #666;"></p>
+        <div class="badge"><small style="font-size: 10px; display: block;">COLAR VINIL Nº:</small><span id="m-posto">---</span></div>
+        <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 VER NO MAPA</button>
+        <button id="btn-acao" class="btn" style="background: var(--green); color: white;" onclick="concluir()">MARCAR COMO FEITO</button>
+        <button class="btn" style="background: #eee;" onclick="fecharModal()">FECHAR</button>
     </div>
+</div>
 
-    <div class="stat-bar">
-        <div class="stat-item">Lojas<strong id="stat-total">0</strong></div>
-        <div class="stat-item">Feitas<strong id="stat-feitas" style="color: var(--green)">0</strong></div>
-        <div class="stat-item">Faltam<strong id="stat-falta" style="color: var(--red)">0</strong></div>
-        <div class="stat-item">Progresso<strong id="stat-pct">0%</strong></div>
-    </div>
+<div class="tabs">
+    <button class="tab active" onclick="switchTab('mapa', this)">🗺️ MAPA</button>
+    <button class="tab" onclick="switchTab('lista', this)">📋 LISTA</button>
+</div>
 
-    <div id="map-container">
-        <div id="map"></div>
-    </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
-    <div id="store-list"></div>
+<script>
+    // --- COLOQUE SEUS DADOS DO FIREBASE AQUI ---
+    const firebaseConfig = { databaseURL: "https://SEU-PROJETO.firebaseio.com" };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    <div id="modalTrabalho" class="modal">
-        <div class="modal-box">
-            <h2 id="m-nome" style="color: var(--blue); margin:0;">Loja</h2>
-            <p id="m-morada" style="font-size: 12px; color: #666; margin-bottom: 10px;"></p>
+    let map, stores = [], statusRealtime = {}, lojaAtiva = null;
+
+    async function carregarDados() {
+        try {
+            const r = await fetch('lista_correcao.csv?v=' + Date.now());
+            const txt = await r.text();
+            const linhas = txt.split('\n').filter(l => l.trim().length > 0);
             
-            <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 ROTA NO GOOGLE MAPS</button>
-            
-            <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 8px; border-radius: 5px;"></div>
+            stores = linhas.slice(1).map(linha => {
+                const c = linha.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // Regex para lidar com vírgulas em moradas
+                return {
+                    id: c[0].trim(),
+                    nome: c[1].trim(),
+                    posto: c[2].trim(),
+                    morada: c[3].replace(/"/g, '').trim(),
+                    lat: parseFloat(c[4]),
+                    lon: parseFloat(c[5])
+                };
+            }).filter(s => !isNaN(s.lat));
 
-            <div class="id-badge">
-                <small>NÚMERO DO VINIL A APLICAR:</small>
-                <strong id="display-id-posto">---</strong>
+            initMap();
+            ouvirFirebase();
+        } catch (e) { alert("Erro ao carregar lista_correcao.csv"); }
+    }
+
+    function initMap() {
+        map = L.map('map', { zoomControl: false }).setView([38.74, -9.14], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    }
+
+    function ouvirFirebase() {
+        db.ref('fase2').on('value', snap => {
+            statusRealtime = snap.val() || {};
+            atualizarInterface();
+        });
+    }
+
+    function atualizarInterface() {
+        const feitas = Object.values(statusRealtime).filter(v => v === 'OK').length;
+        document.getElementById('stat-total').innerText = stores.length;
+        document.getElementById('stat-feitas').innerText = feitas;
+        document.getElementById('stat-pct').innerText = Math.round((feitas/stores.length)*100) + '%';
+
+        // Atualizar Marcadores
+        map.eachLayer(l => { if(l instanceof L.CircleMarker) map.removeLayer(l); });
+        stores.forEach(s => {
+            const feito = statusRealtime[s.id] === 'OK';
+            const marker = L.circleMarker([s.lat, s.lon], {
+                radius: 10, color: 'white', weight: 2, fillColor: feito ? '#28a745' : '#df0000', fillOpacity: 0.9
+            }).addTo(map);
+            marker.on('click', () => abrirLoja(s));
+        });
+
+        // Atualizar Lista
+        document.getElementById('store-list').innerHTML = stores.map(s => `
+            <div class="store-card" onclick='abrirLoja(${JSON.stringify(s)})'>
+                <div><strong>${s.nome}</strong><br><small>${s.posto}</small></div>
+                <div style="color:${statusRealtime[s.id] === 'OK' ? 'green' : '#ccc'}">●</div>
             </div>
+        `).join('');
+    }
 
-            <textarea id="obs-texto" placeholder="Observações (opcional)..."></textarea>
-            
-            <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">ESTOU NO LOCAL</button>
-            <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">VINIL APLICADO (CONCLUIR)</button>
-            
-            <button class="btn" style="background: #eee;" onclick="closeModal()">FECHAR</button>
-        </div>
-    </div>
+    function abrirLoja(s) {
+        lojaAtiva = s;
+        document.getElementById('m-nome').innerText = s.nome;
+        document.getElementById('m-morada').innerText = s.morada;
+        document.getElementById('m-posto').innerText = s.posto;
+        document.getElementById('modal').style.display = 'flex';
+    }
 
-    <div id="tab-bar">
-        <div id="tab-mapa" class="tab active" onclick="switchTab('mapa')"><span>📍</span>MAPA</div>
-        <div id="tab-lista" class="tab" onclick="switchTab('lista')"><span>📋</span>LISTA</div>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-    <script>
-        // CONFIGURAÇÃO FIREBASE (Use as suas chaves aqui!)
-        const firebaseConfig = { databaseURL: "https://SEU-PROJETO.firebaseio.com" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        let map, userMarker, baseLojas = [], statusRealtime = {}, userPos = null;
-        let lojaAtiva = null;
-
-        // Carregar dados da Fase 2
-        fetch('lista_correcao.csv')
-            .then(res => res.text())
-            .then(csv => {
-                const linhas = csv.split('\n').slice(1);
-                baseLojas = linhas.map(l => {
-                    const c = l.split(',');
-                    if(c.length < 6) return null;
-                    return { id: c[0], nome: c[1], idPosto: c[2], morada: c[3], lat: parseFloat(c[4]), lon: parseFloat(c[5]) };
-                }).filter(x => x);
-                initApp();
-            });
-
-        function initApp() {
-            map = L.map('map', { zoomControl: false }).setView([38.74, -9.14], 12);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-            
-            // Ouvir alterações no Firebase (usamos um nó diferente para a fase 2)
-            db.ref('fase2_correcoes').on('value', snapshot => {
-                statusRealtime = snapshot.val() || {};
-                renderMarkers();
-                renderList();
-                atualizarStats();
-            });
-
-            if(navigator.geolocation) {
-                navigator.geolocation.watchPosition(p => {
-                    userPos = { lat: p.coords.latitude, lon: p.coords.longitude };
-                    if(!userMarker) userMarker = L.circleMarker([userPos.lat, userPos.lon], {color: 'blue', fillOpacity: 1, radius: 6}).addTo(map);
-                    else userMarker.setLatLng([userPos.lat, userPos.lon]);
-                });
-            }
+    function concluir() {
+        if(lojaAtiva) {
+            db.ref('fase2/' + lojaAtiva.id).set('OK');
+            fecharModal();
         }
+    }
 
-        function renderMarkers() {
-            map.eachLayer(l => { if(l instanceof L.Marker) map.removeLayer(l); });
-            baseLojas.forEach(loja => {
-                const status = statusRealtime[loja.id]?.estado || 'LIVRE';
-                const cor = status === 'CONCLUIDO' ? 'green' : (status === 'EM_CURSO' ? 'orange' : 'red');
-                const m = L.marker([loja.lat, loja.lon], {
-                    icon: L.divIcon({
-                        className: 'custom-div-icon',
-                        html: `<div style="background:${cor}; width:12px; height:12px; border:2px solid white; border-radius:50%;"></div>`
-                    })
-                }).addTo(map);
-                m.on('click', () => abrirLoja(loja.id, loja));
-            });
-        }
+    function abrirRota() {
+        window.open(`https://www.google.com/maps?q=${lojaAtiva.lat},${lojaAtiva.lon}`);
+    }
 
-        function abrirLoja(id, loja) {
-            lojaAtiva = { id, ...loja };
-            document.getElementById('m-nome').innerText = loja.nome;
-            document.getElementById('m-morada').innerText = loja.morada;
-            document.getElementById('display-id-posto').innerText = loja.idPosto;
-            
-            const status = statusRealtime[id] || { estado: 'LIVRE' };
-            const info = document.getElementById('status-info');
-            
-            info.innerText = status.estado === 'CONCLUIDO' ? '✅ VINIL APLICADO' : (status.estado === 'EM_CURSO' ? '⚠️ EM CORREÇÃO...' : 'Pendente');
-            info.style.background = status.estado === 'CONCLUIDO' ? '#d4edda' : (status.estado === 'EM_CURSO' ? '#fff3cd' : '#eee');
-            
-            document.getElementById('btnStart').style.display = status.estado === 'LIVRE' ? 'block' : 'none';
-            document.getElementById('btnFinish').style.display = status.estado === 'EM_CURSO' ? 'block' : 'none';
-            document.getElementById('obs-texto').value = status.obs || "";
-            
-            document.getElementById('modalTrabalho').style.display = 'flex';
-        }
+    function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 
-        function dbAction(acao) {
-            const ref = db.ref('fase2_correcoes/' + lojaAtiva.id);
-            if(acao === 'start') {
-                ref.set({ estado: 'EM_CURSO', inicio: Date.now() });
-            } else if(acao === 'finish') {
-                ref.update({ 
-                    estado: 'CONCLUIDO', 
-                    fim: Date.now(), 
-                    obs: document.getElementById('obs-texto').value,
-                    id_aplicado: lojaAtiva.idPosto 
-                });
-            }
-            closeModal();
-        }
+    function switchTab(tab, el) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('map').style.display = tab === 'mapa' ? 'block' : 'none';
+        document.getElementById('store-list').style.display = tab === 'lista' ? 'block' : 'none';
+        if(tab === 'mapa') map.invalidateSize();
+    }
 
-        function abrirRota() {
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.lat},${lojaAtiva.lon}`);
-        }
-
-        function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-            document.getElementById('store-list').style.display = tab === 'lista' ? 'block' : 'none';
-            document.getElementById('map-container').style.display = tab === 'mapa' ? 'block' : 'none';
-            if(tab === 'mapa') setTimeout(() => map.invalidateSize(), 200);
-        }
-
-        function renderList() {
-            const list = document.getElementById('store-list');
-            list.innerHTML = baseLojas.map(loja => {
-                const status = statusRealtime[loja.id]?.estado || 'LIVRE';
-                const cor = status === 'CONCLUIDO' ? 'var(--green)' : 'gray';
-                return `
-                    <div class="store-item" onclick="abrirLoja('${loja.id}', ${JSON.stringify(loja).replace(/"/g, '&quot;')})">
-                        <div>
-                            <strong>${loja.nome}</strong><br>
-                            <small>ID: ${loja.idPosto}</small>
-                        </div>
-                        <span style="color:${cor}">${status === 'CONCLUIDO' ? '✔' : '○'}</span>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function atualizarStats() {
-            const total = baseLojas.length;
-            const feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
-            document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-feitas').innerText = feitas;
-            document.getElementById('stat-falta').innerText = total - feitas;
-            document.getElementById('stat-pct').innerText = total > 0 ? Math.round((feitas/total)*100) + "%" : "0%";
-        }
-    </script>
+    carregarDados();
+</script>
 </body>
 </html>
