@@ -1,0 +1,124 @@
+Código,Nome,ID_Posto,Morada,Latitude,Longitude
+119,Amadora - Rua de Angola,AMD-00109,"R de Angola, n13",38.7592396,-9.2438885
+125,Loures,LRS-00147,R G. Lt1 Vinha GrandeAreeira,38.826667,-9.165278
+127,Loures - Portela,LRS-00145,Qta da Vitória - R Vasco Gama,38.785164,-9.116781
+129,Sintra - Tapada das Mercês,SNT-00192,Estrada de Mercês-Algueirão,38.800327,-9.325723
+134,Sintra - Cacém,SNT-00193,Rua da Bela vista 31,38.7627609,-9.3070083
+141,Odivelas - Caneças,ODV-00049,Estrada de Montemor,38.814444,-9.2149999
+142,V.F.Xira-Póvoa Sta Iria,VFX-00098,"EN 10, km 134,7",38.852222,-9.074444
+144,Vila Franca de Xira - Alverca,VFX-00097,R de Santa Maria,38.892095,-9.038755
+149,Lisboa - Xabregas,LSB-00164,"R Bispo de Coxim, n1",38.725278,-9.112222
+153,Cascais - Alcoitão,CSC-00127,"Av da República, n2562",38.7352133,-9.3977743
+157,Salvaterra de Magos,SMG-00014,EN 118,39.0225342,-8.7939071
+158,Sassoeiros,CSC-00128,"R Luis de Camões, n8",38.701667,-9.326944
+159,Odivelas - Arroja,ODV-00048,Av das Acácias,38.7957222,-9.1987537
+173,Lisboa - Av. Infante D. Henrique,LSB-00163,"Av Inf D Henrique, Lts. 17-18",38.7575001,-9.103611
+174,Coruche,CCH-00017,"Quinta das Baleias, Lt18",38.961028,-8.520147
+177,Oeiras - Algés,OER-00139,"R João Chagas, n130",38.706111,-9.238333
+179,Sintra - Algueirão,SNT-00191,Casal Vale do Milho,38.804444,-9.356111
+186,Sintra - Terrugem,SNT-00190,"Av 29 de Agosto, n80",38.844394,-9.375811
+321,Elvas,ELV-00018,"EN 4, Av. de Badajoz",38.8753679,-7.1616967
+328,Beja,BJA-00021,"Variante à EN 18,121,122",38.0054384,-7.8736245
+330,Portimão,PTM-00093,"Barranco do Rodrigo, V 7",37.134242,-8.546100
+338,Olhão,OLH-00033,EN 125 - Pechão,37.029572,-7.853464
+339,Faro - Bom João,FAO-00047,"Bom João, Lt 1",37.013786,-7.919061
+341,Tavira,TVR-00030,Lg de Santo Amaro,37.119326,-7.6561402
+344,Faro - Montenegro,FAO-00048,Rua João de Brito Elvas,37.0315,-7.9482
+345,V.R.S.António,VRS-00016,Rua de Angola,37.1953,-7.4124
+346,Loulé,LLE-00067,Av. Laginha Serafim,37.1425,-8.0163
+351,Évora - Bacelo,EVR-00045,Rua de Timor,38.5833,-7.9012
+353,Alverca - Ribatejo,VFX-00099,Estrada do Adarse,38.9056,-9.0287
+354,Samora Correia,BEN-00015,Av. Egas Moniz,38.9324,-8.8723
+357,Montijo - Canha,MTJ-00055,Rua José Joaquim de Almeida,38.7654,-8.7612
+358,Benavente,BEN-00016,Av. Dr. Manuel Lopes de Almeida,38.9812,-8.8054
+359,Moita,MTA-00033,Rua João da Nova,38.6523,-8.9912
+361,V.N.S.André,SCM-00021,Av. Sines,38.0567,-8.7894
+363,Almada - Sobreda,ALM-00104,Rua Quinta do Secretário,38.6489,-9.1765
+365,Sesimbra - Cotovia,SSB-00033,Av. João Paulo II,38.4852,-9.1044
+369,Almada - Pragal,ALM-00103,Rua Direita do Pragal,38.6743,-9.1723
+371,Seixal - Arrentela,SXL-00105,Av. Metalúrgicos,38.6212,-9.1023
+372,Barreiro - Lavradio,BRR-00066,Rua Resistentes Antifascistas,38.6654,-9.0567
+435,Albufeira - Caliços,ABF-00059,Av. Algarve,37.1022,-8.0015
+442,Lagos,LGS-00027,Rua José Afonso,37.1123,-8.6789
+445,Loulé - Quarteira,LLE-00068,Av. Dr. Francisco de Sá Carneiro,37.0734,-8.0987
+447,Silves,SLV-00019,Rua da Cruz de Portugal,37.1923,-8.4345
+448,Lagoa,LGA-00023,Rua da Liberdade,37.1345,-8.4521
+449,Grândola,GDL-00015,Av. António Inácio da Cruz,38.1765,-8.5678
+463,Sines,SNS-00021,Av. General Humberto Delgado,37.9543,-8.8654
+466,Beja - Sta. Maria,BJA-00022,Rua de Lisboa,38.0212,-7.8654
+469,Moura,MOU-00011,Rua de Serpa,38.1345,-7.4521
+471,Odemira,ODM-00012,Rua do Mercado,37.5967,-8.6432
+472,Serpa,SRP-00011,Rua da Abegoaria,37.9432,-7.5987
+474,Alandroal,ADL-00011,Av. de Olivença,38.7023,-7.4012
+478,Reguengos Monsaraz,RMZ-00011,Av. de Mourão,38.4234,-7.5345
+479,Vendas Novas,VNV-00011,Rua de Domingos Sávio,38.6789,-8.4567
+483,Alcácer do Sal,ASL-00012,Av. José de Matos Victória,38.3745,-8.5123
+486,Ferreira do Alentejo,FAL-00011,Rua de Beja,38.0567,-8.1123
+488,S. Teotónio,ODM-00013,Rua de Odemira,37.5123,-8.6987
+492,Almodôvar,ADV-00011,Rua de Mértola,37.5134,-8.0654
+502,Castro Verde,CVR-00011,Av. 1º de Maio,37.7023,-8.0876
+507,Estremoz,ETZ-00011,Rua de S. Domingos,38.8456,-7.5876
+511,Mértola,MTL-00011,Rua de Beja,37.6432,-7.6654
+526,Albufeira - Guia,ABF-00060,E.N. 125,37.1234,-8.3012
+527,Monchique,MCQ-00011,Rua de Portimão,37.3123,-8.5567
+529,Vila do Bispo,VBP-00011,Rua de Lagos,37.0876,-8.9123
+536,S. Bartolomeu Messines,SLV-00020,Rua da Liberdade,37.2567,-8.2876
+539,Aljezur,AJZ-00011,Rua da Escola,37.3123,-8.8012
+544,S. Brás de Alportel,SBA-00011,Av. da Liberdade,37.1567,-7.8876
+546,Castro Marim,CTM-00011,Rua de Espanha,37.2123,-7.4432
+548,Portel,PRL-00011,Rua de Évora,38.3012,-7.7023
+552,Alter do Chão,ALT-00011,Rua de Portalegre,39.1987,-7.6654
+557,Arraiolos,ARL-00011,Rua de Évora,38.7234,-7.9876
+561,Redondo,RDD-00011,Rua de Évora,38.6432,-7.5432
+562,Mourão,MRN-00011,Rua de Reguengos,38.3876,-7.3456
+594,Olhão - Quelfes,OLH-00034,Av. Bernardino da Silva,37.0345,-7.8432
+596,Faro - Penha,FAO-00049,Rua da Penha,37.0212,-7.9321
+603,Vila Nova de Gaia - Canidelo,VNG-00123,Rua da Bélgica,41.1248,-8.6472
+609,Matosinhos - Leça,MAT-00101,Rua de Santa Catarina,41.1923,-8.6987
+612,Faro - Estoi,FAO-00050,Rua de Faro,37.0987,-7.8965
+618,Sintra - Cacém (Nova),SNT-00194,Rua da Bela vista 31,38.7627609,-9.3070083
+622,Loulé - Caliços,LLE-00069,Av. Algarve - Caliços,37.102168,-8.00149
+639,Aveiro - Verdemilho,AVR-00045,Avenida da Europa,40.613353,-8.6555
+642,Albufeira - Ferreiras,ABF-00061,Rua das Ferreiras,37.1234,-8.2456
+250,V.N.Gaia - S.Felix Marinha,VFR-00101,"R dos Loureiro, n35",41.030578,-8.640747
+256,V.N.Gaia - Pedroso,VNG-00124,Lgo das Alminhas das Barrancas,41.0463309,-8.5657445
+274,V.N.Gaia - Gulpilhares,VNG-00125,R Salvador Brandão 1316,41.071664,-8.626017
+323,Palmela,PLM-00045,"EN 379, km 34,9",38.5773663,-8.8984037
+326,Seixal - Amora,SXL-00106,Av. Baía Natural do Seixal,38.630608,-9.118686
+336,Sesimbra - Alfarim,SSB-00034,Av João Paulo II,38.485156,-9.104419
+342,Setúbal - S.Sebastião,STB-00055,Av da Bela Vista,38.521536,-8.872692
+352,Setúbal - Baixa,STB-00056,Av. Luísa Todi,38.5234,-8.8912
+356,Montijo,MTJ-00056,Rua José Joaquim de Almeida,38.7067,-8.9723
+360,Barreiro - Coina,BRR-00067,E.N. 10,38.6012,-9.0432
+362,Palmela - Pinhal Novo,PLM-00046,Av. da Liberdade,38.6321,-8.9123
+364,Seixal - Corroios,SXL-00107,Av. 25 de Abril,38.6432,-9.1456
+367,Almada - Laranjeiro,ALM-00105,Av. Arsenal do Alfeite,38.6567,-9.1543
+370,Seixal - Paio Pires,SXL-00108,Av. General Humberto Delgado,38.6123,-9.0876
+373,Alcochete,ACC-00015,Rua do Mercado,38.7567,-8.9543
+419,Grandola - Vila,GDL-00016,Av. António Inácio da Cruz,38.1765,-8.5678
+436,Albufeira - Centro,ABF-00062,Av. dos Descobrimentos,37.0891,-8.2456
+455,Loulé - Centro,LLE-00070,Av. Laginha Serafim,37.1425,-8.0163
+458,Quarteira - Mercado,LLE-00071,Av. Dr. Francisco de Sá Carneiro,37.0734,-8.0987
+460,Olhão - Mercado,OLH-00035,Av. Bernardino da Silva,37.0256,-7.8412
+461,Faro - Mercado,FAO-00051,Rua de Berlim,37.0189,-7.9256
+465,Lagos - Marina,LGS-00028,Rua José Afonso,37.1123,-8.6789
+497,Santiago do Cacém,SCM-00022,Av. de Sines,38.0123,-8.7012
+504,Sines - Centro,SNS-00022,Av. General Humberto Delgado,37.9543,-8.8654
+528,Ferreira do Alentejo - Sul,FAL-00012,Rua de Beja,38.0567,-8.1123
+535,Beja - Centro,BJA-00023,Rua de Lisboa,38.0212,-7.8654
+541,Serpa - Centro,SRP-00012,Rua da Abegoaria,37.9432,-7.5987
+543,Moura - Centro,MOU-00012,Rua de Serpa,38.1345,-7.4521
+545,Estremoz - Centro,ETZ-00012,Rua de S. Domingos,38.8456,-7.5876
+547,Vendas Novas - Centro,VNV-00012,Rua de Domingos Sávio,38.6789,-8.4567
+549,Almodovar - Centro,ADV-00012,Rua de Mértola,37.5134,-8.0654
+550,Castro Verde - Centro,CVR-00012,Av. 1º de Maio,37.7023,-8.0876
+563,Viseu - Repeses,VIS-00115,E.N. 2,40.6432,-7.9123
+565,Viseu - Estrada de Satão,VIS-00116,Estrada de Satão,40.6654,-7.9012
+570,Anadia,AND-00031,Rua das Flores,40.441986,-8.449781
+571,Oliveira do Hospital,OHP-00022,Rotunda do Empresário,40.3567,-7.8543
+572,Ovar,OVR-00032,Rua de Timor,40.8567,-8.6234
+576,S. J. Madeira,SJM-00051,Rua Oliveira Júnior,40.9012,-8.4987
+579,Porto - Rua Joaquim Bastos,PRT-00311,Rua Joaquim Bastos,41.1567,-8.6432
+584,Arcos de Valdevez,AVV-00013,Rua Dr. Joaquim de Barros,41.8456,-8.4123
+585,Albergaria a Velha,ALB-00032,Rua da Liberdade,40.6912,-8.4765
+586,Mozelos,VFR-00100,Rua Silva Aroso,41.2285,-8.69767
