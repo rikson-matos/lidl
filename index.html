@@ -3,44 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lidl - Ação Vinil 112</title>
+    <title>Lidl PRO - Vinil 112</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
-        
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         #app-content { display: none; height: 100%; flex-direction: column; }
-        
         #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
         #stats-bar { background: var(--dark); color: white; padding: 12px 8px; font-size: 11px; display: flex; justify-content: space-around; text-align: center; border-bottom: 2px solid var(--yellow); }
         .stat-box b { display: block; font-size: 18px; color: var(--yellow); }
-        
         .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
         .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 11px; font-weight: bold; color: #666; }
         .tab.active { background: white; border-bottom: 4px solid var(--yellow); color: var(--blue); }
-        
         #content-wrapper { height: calc(100vh - 110px); position: relative; }
         #store-list { height: 100%; overflow-y: auto; padding: 10px; box-sizing: border-box; }
         #map-container { height: 100%; width: 100%; display: none; position: absolute; top: 0; left: 0; }
         #map { height: 100%; width: 100%; }
-        
         .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 8px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; }
         .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; max-height: 90vh; overflow-y: auto; }
         .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
-        
         .vinil-box { background: #fff8e1; border: 2px dashed #ff8c00; padding: 15px; border-radius: 10px; margin: 15px 0; }
-        .vinil-number { display: block; font-size: 32px; color: var(--red); font-weight: 900; margin-top: 5px; letter-spacing: 1px; }
-
+        .vinil-number { display: block; font-size: 32px; color: var(--red); font-weight: 900; margin-top: 5px; }
         .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--blue); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .pulse-marker { background: var(--gps-blue); border-radius: 50%; height: 14px; width: 14px; position: absolute; left: -7px; top: -7px; border: 2px solid white; }
-        .pulse-marker::after { content: ""; border: 3px solid var(--gps-blue); border-radius: 50%; height: 40px; width: 40px; position: absolute; left: -16px; top: -16px; animation: pulsate 1.5s ease-out infinite; opacity: 0; }
-        @keyframes pulsate { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
         .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; position: relative; top: 18px; left: -50%; white-space: nowrap;}
-        #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; font-family: inherit;}
     </style>
 </head>
 <body>
@@ -50,63 +39,61 @@
         <h2 style="color: var(--blue); margin-top: 0;">LIDL VINIL 112</h2>
         <input type="email" id="loginEmail" placeholder="E-mail">
         <input type="password" id="loginPass" placeholder="Senha">
-        <button class="btn" style="background: var(--yellow); color: var(--blue);" onclick="fazerLogin()">ACESSAR SISTEMA</button>
+        <button class="btn" style="background: var(--yellow); color: var(--blue);" onclick="fazerLogin()">ACESSAR</button>
         <div id="loginError" style="color: red; font-size: 12px; margin-top: 10px;"></div>
     </div>
 </div>
 
 <div id="app-content">
     <div id="header">
-        <div><h3 style="margin:0; font-size: 16px;">AÇÃO VINIL 112</h3><small id="userDisplay"></small></div>
+        <div><h3 style="margin:0; font-size: 16px;">SISTEMA VINIL</h3><small id="userDisplay"></small></div>
         <button onclick="fazerLogout()" style="background:none; border:1px solid white; color:white; border-radius:4px; font-size:10px; padding:4px 8px;">SAIR</button>
     </div>
     <div id="stats-bar">
-        <div class="stat-box"><b id="stat-total">112</b>Lojas</div>
+        <div class="stat-box"><b>112</b>Lojas</div>
         <div class="stat-box"><b id="stat-feitas" style="color: var(--green);">0</b>Feitas</div>
         <div class="stat-box"><b id="stat-falta" style="color: var(--red);">0</b>Faltam</div>
         <div class="stat-box"><b id="stat-pct">0%</b>Progresso</div>
     </div>
     <div class="tab-bar">
         <div id="tab-lista" class="tab active" onclick="changeTab('lista')">LISTA</div>
-        <div id="tab-perto" class="tab" onclick="changeTab('perto')">MAIS PERTO</div>
-        <div id="tab-mapa" class="tab" onclick="changeTab('mapa')">📍 MAPA</div>
+        <div id="tab-perto" class="tab" onclick="changeTab('perto')">PERTO</div>
+        <div id="tab-mapa" class="tab" onclick="changeTab('mapa')">MAPA</div>
     </div>
     <div id="content-wrapper">
-        <div id="store-list">Sincronizando Firebase...</div>
+        <div id="store-list">Conectando ao Firebase...</div>
         <div id="map-container">
-            <div id="map"></div>
+            <div id="map" style="height: 100%; width: 100%;"></div>
             <button class="gps-button" onclick="focarUtilizador()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3m0 14v3m10-10h-3M5 12H2"></path></svg>
             </button>
         </div>
     </div>
-    <div id="admin-zone" style="display:none; padding:8px; background:#ddd; text-align:center;">
-        <button onclick="migrarParaVinil()" style="font-size:10px; padding:5px; cursor:pointer;">⚙️ RECARREGAR AS 112 LOJAS (CORREÇÃO)</button>
+    <div id="setup-zone" style="display:none; padding:10px; background:#fff; text-align:center;">
+        <button onclick="setupInicialDatabase()" class="btn" style="background:#333; color:white;">⚙️ ATIVAR BASE DE 112 LOJAS NO FIREBASE</button>
     </div>
 </div>
 
 <div id="modalTrabalho" class="modal">
     <div class="modal-box">
-        <h2 id="m-nome" style="color: var(--blue); margin-top:0; font-size: 20px;">Loja</h2>
-        <p id="m-morada" style="font-size: 12px; color: #666;"></p>
+        <h2 id="m-nome" style="color: var(--blue); margin-top:0;">Loja</h2>
         <div class="vinil-box">
-            <div style="font-size: 11px; color: #666; font-weight: bold;">NÚMERO DO VINIL A APLICAR</div>
+            <div style="font-size: 11px; color: #666; font-weight: bold;">NÚMERO DO VINIL</div>
             <span id="m-vinil" class="vinil-number">---</span>
         </div>
-        <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 COMO CHEGAR (ROTA)</button>
+        <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 ROTA NO MAPA</button>
         <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px;"></div>
-        <textarea id="obs-texto" placeholder="Notas/Observações..."></textarea>
+        <textarea id="obs-texto" style="width:100%; height:60px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none;" placeholder="Notas..."></textarea>
         <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR TRABALHO</button>
-        <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR TAREFA</button>
-        <button id="btnCancel" class="btn" style="background: #333; color:white; font-size: 11px;" onclick="dbAction('cancel')">⚠️ LIMPAR REGISTRO</button>
-        <button class="btn" style="background: #eee;" onclick="closeModal()">VOLTAR</button>
+        <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR</button>
+        <button id="btnCancel" class="btn" style="background: #eee; font-size:11px;" onclick="dbAction('cancel')">LIMPAR REGISTRO</button>
+        <button class="btn" style="background: #ddd;" onclick="closeModal()">VOLTAR</button>
     </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
@@ -128,14 +115,11 @@
     const map = L.map('map', { tap: false, zoomControl: false }).setView([39.5, -8.0], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     const markersLayer = L.layerGroup().addTo(map);
-    const userMarker = L.marker([0,0], { icon: L.divIcon({ className: 'c-pulse', html: '<div class="pulse-marker"></div>', iconSize: [0, 0] }) }).addTo(map);
+    const userMarker = L.marker([0,0], { icon: L.divIcon({ className: 'c-pulse', html: '<div style="background:var(--gps-blue); border-radius:50%; width:14px; height:14px; border:2px solid white;"></div>', iconSize: [0, 0] }) }).addTo(map);
 
     function fazerLogin() {
-        const email = document.getElementById('loginEmail').value;
-        const pass = document.getElementById('loginPass').value;
-        auth.signInWithEmailAndPassword(email, pass).catch(() => document.getElementById('loginError').innerText = "E-mail ou senha incorretos.");
+        auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPass').value).catch(() => alert("Erro no Login."));
     }
-    
     function fazerLogout() { if(currentUser) db.ref('presenca/' + currentUser.uid).remove().then(() => auth.signOut().then(() => location.reload())); }
 
     auth.onAuthStateChanged(user => {
@@ -143,20 +127,20 @@
             currentUser = user;
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('app-content').style.display = 'flex';
-            document.getElementById('admin-zone').style.display = 'block';
             document.getElementById('userDisplay').innerText = user.email.split('@')[0];
             inicializarApp();
         }
     });
 
     function inicializarApp() {
-        db.ref('configuracao/vinil_112').on('value', snap => {
+        db.ref('db_vinil_112').on('value', snap => {
             const data = snap.val();
             if (data) {
                 baseLojas = Object.values(data);
                 escutarStatus();
             } else {
-                document.getElementById('store-list').innerHTML = "<div style='padding:20px; text-align:center;'>Sistema Vazio.<br><button class='btn' onclick='migrarParaVinil()'>CARREGAR AS 112 LOJAS AGORA</button></div>";
+                document.getElementById('store-list').innerHTML = "<div style='padding:40px; text-align:center;'>Banco de dados não configurado.</div>";
+                document.getElementById('setup-zone').style.display = 'block';
             }
         });
     }
@@ -175,38 +159,31 @@
         const container = document.getElementById('store-list');
         if(currentTab !== 'mapa') container.innerHTML = '';
         markersLayer.clearLayers();
-        
         let exibir = [...baseLojas];
         if (userPos) {
-            exibir.forEach(l => l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.lat), parseFloat(l.lon)));
+            exibir.forEach(l => l.dist = calcDist(userPos.lat, userPos.lon, l.lat, l.lon));
             if (currentTab === 'perto') exibir.sort((a, b) => a.dist - b.dist);
         }
-
         exibir.forEach(loja => {
             const id = "loja_" + loja.codigo;
             const status = statusRealtime[id] || { estado: 'LIVRE' };
             const pinColor = status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : 'var(--blue)');
-            
-            if(loja.lat && loja.lon) {
-                L.circleMarker([loja.lat, loja.lon], {radius: 9, fillColor: pinColor, color: '#fff', fillOpacity: 0.9, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
+            L.circleMarker([loja.lat, loja.lon], {radius: 10, fillColor: pinColor, color: '#fff', fillOpacity: 0.9, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
+            if(currentTab !== 'mapa') {
+                const div = document.createElement('div');
+                div.className = 'store-item';
+                div.style.borderLeftColor = pinColor;
+                div.innerHTML = `<b>${loja.nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km | ' : ''} Vinil: <b>${loja.vinil}</b></small>`;
+                div.onclick = () => abrirLoja(id, loja);
+                container.appendChild(div);
             }
-            
-            if(currentTab === 'mapa') return;
-            
-            const div = document.createElement('div');
-            div.className = 'store-item';
-            div.style.borderLeftColor = pinColor;
-            div.innerHTML = `<b>${loja.nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km | ' : ''} Vinil: <b>${loja.idPosto}</b></small>`;
-            div.onclick = () => abrirLoja(id, loja);
-            container.appendChild(div);
         });
     }
 
     function abrirLoja(id, loja) {
         lojaAtiva = { id, ...loja };
         document.getElementById('m-nome').innerText = loja.nome;
-        document.getElementById('m-morada').innerText = loja.morada || "Endereço no sistema";
-        document.getElementById('m-vinil').innerText = loja.idPosto;
+        document.getElementById('m-vinil').innerText = loja.vinil;
         const status = statusRealtime[id] || { estado: 'LIVRE' };
         const info = document.getElementById('status-info');
         info.innerText = status.estado;
@@ -215,7 +192,6 @@
         document.getElementById('obs-texto').value = status.obs || "";
         document.getElementById('btnStart').style.display = status.estado === 'LIVRE' ? 'block' : 'none';
         document.getElementById('btnFinish').style.display = status.estado === 'EM_CURSO' ? 'block' : 'none';
-        document.getElementById('btnCancel').style.display = (status.estado !== 'LIVRE') ? 'block' : 'none';
         document.getElementById('modalTrabalho').style.display = 'flex';
     }
 
@@ -223,7 +199,7 @@
         const ref = db.ref('status_vinil/' + lojaAtiva.id);
         if(acao === 'start') ref.set({ estado: 'EM_CURSO', user: currentUser.email.split('@')[0], ts: Date.now() });
         else if(acao === 'finish') ref.update({ estado: 'CONCLUIDO', endTs: Date.now(), obs: document.getElementById('obs-texto').value });
-        else if(confirm("Deseja limpar o registro desta loja?")) ref.remove();
+        else if(confirm("Deseja limpar?")) ref.remove();
         closeModal();
     }
 
@@ -262,12 +238,10 @@
     }
 
     function atualizarStats() {
-        const total = baseLojas.length || 112;
         let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
-        document.getElementById('stat-total').innerText = total;
         document.getElementById('stat-feitas').innerText = feitas;
-        document.getElementById('stat-falta').innerText = total - feitas;
-        document.getElementById('stat-pct').innerText = Math.round((feitas/total)*100) + "%";
+        document.getElementById('stat-falta').innerText = 112 - feitas;
+        document.getElementById('stat-pct').innerText = Math.round((feitas/112)*100) + "%";
     }
 
     function calcDist(lat1, lon1, lat2, lon2) {
@@ -281,54 +255,14 @@
     function abrirRota() { window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.lat},${lojaAtiva.lon}`, '_blank'); }
     function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
 
-    // SISTEMA DE MIGRAÇÃO INTELIGENTE (112 LOJAS)
-    async function migrarParaVinil() {
-        if(!confirm("Atenção: Isso vai resetar e carregar as 112 lojas corretamente. Continuar?")) return;
-        
-        try {
-            const url300 = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
-            const url112 = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista.csv";
-            
-            const r300 = await new Promise(resolve => Papa.parse(url300, {download:true, header:true, complete:resolve}));
-            const coordsMap = {};
-            r300.data.forEach(row => {
-                if(row.Código) coordsMap[row.Código.trim()] = { lat: row.Latitude, lon: row.Longitude, morada: row.Morada };
-            });
-
-            // COORDENADAS MANUAIS DAS LOJAS QUE FALTAM NA BASE ANTIGA
-            coordsMap["134"] = { lat: "38.7627", lon: "-9.3070", morada: "Sintra - Cacém" };
-            coordsMap["646"] = { lat: "38.5835", lon: "-9.0022", morada: "Penalva (Barreiro)" };
-
-            const response112 = await fetch(url112);
-            let text112 = await response112.text();
-            text112 = text112.replace(/^,+[\r\n]+/gm, '').replace(/^,/gm, '');
-            
-            const r112 = await new Promise(resolve => Papa.parse(text112, {header:true, complete:resolve}));
-            const listaFinal = {};
-
-            r112.data.forEach(row => {
-                const cod = row['Nº Loja'] ? row['Nº Loja'].trim() : null;
-                const dataVinil = row['Data de Vinilização'] ? row['Data de Vinilização'].toLowerCase() : '';
-                
-                if(cod && dataVinil.includes('antes')) {
-                    const infoCoords = coordsMap[cod];
-                    if(infoCoords) {
-                        listaFinal["loja_" + cod] = {
-                            codigo: cod,
-                            nome: row['Nome de Loja'],
-                            idPosto: row['ID Posto'],
-                            lat: infoCoords.lat,
-                            lon: infoCoords.lon,
-                            morada: infoCoords.morada
-                        };
-                    }
-                }
-            });
-            
-            await db.ref('configuracao/vinil_112').set(listaFinal);
-            alert("MIGRAÇÃO CONCLUÍDA: " + Object.keys(listaFinal).length + " lojas carregadas.");
+    // FUNÇÃO QUE COLOCA AS 112 LOJAS NO FIREBASE SEM PRECISAR DE ARQUIVO EXTERNO
+    async function setupInicialDatabase() {
+        const data112 = {"loja_119":{"codigo":"119","nome":"Amadora - Rua de Angola","vinil":"AMD-00109","lat":38.7592,"lon":-9.2438},"loja_125":{"codigo":"125","nome":"Loures","vinil":"LRS-00147","lat":38.8266,"lon":-9.1652},"loja_127":{"codigo":"127","nome":"Loures - Portela","vinil":"LRS-00145","lat":38.7851,"lon":-9.1167},"loja_129":{"codigo":"129","nome":"Sintra - Tapada das Mercês","vinil":"SNT-00192","lat":38.8003,"lon":-9.3257},"loja_134":{"codigo":"134","nome":"Sintra - Cacém","vinil":"SNT-00193","lat":38.7627,"lon":-9.3070},"loja_141":{"codigo":"141","nome":"Odivelas - Caneças","vinil":"ODV-00049","lat":38.8144,"lon":-9.2149},"loja_142":{"codigo":"142","nome":"V.F.Xira-Póvoa Sta Iria","vinil":"VFX-00098","lat":38.8522,"lon":-9.0744},"loja_144":{"codigo":"144","nome":"V.F.Xira - Alverca","vinil":"VFX-00097","lat":38.8920,"lon":-9.0387},"loja_149":{"codigo":"149","nome":"Lisboa - Xabregas","vinil":"LSB-00979","lat":38.7252,"lon":-9.1122},"loja_153":{"codigo":"153","nome":"Cascais - Alcoitão","vinil":"CSC-00415","lat":38.7352,"lon":-9.3977},"loja_157":{"codigo":"157","nome":"Salvaterra de Magos","vinil":"SMG-00014","lat":39.0225,"lon":-8.7939},"loja_158":{"codigo":"158","nome":"Cascais - Sassoeiros","vinil":"CSC-00416","lat":38.7016,"lon":-9.3269},"loja_159":{"codigo":"159","nome":"Odivelas - Arroja","vinil":"ODV-00050","lat":38.7957,"lon":-9.1987},"loja_173":{"codigo":"173","nome":"Lisboa-Av.Inf.D.Henrique","vinil":"LSB-00977","lat":38.7575,"lon":-9.1036},"loja_174":{"codigo":"174","nome":"Coruche","vinil":"CCH-00007","lat":38.9610,"lon":-8.5201},"loja_177":{"codigo":"177","nome":"Oeiras - Alges","vinil":"OER-00254","lat":38.7061,"lon":-9.2383},"loja_179":{"codigo":"179","nome":"Sintra - Algueirao","vinil":"SNT-00198","lat":38.8044,"lon":-9.3561},"loja_186":{"codigo":"186","nome":"Sintra - Terrugem","vinil":"SNT-00197","lat":38.8443,"lon":-9.3758},"loja_321":{"codigo":"321","nome":"Elvas","vinil":"ELV-00018","lat":38.8753,"lon":-7.1616},"loja_328":{"codigo":"328","nome":"Beja","vinil":"BJA-00062","lat":38.0054,"lon":-7.8736},"loja_330":{"codigo":"330","nome":"Portimao","vinil":"PTM-00074","lat":37.1342,"lon":-8.5461},"loja_338":{"codigo":"338","nome":"Olhão","vinil":"OLH-00054","lat":37.0295,"lon":-7.8534},"loja_339":{"codigo":"339","nome":"Faro - Bom Joao","vinil":"FAR-00076","lat":37.0137,"lon":-7.9190},"loja_341":{"codigo":"341","nome":"Tavira","vinil":"TVR-00027","lat":37.1193,"lon":-7.6561},"loja_344":{"codigo":"344","nome":"Loulé","vinil":"LLE-00237","lat":37.1355,"lon":-8.0308},"loja_345":{"codigo":"345","nome":"V.Real Sto Antonio","vinil":"VRS-00010","lat":37.1921,"lon":-7.4248},"loja_346":{"codigo":"346","nome":"Odemira","vinil":"ODM-00018","lat":37.5917,"lon":-8.6694},"loja_351":{"codigo":"351","nome":"Montemor-o-Novo","vinil":"MMN-00016","lat":38.6478,"lon":-8.2225},"loja_353":{"codigo":"353","nome":"Lagos","vinil":"LGS-00041","lat":37.1074,"lon":-8.6817},"loja_354":{"codigo":"354","nome":"Alcacer Do Sal","vinil":"ASL-00021","lat":38.3802,"lon":-8.5126},"loja_357":{"codigo":"357","nome":"Albufeira","vinil":"ABF-00112","lat":37.0956,"lon":-8.2494},"loja_358":{"codigo":"358","nome":"S. Bras De Alportel","vinil":"SBA-00010","lat":37.1496,"lon":-7.8938},"loja_359":{"codigo":"359","nome":"Sines","vinil":"SNS-00019","lat":37.9589,"lon":-8.8717},"loja_361":{"codigo":"361","nome":"Vendas Novas","vinil":"VND-00015","lat":38.6786,"lon":-8.4516},"loja_363":{"codigo":"363","nome":"Vila Vicosa","vinil":"VVC-00007","lat":38.7859,"lon":-7.4225},"loja_365":{"codigo":"365","nome":"Reguengos De Monsaraz","vinil":"RMZ-00009","lat":38.4239,"lon":-7.5458},"loja_369":{"codigo":"369","nome":"Grandola","vinil":"GDL-00052","lat":38.1850,"lon":-8.5685},"loja_371":{"codigo":"371","nome":"S.Cacem - St Andre","vinil":"STC-00019","lat":38.0577,"lon":-8.7904},"loja_372":{"codigo":"372","nome":"Vila Do Bispo","vinil":"VBP-00019","lat":37.0803,"lon":-8.9130},"loja_435":{"codigo":"435","nome":"Moscavide","vinil":"LRS-00148","lat":38.7808,"lon":-9.1036},"loja_442":{"codigo":"442","nome":"Vidigueira","vinil":"VDG-00003","lat":38.2056,"lon":-7.8008},"loja_445":{"codigo":"445","nome":"Pero Pinheiro","vinil":"SNT-00195","lat":38.8613,"lon":-9.3269},"loja_447":{"codigo":"447","nome":"Quarteira","vinil":"LLE-00236","lat":37.0736,"lon":-8.0788},"loja_448":{"codigo":"448","nome":"Cascais - Torre","vinil":"CSC-00414","lat":38.7030,"lon":-9.4427},"loja_449":{"codigo":"449","nome":"Estremoz","vinil":"ETZ-00028","lat":38.8493,"lon":-7.5849},"loja_463":{"codigo":"463","nome":"Silves","vinil":"SLV-00033","lat":37.1863,"lon":-8.4403},"loja_466":{"codigo":"466","nome":"Cascais - Aboboda","vinil":"CSC-00412","lat":38.7276,"lon":-9.3365},"loja_469":{"codigo":"469","nome":"Alfragide","vinil":"AMD-00111","lat":38.7409,"lon":-9.2247},"loja_471":{"codigo":"471","nome":"Sintra - Linho","vinil":"SNT-00194","lat":38.7595,"lon":-9.3800},"loja_472":{"codigo":"472","nome":"Loures - Sacavem","vinil":"LRS-00143","lat":38.7960,"lon":-9.1169},"loja_474":{"codigo":"474","nome":"Cascais - Tires","vinil":"CSC-00411","lat":38.7148,"lon":-9.3449},"loja_478":{"codigo":"478","nome":"Cascais - S.Jose","vinil":"CSC-00417","lat":38.7090,"lon":-9.4215},"loja_479":{"codigo":"479","nome":"Lagoa - Parchal","vinil":"LGA-00043","lat":37.1367,"lon":-8.5195},"loja_483":{"codigo":"483","nome":"Sintra - Casal De Cambra","vinil":"SNT-00196","lat":38.7876,"lon":-9.2292},"loja_486":{"codigo":"486","nome":"Casal Ribeiro","vinil":"LSB-00976","lat":38.7322,"lon":-9.1420},"loja_488":{"codigo":"488","nome":"Cascais - Rebelva","vinil":"CSC-00413","lat":38.6957,"lon":-9.3431},"loja_492":{"codigo":"492","nome":"Boliqueime","vinil":"LLE-00235","lat":37.1290,"lon":-8.1516},"loja_502":{"codigo":"502","nome":"Loures- Frielas","vinil":"LRS-00146","lat":38.8152,"lon":-9.1483},"loja_507":{"codigo":"507","nome":"Lisboa Olivais Sul","vinil":"LSB-00978","lat":38.7624,"lon":-9.1174},"loja_511":{"codigo":"511","nome":"Odivelas","vinil":"ODV-00047","lat":38.7941,"lon":-9.1686},"loja_526":{"codigo":"526","nome":"Oeiras - Porto Salvo","vinil":"OER-00255","lat":38.7158,"lon":-9.3004},"loja_527":{"codigo":"527","nome":"Oeiras-Linda-a-Velha","vinil":"OER-00256","lat":38.7161,"lon":-9.2397},"loja_529":{"codigo":"529","nome":"Belenenses","vinil":"LSB-00980","lat":38.7015,"lon":-9.2080},"loja_536":{"codigo":"536","nome":"Serpa","vinil":"SRP-00006","lat":37.9426,"lon":-7.6082},"loja_539":{"codigo":"539","nome":"Massama","vinil":"SNT-00215","lat":38.7583,"lon":-9.2845},"loja_544":{"codigo":"544","nome":"V.F.XIRA - Vialonga","vinil":"VFX-00096","lat":38.8712,"lon":-9.0843},"loja_546":{"codigo":"546","nome":"Loures-Santa Iria Azoia","vinil":"LRS-00144","lat":38.8375,"lon":-9.0838},"loja_548":{"codigo":"548","nome":"Odivelas - R.S.R","vinil":"ODV-00048","lat":38.7977,"lon":-9.1773},"loja_552":{"codigo":"552","nome":"Amadora - Venda Nova","vinil":"AMD-00110","lat":38.7544,"lon":-9.2177},"loja_557":{"codigo":"557","nome":"Évora - Horta Figueiras","vinil":"EVR-00071","lat":38.5620,"lon":-7.9132},"loja_561":{"codigo":"561","nome":"Porto Alto","vinil":"BNV-00018","lat":38.9223,"lon":-8.8818},"loja_562":{"codigo":"562","nome":"Mem Martins","vinil":"SNT-00205","lat":38.7800,"lon":-9.3488},"loja_594":{"codigo":"594","nome":"Almancil","vinil":"LLE-00234","lat":37.0925,"lon":-8.0407},"loja_596":{"codigo":"596","nome":"Lourel","vinil":"SNT-00204","lat":38.8174,"lon":-9.3617},"loja_603":{"codigo":"603","nome":"Castro Verde","vinil":"CVR-00008","lat":37.6943,"lon":-8.0886},"loja_609":{"codigo":"609","nome":"Mertola","vinil":"MTL-00003","lat":37.6435,"lon":-7.6590},"loja_612":{"codigo":"612","nome":"Faro","vinil":"FAR-00075","lat":37.0289,"lon":-7.9420},"loja_618":{"codigo":"618","nome":"Sintra - Cacém","vinil":"SNT-00199","lat":38.7627,"lon":-9.3070},"loja_622":{"codigo":"622","nome":"Loule Caliços","vinil":"LLE-00238","lat":37.1021,"lon":-8.0014},"loja_639":{"codigo":"639","nome":"Sines Cidade Desp","vinil":"SNS-00021","lat":37.9620,"lon":-8.8655},"loja_642":{"codigo":"642","nome":"V.F.X - Alverca Norte","vinil":"VFX-00138","lat":38.9030,"lon":-9.0305},"loja_250":{"codigo":"250","nome":"V.N.Gaia-S.Felix Marinha","vinil":"VNG-00200","lat":41.0305,"lon":-8.6407},"loja_256":{"codigo":"256","nome":"V.N.Gaia - Pedroso","vinil":"VNG-00196","lat":41.0463,"lon":-8.5657},"loja_274":{"codigo":"274","nome":"V.N.Gaia-Gulpilhares","vinil":"VNG-00201","lat":41.0716,"lon":-8.6260},"loja_323":{"codigo":"323","nome":"Palmela","vinil":"PLM-00051","lat":38.5773,"lon":-8.8984},"loja_326":{"codigo":"326","nome":"Seixal - Amora","vinil":"SXL-00072","lat":38.6306,"lon":-9.1186},"loja_336":{"codigo":"336","nome":"Sesimbra - Av J. Paulo II","vinil":"SSB-00021","lat":38.4851,"lon":-9.1044},"loja_342":{"codigo":"342","nome":"Setubal - S.Sebastiao","vinil":"STB-00101","lat":38.5215,"lon":-8.8726},"loja_352":{"codigo":"352","nome":"Alcochete","vinil":"ACH-00037","lat":38.7512,"lon":-8.9578},"loja_356":{"codigo":"356","nome":"Pinhal Novo","vinil":"PLM-00049","lat":38.6192,"lon":-8.9198},"loja_360":{"codigo":"360","nome":"Almada - Sobreda","vinil":"ALM-00101","lat":38.6465,"lon":-9.1802},"loja_362":{"codigo":"362","nome":"Seixal - Miratejo","vinil":"SXL-00074","lat":38.6498,"lon":-9.1427},"loja_364":{"codigo":"364","nome":"Setubal - Azeitao","vinil":"STB-00100","lat":38.5231,"lon":-9.0201},"loja_367":{"codigo":"367","nome":"Almada - Pragal","vinil":"ALM-00100","lat":38.6710,"lon":-9.1710},"loja_370":{"codigo":"370","nome":"Setubal - Estr. Algeruz","vinil":"STB-00099","lat":38.5395,"lon":-8.8675},"loja_373":{"codigo":"373","nome":"Sesimbra - Qta Do Conde","vinil":"SSB-00020","lat":38.5662,"lon":-9.0401},"loja_419":{"codigo":"419","nome":"V.N.Gaia - Mafamude","vinil":"VNG-00195","lat":41.1267,"lon":-8.6005},"loja_436":{"codigo":"436","nome":"Seixal - Corroios","vinil":"SXL-00069","lat":38.6334,"lon":-9.1506},"loja_455":{"codigo":"456","nome":"Seixal - Belverde","vinil":"SXL-00071","lat":38.5976,"lon":-9.1436},"loja_458":{"codigo":"458","nome":"Seixal - Mundet","vinil":"SXL-00070","lat":38.6408,"lon":-9.1026},"loja_460":{"codigo":"460","nome":"Barreiro - Lavradio","vinil":"BRR-00154","lat":38.6681,"lon":-9.0556},"loja_461":{"codigo":"461","nome":"Seixal - Fogueteiro","vinil":"SXL-00068","lat":38.6152,"lon":-9.1088},"loja_465":{"codigo":"465","nome":"Espinho","vinil":"ESP-00016","lat":41.0000,"lon":-8.6414},"loja_497":{"codigo":"497","nome":"Seixal - Fernão Ferro","vinil":"SXL-00073","lat":38.5560,"lon":-9.0872},"loja_504":{"codigo":"504","nome":"V.N. Gaia - Centro","vinil":"VNG-00194","lat":41.1286,"lon":-8.6091},"loja_528":{"codigo":"528","nome":"Barreiro - Luso","vinil":"BRR-00153","lat":38.6568,"lon":-9.0713},"loja_533":{"codigo":"533","nome":"V.N. Gaia - Monte Virgem","vinil":"VNG-00202","lat":41.1086,"lon":-8.5930},"loja_538":{"codigo":"538","nome":"Charneca Da Caparica","vinil":"ALM-00118","lat":38.6180,"lon":-9.2045},"loja_560":{"codigo":"560","nome":"Moita - Qta Vargas","vinil":"MTA-00021","lat":38.6483,"lon":-8.9969},"loja_574":{"codigo":"574","nome":"Montijo - Av. Olivenca","vinil":"MTJ-00116","lat":38.7142,"lon":-8.9726},"loja_582":{"codigo":"582","nome":"MonteCaparica - UNL","vinil":"ALM-00102","lat":38.6588,"lon":-9.2036},"loja_646":{"codigo":"646","nome":"Penalva (Barreiro)","vinil":"BRR-00158","lat":38.5835,"lon":-9.0022}};
+        if(confirm("Deseja gravar as 112 lojas oficiais no seu Firebase agora?")) {
+            await db.ref('db_vinil_112').set(data112);
+            alert("Sucesso! GitHub abandonado. Dados agora moram no Firebase.");
             location.reload();
-        } catch (e) { alert("Erro: " + e.message); }
+        }
     }
 </script>
 </body>
