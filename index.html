@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quantum AI PRO - Firebase Edition</title>
+    <title>Lidl - Ação Vinil 112</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; --orange-return: #ff8c00; }
+        :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
         
+        /* Telas */
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         #app-content { display: none; height: 100%; flex-direction: column; }
         
+        /* UI */
         #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
-        #stats-bar { background: var(--dark); color: white; padding: 8px; font-size: 10px; display: flex; justify-content: space-around; text-align: center; }
-        .stat-box { cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s; }
-        .stat-box b { display: block; font-size: 14px; color: var(--yellow); }
+        #stats-bar { background: var(--dark); color: white; padding: 8px; font-size: 11px; display: flex; justify-content: space-around; text-align: center; }
+        .stat-box b { display: block; font-size: 16px; color: var(--yellow); }
         
         .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
-        .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 10px; font-weight: bold; color: #666; }
+        .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 11px; font-weight: bold; color: #666; }
         .tab.active { background: white; border-bottom: 4px solid var(--yellow); color: var(--blue); }
         
         #content-wrapper { height: calc(100vh - 110px); position: relative; }
@@ -30,55 +31,53 @@
         
         .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 6px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         
+        /* Modal */
         .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; }
         .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; max-height: 90vh; overflow-y: auto; }
         .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
         
-        .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); }
+        .vinil-box { background: #fff8e1; border: 2px dashed #ff8c00; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .vinil-label { font-size: 11px; color: #666; text-transform: uppercase; font-weight: bold; }
+        .vinil-number { display: block; font-size: 28px; color: var(--red); font-weight: 900; margin-top: 5px; }
 
+        .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); }
         .pulse-marker { background: var(--gps-blue); border-radius: 50%; height: 14px; width: 14px; position: absolute; left: -7px; top: -7px; border: 2px solid white; }
         .pulse-marker::after { content: ""; border: 3px solid var(--gps-blue); border-radius: 50%; height: 40px; width: 40px; position: absolute; left: -16px; top: -16px; animation: pulsate 1.5s ease-out infinite; opacity: 0; }
-        .pulse-colega { background: #333; border-radius: 50%; height: 10px; width: 10px; position: absolute; left: -5px; top: -5px; border: 2px solid white; }
         @keyframes pulsate { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
         .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; position: relative; top: 15px; left: -50%; }
-        
         #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; }
-        
-        .modal-info-details { text-align: center; margin: 15px 0; padding: 15px; background: #fff8e1; border-radius: 8px; border: 2px dashed var(--orange-return); display: none; }
-        .vinil-numero { display: block; font-size: 24px; color: var(--red); font-weight: 900; background: white; padding: 5px; border-radius: 5px; border: 1px solid #ccc;}
     </style>
 </head>
 <body>
 
 <div id="login-screen">
     <div class="login-box">
-        <h2 style="color: var(--blue); margin-top: 0;">QUANTUM AI</h2>
+        <h2 style="color: var(--blue); margin-top: 0;">LIDL VINIL 112</h2>
         <input type="email" id="loginEmail" placeholder="E-mail">
         <input type="password" id="loginPass" placeholder="Senha">
-        <button class="btn" style="background: var(--yellow); color: var(--blue);" onclick="fazerLogin()">ENTRAR</button>
+        <button class="btn" style="background: var(--yellow); color: var(--blue);" onclick="fazerLogin()">ENTRAR NO SISTEMA</button>
         <div id="loginError" style="color: red; font-size: 12px; margin-top: 10px;"></div>
     </div>
 </div>
 
 <div id="app-content">
     <div id="header">
-        <div><h3 style="margin:0; font-size: 16px;">LIDL AUDIT PRO</h3><small id="userDisplay"></small></div>
+        <div><h3 style="margin:0; font-size: 16px;">AÇÃO VINIL 112</h3><small id="userDisplay"></small></div>
         <button onclick="fazerLogout()" style="background:none; border:1px solid white; color:white; border-radius:4px; font-size:10px; padding:4px 8px;">SAIR</button>
     </div>
     <div id="stats-bar">
-        <div class="stat-box" onclick="setFilter('todas')"><b id="stat-total">0</b>Lojas</div>
-        <div class="stat-box" onclick="setFilter('feitas')"><b id="stat-feitas" style="color: var(--green);">0</b>Feitas</div>
-        <div class="stat-box" onclick="setFilter('faltam')"><b id="stat-falta" style="color: var(--red);">0</b>Faltam</div>
-        <div class="stat-box" onclick="setFilter('retorno')"><b id="stat-retorno" style="color: var(--orange-return);">0</b>Retornos</div>
+        <div class="stat-box"><b>112</b>Lojas</div>
+        <div class="stat-box"><b id="stat-feitas" style="color: var(--green);">0</b>Feitas</div>
+        <div class="stat-box"><b id="stat-falta" style="color: var(--red);">0</b>Faltam</div>
         <div class="stat-box"><b id="stat-pct">0%</b>Progresso</div>
     </div>
     <div class="tab-bar">
-        <div id="tab-todas" class="tab active" onclick="changeTab('todas')">LISTA</div>
-        <div id="tab-perto" class="tab" onclick="changeTab('perto')">PERTO</div>
-        <div id="tab-mapa" class="tab" style="background:#ddd" onclick="changeTab('mapa')">📍 MAPA</div>
+        <div id="tab-lista" class="tab active" onclick="changeTab('lista')">LISTA</div>
+        <div id="tab-perto" class="tab" onclick="changeTab('perto')">MAIS PERTO</div>
+        <div id="tab-mapa" class="tab" onclick="changeTab('mapa')">📍 MAPA</div>
     </div>
     <div id="content-wrapper">
-        <div id="store-list">Carregando dados do Firebase...</div>
+        <div id="store-list">Carregando lojas...</div>
         <div id="map-container">
             <div id="map"></div>
             <button class="gps-button" onclick="focarUtilizador()">
@@ -90,28 +89,25 @@
 
 <div id="modalTrabalho" class="modal">
     <div class="modal-box">
-        <h2 id="m-nome" style="color: var(--blue); margin-top:0;">Loja</h2>
-        <p id="m-morada" style="font-size: 12px; color: #666; margin-bottom: 5px;"></p>
+        <h2 id="m-nome" style="color: var(--blue); margin-top:0; font-size: 20px;">Loja</h2>
+        <p id="m-morada" style="font-size: 12px; color: #666;"></p>
         
-        <div id="modal-return-info" class="modal-info-details">
-            <h4 style="color: var(--orange-return); margin:0;">⚠️ AÇÃO DE RETORNO</h4>
-            <p><b>Nº DO VINIL A APLICAR:</b></p>
-            <span id="m-id-posto" class="vinil-numero"></span>
-            <p style="margin-top: 10px; font-size: 11px;">Data Vinilização: <span id="m-data-vinilizacao"></span></p>
+        <div class="vinil-box">
+            <div class="vinil-label">Número do Vinil a Aplicar</div>
+            <span id="m-vinil" class="vinil-number">---</span>
         </div>
         
         <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 COMO CHEGAR (ROTA)</button>
-        <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px; font-size: 13px;"></div>
-        <textarea id="obs-texto" placeholder="Notas do trabalho..."></textarea>
+        <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px;"></div>
+        <textarea id="obs-texto" placeholder="Notas/Observações..."></textarea>
         
-        <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR TRABALHO</button>
-        <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR TAREFA</button>
+        <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR APLICAÇÃO</button>
+        <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR E SALVAR</button>
         <button id="btnCancel" class="btn" style="background: #333; color:white; font-size: 11px;" onclick="dbAction('cancel')">⚠️ LIMPAR REGISTRO</button>
         <button class="btn" style="background: #eee;" onclick="closeModal()">VOLTAR</button>
     </div>
 </div>
 
-<!-- SCRIPTS FIREBASE COMPAT -->
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
@@ -130,8 +126,8 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth(), db = firebase.database();
 
-    let currentUser = null, baseLojas = [], statusRealtime = {}, lojasRetorno = {}, lojaAtiva = null, userPos = null;
-    let currentTab = 'todas', currentFilter = 'todas', colegasMarkers = {};
+    let currentUser = null, baseLojas = [], statusRealtime = {}, lojaAtiva = null, userPos = null;
+    let currentTab = 'lista', colegasMarkers = {};
 
     const map = L.map('map', { tap: false, zoomControl: false }).setView([39.5, -8.0], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -141,8 +137,8 @@
     function fazerLogin() {
         const email = document.getElementById('loginEmail').value;
         const pass = document.getElementById('loginPass').value;
-        auth.signInWithEmailAndPassword(email, pass).catch(err => {
-            document.getElementById('loginError').innerText = "Erro: E-mail ou senha incorretos.";
+        auth.signInWithEmailAndPassword(email, pass).catch(() => {
+            document.getElementById('loginError').innerText = "E-mail ou senha incorretos.";
         });
     }
     
@@ -158,43 +154,24 @@
         }
     });
 
-    // FUNÇÃO PRINCIPAL: Carrega tudo do Firebase
     function inicializarApp() {
-        // 1. Escuta a lista de lojas estática
-        db.ref('configuracao/base_lojas').on('value', snap => {
+        // Carrega as 112 lojas do novo nó exclusivo "trabalho_vinil"
+        db.ref('configuracao/vinil_112').on('value', snap => {
             const data = snap.val();
             if (data) {
                 baseLojas = Object.values(data);
-                carregarStatusEDetalhes();
+                escutarStatus();
             } else {
-                document.getElementById('store-list').innerHTML = "<div style='padding:20px; text-align:center;'>Banco de dados vazio. <br><button onclick='migrarDadosCSV()'>Clique aqui para carregar os dados pela 1ª vez</button></div>";
+                document.getElementById('store-list').innerHTML = "<div style='padding:20px; text-align:center;'>Banco de dados vazio. <br><button onclick='migrarParaVinil()'>CLIQUE AQUI PARA CARREGAR AS 112 LOJAS</button></div>";
             }
         });
     }
 
-    function carregarStatusEDetalhes() {
-        // 2. Escuta a lista de retornos (112 lojas)
-        db.ref('configuracao/lista_retorno').on('value', snap => {
-            lojasRetorno = snap.val() || {};
-            
-            // 3. Escuta os status de trabalho em tempo real
-            db.ref('trabalhos').on('value', sReal => {
-                statusRealtime = sReal.val() || {};
-                
-                // Cruza os dados
-                baseLojas.forEach(loja => {
-                    const idRetorno = "ret_" + loja.Código;
-                    if (lojasRetorno[idRetorno]) {
-                        loja.needsReturn = true;
-                        loja.returnDetails = lojasRetorno[idRetorno];
-                    } else {
-                        loja.needsReturn = false;
-                    }
-                });
-
-                atualizarStats();
-                renderList();
-            });
+    function escutarStatus() {
+        db.ref('status_vinil').on('value', snap => {
+            statusRealtime = snap.val() || {};
+            atualizarStats();
+            renderList();
         });
         monitorarGPS();
         ouvirPresenca();
@@ -207,28 +184,23 @@
         
         let exibir = [...baseLojas];
         if (userPos) {
-            exibir.forEach(l => l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.Latitude), parseFloat(l.Longitude)));
+            exibir.forEach(l => l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.lat), parseFloat(l.lon)));
             if (currentTab === 'perto') exibir.sort((a, b) => a.dist - b.dist);
         }
 
-        exibir.forEach((loja, idx) => {
-            const id = "loja_" + loja.Código;
+        exibir.forEach(loja => {
+            const id = "loja_" + loja.codigo;
             const status = statusRealtime[id] || { estado: 'LIVRE' };
+            const pinColor = status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : 'var(--blue)');
             
-            if (currentFilter === 'feitas' && status.estado !== 'CONCLUIDO') return;
-            if (currentFilter === 'faltam' && status.estado === 'CONCLUIDO') return;
-            if (currentFilter === 'retorno' && !loja.needsReturn) return; 
-
-            let pinColor = loja.needsReturn ? 'var(--orange-return)' : (status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : 'var(--blue)'));
-            
-            L.circleMarker([loja.Latitude, loja.Longitude], {radius: 8, fillColor: pinColor, color: '#fff', fillOpacity: 0.8, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
+            L.circleMarker([loja.lat, loja.lon], {radius: 9, fillColor: pinColor, color: '#fff', fillOpacity: 0.9, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
             
             if(currentTab === 'mapa') return;
             
             const div = document.createElement('div');
             div.className = 'store-item';
             div.style.borderLeftColor = pinColor;
-            div.innerHTML = `<b>${loja.Nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km' : ''} - ${status.estado} ${loja.needsReturn ? '<b style="color:var(--orange-return)"> (RETORNO)</b>' : ''}</small>`;
+            div.innerHTML = `<b>${loja.nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km | ' : ''} Vinil: <b>${loja.idPosto}</b></small><br><span style="font-size:10px; color:${pinColor}">${status.estado}</span>`;
             div.onclick = () => abrirLoja(id, loja);
             container.appendChild(div);
         });
@@ -236,22 +208,15 @@
 
     function abrirLoja(id, loja) {
         lojaAtiva = { id, ...loja };
-        document.getElementById('m-nome').innerText = loja.Nome;
-        document.getElementById('m-morada').innerText = loja.Morada;
+        document.getElementById('m-nome').innerText = loja.nome;
+        document.getElementById('m-morada').innerText = loja.morada || "---";
+        document.getElementById('m-vinil').innerText = loja.idPosto;
+        
         const status = statusRealtime[id] || { estado: 'LIVRE' };
-        
-        const modalRet = document.getElementById('modal-return-info');
-        if (loja.needsReturn) {
-            document.getElementById('m-id-posto').innerText = loja.returnDetails.idPosto;
-            document.getElementById('m-data-vinilizacao').innerText = loja.returnDetails.data;
-            modalRet.style.display = 'block';
-        } else {
-            modalRet.style.display = 'none';
-        }
-        
         const info = document.getElementById('status-info');
         info.innerText = status.estado;
         info.style.background = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee');
+        
         document.getElementById('obs-texto').style.display = (status.estado !== 'LIVRE') ? 'block' : 'none';
         document.getElementById('obs-texto').value = status.obs || "";
         
@@ -262,9 +227,9 @@
     }
 
     function dbAction(acao) {
-        const ref = db.ref('trabalhos/' + lojaAtiva.id);
-        if(acao === 'start') ref.set({ estado: 'EM_CURSO', equipa: currentUser.email.split('@')[0], inicio: Date.now() });
-        else if(acao === 'finish') ref.update({ estado: 'CONCLUIDO', fim: Date.now(), obs: document.getElementById('obs-texto').value });
+        const ref = db.ref('status_vinil/' + lojaAtiva.id);
+        if(acao === 'start') ref.set({ estado: 'EM_CURSO', user: currentUser.email.split('@')[0], ts: Date.now() });
+        else if(acao === 'finish') ref.update({ estado: 'CONCLUIDO', endTs: Date.now(), obs: document.getElementById('obs-texto').value });
         else if(confirm("Deseja limpar o registro?")) ref.remove();
         closeModal();
     }
@@ -296,7 +261,7 @@
             Object.keys(lista).forEach(id => {
                 if(id === currentUser.uid) return;
                 const c = lista[id];
-                const colegaIcon = L.divIcon({ className: 'c-colega', html: `<div class="pulse-colega"></div><div class="colega-label">${c.nome}</div>`, iconSize: [0, 0] });
+                const colegaIcon = L.divIcon({ className: 'c-colega', html: `<div class="pulse-colega" style="background:#333"></div><div class="colega-label">${c.nome}</div>`, iconSize: [0, 0] });
                 if(colegasMarkers[id]) colegasMarkers[id].setLatLng([c.lat, c.lon]);
                 else colegasMarkers[id] = L.marker([c.lat, c.lon], { icon: colegaIcon }).addTo(map);
             });
@@ -304,14 +269,10 @@
     }
 
     function atualizarStats() {
-        const total = baseLojas.length;
         let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
-        let retorno = baseLojas.filter(l => l.needsReturn).length;
-        document.getElementById('stat-total').innerText = total;
         document.getElementById('stat-feitas').innerText = feitas;
-        document.getElementById('stat-falta').innerText = total - feitas;
-        document.getElementById('stat-retorno').innerText = retorno; 
-        document.getElementById('stat-pct').innerText = total > 0 ? Math.round((feitas/total)*100) + "%" : "0%";
+        document.getElementById('stat-falta').innerText = 112 - feitas;
+        document.getElementById('stat-pct').innerText = Math.round((feitas/112)*100) + "%";
     }
 
     function calcDist(lat1, lon1, lat2, lon2) {
@@ -321,54 +282,51 @@
         return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
     }
     
-    function setFilter(f) { currentFilter = f; if(currentTab==='mapa') changeTab('todas'); renderList(); }
-    function abrirRota() { window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.Latitude},${lojaAtiva.Longitude}`, '_blank'); }
+    function focarUtilizador() { if(userPos) map.flyTo([userPos.lat, userPos.lon], 16); }
+    function abrirRota() { window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.lat},${lojaAtiva.lon}`, '_blank'); }
     function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
 
-    // FUNÇÃO DE MIGRAÇÃO ÚNICA: Use uma vez para subir seus CSVs para o Firebase
-    async function migrarDadosCSV() {
-        const confirmacao = confirm("Deseja carregar os dados dos arquivos CSV para o Firebase agora?");
-        if(!confirmacao) return;
-
-        // IMPORTANTE: Use os links dos seus CSVs aqui apenas para a migração
-        const csvLojasUrl = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
-        const csvRetornoUrl = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista.csv";
-
-        alert("Iniciando migração... aguarde o aviso de sucesso.");
-
+    // MIGRAÇÃO DEFINITIVA: Cruza os 300 nomes com os 112 retornos e salva a lista final no Firebase
+    async function migrarParaVinil() {
+        if(!confirm("Deseja criar a lista das 112 lojas agora?")) return;
+        
         try {
-            // Carregar Lojas
-            const resLojas = await fetch(csvLojasUrl);
-            const textLojas = await resLojas.text();
-            // Simples parser manual para não depender de biblioteca externa na migração
-            const linhasLojas = textLojas.split('\n').slice(1);
-            const objLojas = {};
-            linhasLojas.forEach(linha => {
-                const c = linha.split(',');
-                if(c.length > 5) {
-                    objLojas["loja_" + c[0]] = { Código: c[0], Nome: c[1], Morada: c[4], Latitude: c[5], Longitude: c[6] };
+            const url300 = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
+            const url112 = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista.csv";
+            
+            const r300 = await fetch(url300).then(r => r.text());
+            const r112 = await fetch(url112).then(r => r.text());
+            
+            // Mapeia Coordenadas
+            const coords = {};
+            r300.split('\n').slice(1).forEach(l => {
+                const c = l.split(',');
+                if(c.length > 6) coords[c[0].trim()] = { lat: c[5], lon: c[6], morada: c[4] };
+            });
+            
+            // Filtra as 112 e junta tudo
+            const listaFinal = {};
+            r112.split('\n').forEach(l => {
+                if(l.includes('antes')) {
+                    const c = l.replace(/^,+/, '').split(',');
+                    const cod = c[0].trim();
+                    if(coords[cod]) {
+                        listaFinal["loja_" + cod] = {
+                            codigo: cod,
+                            nome: c[1],
+                            idPosto: c[2],
+                            lat: coords[cod].lat,
+                            lon: coords[cod].lon,
+                            morada: coords[cod].morada
+                        };
+                    }
                 }
             });
-            await db.ref('configuracao/base_lojas').set(objLojas);
-
-            // Carregar Retornos
-            const resRet = await fetch(csvRetornoUrl);
-            const textRet = await resRet.text();
-            const linhasRet = textRet.split('\n');
-            const objRet = {};
-            linhasRet.forEach(linha => {
-                if(linha.includes('antes')) {
-                    const c = linha.replace(/^,+/, '').split(',');
-                    objRet["ret_" + c[0]] = { idPosto: c[3], data: c[4] };
-                }
-            });
-            await db.ref('configuracao/lista_retorno').set(objRet);
-
-            alert("SUCESSO! Os dados estão no Firebase. Você pode apagar os arquivos do GitHub se quiser.");
+            
+            await db.ref('configuracao/vinil_112').set(listaFinal);
+            alert("SUCESSO! As 112 lojas estão prontas no Firebase.");
             location.reload();
-        } catch (e) {
-            alert("Erro na migração: " + e.message);
-        }
+        } catch (e) { alert("Erro: " + e.message); }
     }
 </script>
 </body>
