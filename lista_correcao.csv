@@ -12,7 +12,7 @@ Codigo,Nome,ID_Posto,Morada,Lat,Lon
 157,Salvaterra de Magos,SMG-00014,EN 118,39.0225342,-8.7939071
 158,Sassoeiros,CSC-00416,"R Luis de Camões, n8",38.701667,-9.326944
 159,Odivelas - Arroja,ODV-00050,Av das Acácias,38.7957222,-9.1987537
-173,Lisboa - Av. Inf. D. Henrique,LSB-00977,"Av Inf D Henrique, Lts. 17-18",38.7575001,-9.103611
+173,Lisboa - Av. Infante D. Henrique,LSB-00977,"Av Inf D Henrique, Lts. 17-18",38.7575001,-9.103611
 174,Coruche,CCH-00007,"Quinta das Baleias, Lt18",38.961028,-8.520147
 177,Oeiras - Algés,OER-00254,"R João Chagas, n130",38.706111,-9.238333
 179,Sintra - Algueirão,SNT-00198,Casal Vale do Milho,38.804444,-9.356111
@@ -26,8 +26,8 @@ Codigo,Nome,ID_Posto,Morada,Lat,Lon
 235,Lisboa - Telheiras,LSB-00994,Av Nações Unidas,38.764516,-9.167231
 236,Oeiras - Porto Salvo,OER-00262,Lagoas Park,38.711904,-9.303975
 241,Queluz,SNT-00191,Rua D. Pedro IV,38.750555,-9.261944
-244,Torres Vedras - S.C. Areia,TVD-00062,Rua Principal - Casal da Areia,39.0975,-9.244722
-246,V.F.Xira - Castanheira,VFX-00115,Rua de Moçambique,38.991666,-8.977222
+244,Torres Vedras,TVD-00062,Rua Principal - Casal da Areia,39.0975,-9.244722
+246,Castanheira do Ribatejo,VFX-00115,Rua de Moçambique,38.991666,-8.977222
 247,Azambuja,AZB-00008,Av. do Século,39.066922,-8.872741
 252,Carregado,ALN-00010,"EN 3, km 1",39.013589,-8.98399
 253,Alenquer,ALN-00011,"Rua de Olivença, Lt 1 a 4",39.052062,-9.011808
@@ -90,7 +90,7 @@ Codigo,Nome,ID_Posto,Morada,Lat,Lon
 603,V. N. Gaia - Canidelo,VNG-00123,Rua da Bélgica,41.1248,-8.6472
 609,Matosinhos - Leça,MAT-00101,Rua de Santa Catarina,41.1923,-8.6987
 612,Faro - Estoi,FAO-00050,Rua de Faro,37.0987,-7.8965
-618,Sintra - Cacém (Nova),SNT-00194,Rua da Bela vista 31,38.7627609,-9.3070083
+618,Sintra - Cacém,SNT-00194,Rua da Bela vista 31,38.7627609,-9.3070083
 622,Loulé - Caliços,LLE-00069,Av. Algarve - Caliços,37.102168,-8.00149
 639,Aveiro - Verdemilho,AVR-00045,Avenida da Europa,40.613353,-8.6555
 642,Albufeira - Ferreiras,ABF-00061,Rua das Ferreiras,37.1234,-8.2456
