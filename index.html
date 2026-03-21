@@ -131,7 +131,7 @@
 
 <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY", /* Chave corrigida */
+        apiKey: "AIzaSyBdpRqdptOWD6kPZf4oFzvjpoa-XqXgP_tY", 
         authDomain: "lidl-audit.firebaseapp.com",
         databaseURL: "https://lidl-audit-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "lidl-audit",
@@ -196,18 +196,29 @@
             });
             baseLojas = resLojasPrincipais.data;
 
-            // 2. CARREGAR LISTA DE RETORNO (COM TRATAMENTO DO EXCEL)
+            // 2. CARREGAR LISTA DE RETORNO (BLINDADO CONTRA LIXO DO EXCEL)
             const responseRetorno = await fetch(urlLojasRetorno);
             let csvText = await responseRetorno.text();
             
-            // TRUQUE DE LIMPEZA: Remove linhas que só tem vírgulas e tira a vírgula do começo da linha
-            csvText = csvText.replace(/^,+[\r\n]+/gm, ''); // Tira o ,,,,,, do topo
-            csvText = csvText.replace(/^,/gm, '');         // Tira a , inicial das linhas
+            // Separa o texto em linhas
+            let linhas = csvText.split('\n');
+            
+            // Procura qual é a linha verdadeira do Cabeçalho (que tem a palavra "Nº Loja")
+            let indexCabecalho = linhas.findIndex(linha => linha.includes('Nº Loja'));
+            
+            if (indexCabecalho !== -1) {
+                // Corta todo o lixo que estiver acima do cabeçalho
+                linhas = linhas.slice(indexCabecalho);
+                // Remove vírgulas vazias que ficam presas no começo de cada linha (ex: ,119,Amadora...)
+                linhas = linhas.map(linha => linha.replace(/^,+/, ''));
+                csvText = linhas.join('\n'); // Junta tudo de novo
+            }
 
             const resLojasRetorno = await new Promise(resolve => {
                 Papa.parse(csvText, { header: true, skipEmptyLines: true, complete: resolve });
             });
             
+            // Filtra para garantir que só passa linha que tenha de fato um número de loja válido
             returnLojas = resLojasRetorno.data.filter(row => row['Nº Loja'] && row['Nº Loja'].trim() !== '');
             
             processarDadosLojas();
@@ -248,7 +259,7 @@
                 loja.returnDetails = [];
             }
         });
-        console.log("Retornos processados: ", returnMap.size, "lojas encontradas.");
+        console.log("Retornos processados: ", returnMap.size, "lojas com ações de retorno.");
     }
 
     function monitorarGPS() {
@@ -337,8 +348,8 @@
         const mDataVinilizacao = document.getElementById('m-data-vinilizacao');
 
         if (loja.needsReturn && loja.returnDetails && loja.returnDetails.length > 0) {
-            // Caso a loja tenha 2 postos, ele vai colocar um embaixo do outro
-            mIdPosto.innerHTML = loja.returnDetails.map(d => d.idPosto).join('<hr style="margin:5px 0; border-top:1px solid #ddd;">');
+            // Caso a loja tenha múltiplos postos de retorno, separa com uma linha e quebra de texto
+            mIdPosto.innerHTML = loja.returnDetails.map(d => d.idPosto).join('<hr style="margin:8px 0; border-top:1px dashed #ccc;">');
             mDataVinilizacao.innerHTML = loja.returnDetails.map(d => d.dataVinilizacao).join(' | ');
             modalReturnInfo.style.display = 'block';
         } else {
@@ -383,6 +394,8 @@
     function atualizarStats() {
         const total = baseLojas.length;
         let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
+        
+        // Conta quantas lojas têm a flag de retorno ativada
         let retorno = baseLojas.filter(loja => loja.needsReturn).length;
 
         document.getElementById('stat-total').innerText = total;
