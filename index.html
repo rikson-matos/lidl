@@ -9,13 +9,11 @@
         :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
         
-        /* Telas */
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         #app-content { display: none; height: 100%; flex-direction: column; }
         
-        /* UI */
         #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
         #stats-bar { background: var(--dark); color: white; padding: 8px; font-size: 11px; display: flex; justify-content: space-around; text-align: center; }
         .stat-box b { display: block; font-size: 16px; color: var(--yellow); }
@@ -30,22 +28,19 @@
         #map { height: 100%; width: 100%; }
         
         .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 6px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        
-        /* Modal */
         .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; }
         .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; max-height: 90vh; overflow-y: auto; }
         .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
         
         .vinil-box { background: #fff8e1; border: 2px dashed #ff8c00; padding: 15px; border-radius: 10px; margin: 15px 0; }
-        .vinil-label { font-size: 11px; color: #666; text-transform: uppercase; font-weight: bold; }
         .vinil-number { display: block; font-size: 28px; color: var(--red); font-weight: 900; margin-top: 5px; }
 
-        .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); }
+        .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--blue); }
         .pulse-marker { background: var(--gps-blue); border-radius: 50%; height: 14px; width: 14px; position: absolute; left: -7px; top: -7px; border: 2px solid white; }
         .pulse-marker::after { content: ""; border: 3px solid var(--gps-blue); border-radius: 50%; height: 40px; width: 40px; position: absolute; left: -16px; top: -16px; animation: pulsate 1.5s ease-out infinite; opacity: 0; }
         @keyframes pulsate { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
-        .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; position: relative; top: 15px; left: -50%; }
-        #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; }
+        .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; position: relative; top: 15px; left: -50%; white-space: nowrap;}
+        #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; font-family: inherit;}
     </style>
 </head>
 <body>
@@ -66,7 +61,7 @@
         <button onclick="fazerLogout()" style="background:none; border:1px solid white; color:white; border-radius:4px; font-size:10px; padding:4px 8px;">SAIR</button>
     </div>
     <div id="stats-bar">
-        <div class="stat-box"><b>112</b>Lojas</div>
+        <div class="stat-box"><b id="stat-total">0</b>Lojas</div>
         <div class="stat-box"><b id="stat-feitas" style="color: var(--green);">0</b>Feitas</div>
         <div class="stat-box"><b id="stat-falta" style="color: var(--red);">0</b>Faltam</div>
         <div class="stat-box"><b id="stat-pct">0%</b>Progresso</div>
@@ -77,7 +72,7 @@
         <div id="tab-mapa" class="tab" onclick="changeTab('mapa')">📍 MAPA</div>
     </div>
     <div id="content-wrapper">
-        <div id="store-list">Carregando lojas...</div>
+        <div id="store-list">Sincronizando...</div>
         <div id="map-container">
             <div id="map"></div>
             <button class="gps-button" onclick="focarUtilizador()">
@@ -85,22 +80,22 @@
             </button>
         </div>
     </div>
+    <div id="admin-zone" style="display:none; padding:10px; background:#eee; text-align:center;">
+        <button onclick="migrarParaVinil()" style="font-size:10px; padding:5px;">Refazer Migração das 112 Lojas</button>
+    </div>
 </div>
 
 <div id="modalTrabalho" class="modal">
     <div class="modal-box">
         <h2 id="m-nome" style="color: var(--blue); margin-top:0; font-size: 20px;">Loja</h2>
         <p id="m-morada" style="font-size: 12px; color: #666;"></p>
-        
         <div class="vinil-box">
-            <div class="vinil-label">Número do Vinil a Aplicar</div>
+            <div style="font-size: 11px; color: #666; font-weight: bold;">NÚMERO DO VINIL A APLICAR</div>
             <span id="m-vinil" class="vinil-number">---</span>
         </div>
-        
         <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 COMO CHEGAR (ROTA)</button>
         <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px;"></div>
         <textarea id="obs-texto" placeholder="Notas/Observações..."></textarea>
-        
         <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR APLICAÇÃO</button>
         <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR E SALVAR</button>
         <button id="btnCancel" class="btn" style="background: #333; color:white; font-size: 11px;" onclick="dbAction('cancel')">⚠️ LIMPAR REGISTRO</button>
@@ -111,6 +106,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
@@ -137,9 +133,7 @@
     function fazerLogin() {
         const email = document.getElementById('loginEmail').value;
         const pass = document.getElementById('loginPass').value;
-        auth.signInWithEmailAndPassword(email, pass).catch(() => {
-            document.getElementById('loginError').innerText = "E-mail ou senha incorretos.";
-        });
+        auth.signInWithEmailAndPassword(email, pass).catch(() => document.getElementById('loginError').innerText = "E-mail ou senha incorretos.");
     }
     
     function fazerLogout() { if(currentUser) db.ref('presenca/' + currentUser.uid).remove().then(() => auth.signOut().then(() => location.reload())); }
@@ -149,20 +143,20 @@
             currentUser = user;
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('app-content').style.display = 'flex';
+            document.getElementById('admin-zone').style.display = 'block';
             document.getElementById('userDisplay').innerText = user.email.split('@')[0];
             inicializarApp();
         }
     });
 
     function inicializarApp() {
-        // Carrega as 112 lojas do novo nó exclusivo "trabalho_vinil"
         db.ref('configuracao/vinil_112').on('value', snap => {
             const data = snap.val();
             if (data) {
                 baseLojas = Object.values(data);
                 escutarStatus();
             } else {
-                document.getElementById('store-list').innerHTML = "<div style='padding:20px; text-align:center;'>Banco de dados vazio. <br><button onclick='migrarParaVinil()'>CLIQUE AQUI PARA CARREGAR AS 112 LOJAS</button></div>";
+                document.getElementById('store-list').innerHTML = "<div style='padding:20px; text-align:center;'>Banco de dados vazio.<br><button class='btn' onclick='migrarParaVinil()'>CARREGAR AS 112 LOJAS AGORA</button></div>";
             }
         });
     }
@@ -193,14 +187,16 @@
             const status = statusRealtime[id] || { estado: 'LIVRE' };
             const pinColor = status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : 'var(--blue)');
             
-            L.circleMarker([loja.lat, loja.lon], {radius: 9, fillColor: pinColor, color: '#fff', fillOpacity: 0.9, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
+            if(loja.lat && loja.lon) {
+                L.circleMarker([loja.lat, loja.lon], {radius: 9, fillColor: pinColor, color: '#fff', fillOpacity: 0.9, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
+            }
             
             if(currentTab === 'mapa') return;
             
             const div = document.createElement('div');
             div.className = 'store-item';
             div.style.borderLeftColor = pinColor;
-            div.innerHTML = `<b>${loja.nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km | ' : ''} Vinil: <b>${loja.idPosto}</b></small><br><span style="font-size:10px; color:${pinColor}">${status.estado}</span>`;
+            div.innerHTML = `<b>${loja.nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km | ' : ''} Vinil: <b>${loja.idPosto}</b></small>`;
             div.onclick = () => abrirLoja(id, loja);
             container.appendChild(div);
         });
@@ -211,15 +207,12 @@
         document.getElementById('m-nome').innerText = loja.nome;
         document.getElementById('m-morada').innerText = loja.morada || "---";
         document.getElementById('m-vinil').innerText = loja.idPosto;
-        
         const status = statusRealtime[id] || { estado: 'LIVRE' };
         const info = document.getElementById('status-info');
         info.innerText = status.estado;
         info.style.background = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee');
-        
         document.getElementById('obs-texto').style.display = (status.estado !== 'LIVRE') ? 'block' : 'none';
         document.getElementById('obs-texto').value = status.obs || "";
-        
         document.getElementById('btnStart').style.display = status.estado === 'LIVRE' ? 'block' : 'none';
         document.getElementById('btnFinish').style.display = status.estado === 'EM_CURSO' ? 'block' : 'none';
         document.getElementById('btnCancel').style.display = (status.estado !== 'LIVRE') ? 'block' : 'none';
@@ -237,7 +230,7 @@
     function changeTab(t) {
         currentTab = t;
         document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-        document.getElementById('tab-' + t).classList.add('active');
+        document.getElementById('tab-' + (t==='lista'?'lista':t==='perto'?'perto':'mapa')).classList.add('active');
         document.getElementById('store-list').style.display = t === 'mapa' ? 'none' : 'block';
         document.getElementById('map-container').style.display = t === 'mapa' ? 'block' : 'none';
         if(t === 'mapa') setTimeout(() => map.invalidateSize(), 200);
@@ -261,7 +254,7 @@
             Object.keys(lista).forEach(id => {
                 if(id === currentUser.uid) return;
                 const c = lista[id];
-                const colegaIcon = L.divIcon({ className: 'c-colega', html: `<div class="pulse-colega" style="background:#333"></div><div class="colega-label">${c.nome}</div>`, iconSize: [0, 0] });
+                const colegaIcon = L.divIcon({ className: 'c-colega', html: `<div class="pulse-colega" style="background:#333; width:10px; height:10px; border-radius:50%; border:2px solid white;"></div><div class="colega-label">${c.nome}</div>`, iconSize: [0, 0] });
                 if(colegasMarkers[id]) colegasMarkers[id].setLatLng([c.lat, c.lon]);
                 else colegasMarkers[id] = L.marker([c.lat, c.lon], { icon: colegaIcon }).addTo(map);
             });
@@ -269,10 +262,12 @@
     }
 
     function atualizarStats() {
+        const total = baseLojas.length || 112;
         let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
+        document.getElementById('stat-total').innerText = total;
         document.getElementById('stat-feitas').innerText = feitas;
-        document.getElementById('stat-falta').innerText = 112 - feitas;
-        document.getElementById('stat-pct').innerText = Math.round((feitas/112)*100) + "%";
+        document.getElementById('stat-falta').innerText = total - feitas;
+        document.getElementById('stat-pct').innerText = Math.round((feitas/total)*100) + "%";
     }
 
     function calcDist(lat1, lon1, lat2, lon2) {
@@ -286,47 +281,52 @@
     function abrirRota() { window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.lat},${lojaAtiva.lon}`, '_blank'); }
     function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
 
-    // MIGRAÇÃO DEFINITIVA: Cruza os 300 nomes com os 112 retornos e salva a lista final no Firebase
+    // NOVA FUNÇÃO DE MIGRAÇÃO PROFISSIONAL
     async function migrarParaVinil() {
-        if(!confirm("Deseja criar a lista das 112 lojas agora?")) return;
+        if(!confirm("Isso vai apagar a lista atual e carregar as 112 lojas do zero. Continuar?")) return;
         
         try {
             const url300 = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
             const url112 = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista.csv";
             
-            const r300 = await fetch(url300).then(r => r.text());
-            const r112 = await fetch(url112).then(r => r.text());
-            
-            // Mapeia Coordenadas
-            const coords = {};
-            r300.split('\n').slice(1).forEach(l => {
-                const c = l.split(',');
-                if(c.length > 6) coords[c[0].trim()] = { lat: c[5], lon: c[6], morada: c[4] };
+            // Usando PapaParse para ler o CSV das 300 lojas (Coordenadas)
+            const r300 = await new Promise(resolve => Papa.parse(url300, {download:true, header:true, complete:resolve}));
+            const coordsMap = {};
+            r300.data.forEach(row => {
+                if(row.Código) coordsMap[row.Código.trim()] = { lat: row.Latitude, lon: row.Longitude, morada: row.Morada };
             });
+
+            // Usando PapaParse para ler o CSV das 112 lojas (Lista do Chefe)
+            const response112 = await fetch(url112);
+            let text112 = await response112.text();
+            // Limpeza de lixo do excel
+            text112 = text112.replace(/^,+[\r\n]+/gm, '').replace(/^,/gm, '');
             
-            // Filtra as 112 e junta tudo
+            const r112 = await new Promise(resolve => Papa.parse(text112, {header:true, complete:resolve}));
+            
             const listaFinal = {};
-            r112.split('\n').forEach(l => {
-                if(l.includes('antes')) {
-                    const c = l.replace(/^,+/, '').split(',');
-                    const cod = c[0].trim();
-                    if(coords[cod]) {
+            r112.data.forEach(row => {
+                const cod = row['Nº Loja'] ? row['Nº Loja'].trim() : null;
+                const dataVinil = row['Data de Vinilização'] ? row['Data de Vinilização'].toLowerCase() : '';
+                
+                if(cod && dataVinil.includes('antes')) {
+                    if(coordsMap[cod]) {
                         listaFinal["loja_" + cod] = {
                             codigo: cod,
-                            nome: c[1],
-                            idPosto: c[2],
-                            lat: coords[cod].lat,
-                            lon: coords[cod].lon,
-                            morada: coords[cod].morada
+                            nome: row['Nome de Loja'],
+                            idPosto: row['ID Posto'],
+                            lat: coordsMap[cod].lat,
+                            lon: coordsMap[cod].lon,
+                            morada: coordsMap[cod].morada
                         };
                     }
                 }
             });
             
             await db.ref('configuracao/vinil_112').set(listaFinal);
-            alert("SUCESSO! As 112 lojas estão prontas no Firebase.");
+            alert("SUCESSO! " + Object.keys(listaFinal).length + " lojas carregadas corretamente.");
             location.reload();
-        } catch (e) { alert("Erro: " + e.message); }
+        } catch (e) { alert("Erro crítico na migração: " + e.message); }
     }
 </script>
 </body>
