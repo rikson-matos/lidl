@@ -130,8 +130,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
 <script>
+    // Configuração do Firebase com a sua chave exata e correta
     const firebaseConfig = {
-        apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY", /* CHAVE ORIGINAL E CORRETA */
+        apiKey: "AIzaSyBdpRqdptOWD6kPZf4oFzvjpoa-XqXgP_tY", 
         authDomain: "lidl-audit.firebaseapp.com",
         databaseURL: "https://lidl-audit-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "lidl-audit",
@@ -165,7 +166,6 @@
             console.error("Erro Firebase Auth:", error);
             let errorMessage = "Erro: " + error.code;
             
-            // Tratamento de erros atualizado do Firebase
             if (error.code === 'auth/invalid-email') errorMessage = "E-mail com formato inválido.";
             else if (error.code === 'auth/user-not-found') errorMessage = "Usuário não cadastrado.";
             else if (error.code === 'auth/wrong-password') errorMessage = "Senha incorreta.";
@@ -195,7 +195,10 @@
 
     async function carregarDados() {
         const urlLojasPrincipais = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
-        const urlLojasRetorno = "https://raw.githubusercontent.com/rikson-matos/lidl/main/Lista%20de%20Station%20ID_Lojas.csv"; 
+        
+        // URL ATUALIZADA PARA O NOVO NOME DO ARQUIVO (lista.csv)
+        // Se o nome do seu arquivo no GitHub for diferente, mude aqui:
+        const urlLojasRetorno = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista.csv"; 
 
         try {
             // 1. CARREGAR LISTA PRINCIPAL
@@ -204,7 +207,7 @@
             });
             baseLojas = resLojasPrincipais.data;
 
-            // 2. CARREGAR LISTA DE RETORNO (BLINDADO CONTRA LIXO DO EXCEL)
+            // 2. CARREGAR LISTA DE RETORNO (BLINDADO)
             const responseRetorno = await fetch(urlLojasRetorno);
             let csvText = await responseRetorno.text();
             
@@ -226,8 +229,12 @@
                 Papa.parse(csvText, { header: true, skipEmptyLines: true, complete: resolve });
             });
             
-            // Filtra para garantir que só passa linha que tenha de fato um número de loja
-            returnLojas = resLojasRetorno.data.filter(row => row['Nº Loja'] && row['Nº Loja'].trim() !== '');
+            // FILTRO INTELIGENTE: Pega a linha se tiver Nº de Loja válido E a data contiver a palavra "antes"
+            returnLojas = resLojasRetorno.data.filter(row => {
+                const numLoja = row['Nº Loja'];
+                const dataVinil = row['Data de Vinilização'];
+                return numLoja && numLoja.trim() !== '' && dataVinil && dataVinil.toLowerCase().includes('antes');
+            });
             
             processarDadosLojas();
 
@@ -241,7 +248,7 @@
 
         } catch (error) {
             console.error("Erro ao carregar os dados das lojas:", error);
-            document.getElementById('store-list').innerHTML = "<div style='color:red; padding:20px; text-align:center;'>Erro ao carregar lista de lojas. Verifique a internet.</div>";
+            document.getElementById('store-list').innerHTML = "<div style='color:red; padding:20px; text-align:center;'>Erro ao carregar lista de lojas (ou arquivo CSV não encontrado no GitHub). Verifique o nome do arquivo.</div>";
         }
     }
 
@@ -267,7 +274,7 @@
                 loja.returnDetails = [];
             }
         });
-        console.log("Retornos processados: ", returnMap.size, "lojas encontradas.");
+        console.log("Retornos processados com sucesso. Lojas cravadas: ", returnMap.size);
     }
 
     function monitorarGPS() {
