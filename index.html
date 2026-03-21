@@ -150,10 +150,50 @@
     const userMarker = L.marker([0,0], { icon: pulseIcon }).addTo(map);
 
     function fazerLogin() {
-        auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPass').value).catch(() => alert("Erro no Login"));
+        const emailInput = document.getElementById('loginEmail');
+        const passInput = document.getElementById('loginPass');
+        const loginErrorDiv = document.getElementById('loginError');
+
+        loginErrorDiv.innerText = ''; // Limpa qualquer erro anterior
+
+        auth.signInWithEmailAndPassword(emailInput.value, passInput.value)
+            .catch(error => {
+                console.error("Erro no Login Firebase:", error); // Isso vai mostrar o erro completo no console (F12)
+                
+                // Exibe uma mensagem de erro mais amigável na tela
+                let errorMessage = "Erro no Login. Por favor, tente novamente.";
+                if (error.code === 'auth/invalid-email') {
+                    errorMessage = "E-mail inválido. Por favor, verifique o formato.";
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMessage = "Usuário não encontrado.";
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = "Senha incorreta.";
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = "A senha é muito fraca.";
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = "Muitas tentativas de login. Tente novamente mais tarde.";
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = "Erro de conexão. Verifique sua internet.";
+                }
+                loginErrorDiv.innerText = errorMessage; // Exibe o erro na div
+            });
     }
     
-    function fazerLogout() { if(currentUser) db.ref('presenca/' + currentUser.uid).remove().then(() => auth.signOut().then(() => location.reload())); }
+    function fazerLogout() { 
+        if(currentUser) {
+            db.ref('presenca/' + currentUser.uid).remove().then(() => {
+                auth.signOut().then(() => {
+                    location.reload(); // Recarrega a página após o logout
+                }).catch(error => {
+                    console.error("Erro ao fazer logout:", error);
+                    alert("Erro ao fazer logout: " + error.message);
+                });
+            }).catch(error => {
+                console.error("Erro ao remover presença:", error);
+                alert("Erro ao remover presença: " + error.message);
+            });
+        }
+    }
 
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -162,12 +202,16 @@
             document.getElementById('app-content').style.display = 'flex';
             document.getElementById('userDisplay').innerText = user.email.split('@')[0];
             carregarDados();
+        } else {
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('app-content').style.display = 'none';
         }
     });
 
     async function carregarDados() { // Adicionei async para lidar com as promessas do Papa.parse
         const urlLojasPrincipais = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
-        const urlLojasRetorno = "https://raw.githubusercontent.com/rikson-matos/lidl/main/Lista%20de%20Station%20ID_Lojas.csv"; // URL da sua nova lista
+        // Usei a URL que você já forneceu para o CSV de retorno
+        const urlLojasRetorno = "https://raw.githubusercontent.com/rikson-matos/lidl/main/Lista%20de%20Station%20ID_Lojas.csv"; 
 
         // Carregar lista principal
         const resLojasPrincipais = await new Promise(resolve => {
@@ -205,7 +249,13 @@
         returnLojas.forEach(rLoja => {
             // Usa o "Nº Loja" como chave para mapear as informações de retorno
             if (rLoja['Nº Loja']) {
-                returnMap.set(rLoja['Nº Loja'].toString(), {
+                // Algumas lojas podem ter várias entradas na lista de retorno (ex: Castro Verde CVR-00008 e CVR-00009).
+                // Vamos armazenar como um array para lidar com múltiplos postos por loja.
+                const numeroLoja = rLoja['Nº Loja'].toString();
+                if (!returnMap.has(numeroLoja)) {
+                    returnMap.set(numeroLoja, []);
+                }
+                returnMap.get(numeroLoja).push({
                     idPosto: rLoja['ID Posto'],
                     dataVinilizacao: rLoja['Data de Vinilização'],
                     marca: rLoja['Marca'],
@@ -218,9 +268,10 @@
             // Verifica se a loja na lista principal existe na lista de retorno
             if (loja.Código && returnMap.has(loja.Código.toString())) {
                 loja.needsReturn = true;
-                Object.assign(loja, returnMap.get(loja.Código.toString())); // Adiciona as info de retorno à loja principal
+                loja.returnDetails = returnMap.get(loja.Código.toString()); // Armazena todos os detalhes de retorno
             } else {
                 loja.needsReturn = false;
+                loja.returnDetails = [];
             }
         });
         console.log("Dados de retorno processados.", baseLojas); // Para depuração
@@ -331,11 +382,15 @@
         const info = document.getElementById('status-info');
         const obs = document.getElementById('obs-texto');
         const modalReturnInfo = document.getElementById('modal-return-info');
+        const mIdPosto = document.getElementById('m-id-posto');
+        const mDataVinilizacao = document.getElementById('m-data-vinilizacao');
+
 
         // Exibe ou oculta as informações de retorno no modal
-        if (loja.needsReturn) {
-            document.getElementById('m-id-posto').innerText = loja.idPosto || 'N/A';
-            document.getElementById('m-data-vinilizacao').innerText = loja.dataVinilizacao || 'N/A';
+        if (loja.needsReturn && loja.returnDetails && loja.returnDetails.length > 0) {
+            // Se houver múltiplos detalhes de retorno (múltiplos postos), concatena-os
+            mIdPosto.innerHTML = loja.returnDetails.map(d => d.idPosto).join('<br>');
+            mDataVinilizacao.innerHTML = loja.returnDetails.map(d => d.dataVinilizacao).join('<br>');
             modalReturnInfo.style.display = 'block';
         } else {
             modalReturnInfo.style.display = 'none';
