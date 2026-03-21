@@ -1,1 +1,284 @@
 
+,,,,,,
+,Nº Loja,Nome de Loja,ID Posto,Data de Vinilização,Marca,Local Entrega Etiquetas
+,119,Amadora - Rua de Angola (MOD),AMD-00109,antes 11/03/2026,ABB,Sede Lidl
+,125,Loures,LRS-00147,antes 11/03/2026,ABB,Sede Lidl
+,127,Loures - Portela,LRS-00145,antes 11/03/2026,ABB,Sede Lidl
+,129,Sintra - Tapada das Mercês,SNT-00192,antes 11/03/2026,ABB,Sede Lidl
+,134,Sintra - Cacém,SNT-00193,antes 11/03/2026,ABB,Sede Lidl
+,141,Odivelas - Caneças,ODV-00049,antes 11/03/2026,ABB,Sede Lidl
+,142,V.F.Xira-Póvoa Sta Iria,VFX-00098,antes 11/03/2026,ABB,Sede Lidl
+,144,Vila Franca de Xira - Alverca do Ribatejo,VFX-00097,antes 11/03/2026,ABB,Sede Lidl
+,149,Lisboa - Xabregas,LSB-00979,antes 11/03/2026,EFACEC,Sede Lidl
+,153,Cascais - Alcoitão,CSC-00415,antes 11/03/2026,ABB,Sede Lidl
+,157,Salvaterra de Magos,SMG-00014,antes 11/03/2026,ABB,Sede Lidl
+,158,Cascais _ Sassoeiros,CSC-00416,antes 11/03/2026,ABB,Sede Lidl
+,159,Odivelas - Arroja,ODV-00050,antes 11/03/2026,ABB,Sede Lidl
+,173,Lisboa - Av. Infante Dom Henrique,LSB-00977,antes 11/03/2026,EFACEC,Sede Lidl
+,174,Coruche,CCH-00007,antes 11/03/2026,ABB,Sede Lidl
+,177,Oeiras - Algés,OER-00254,antes 11/03/2026,ABB,Sede Lidl
+,179,Sintra - Algueirão,SNT-00198,antes 11/03/2026,ABB,Sede Lidl
+,186,Sintra - Terrugem,SNT-00197,antes 11/03/2026,ABB,Sede Lidl
+,321,Elvas,ELV-00018,antes 11/03/2026,EFACEC,Sede Lidl
+,328,Beja,BJA-00062,antes 11/03/2026,EFACEC,Sede Lidl
+,330,Portimão,PTM-00074,antes 11/03/2026,ABB,Sede Lidl
+,338,Olhão,OLH-00054,antes 11/03/2026,EFACEC,Sede Lidl
+,339,Faro-Bom Joao,FAR-00076,antes 11/03/2026,ABB,Sede Lidl
+,341,Tavira,TVR-00027,antes 11/03/2026,EFACEC,Sede Lidl
+,344,Loulé,LLE-00237,antes 11/03/2026,ABB,Sede Lidl
+,345,Vila Real de Santo António,VRS-00010,antes 11/03/2026,EFACEC,Sede Lidl
+,346,Odemira,ODM-00018,antes 11/03/2026,ABB,Sede Lidl
+,351,Montemor-o-Novo,MMN-00016,antes 11/03/2026,ABB,Sede Lidl
+,353,Lagos - Avenida da República,LGS-00041,antes 11/03/2026,EFACEC,Sede Lidl
+,354,Alcácer do Sal,ASL-00021,antes 11/03/2026,EFACEC,Sede Lidl
+,357,Albufeira,ABF-00112,antes 11/03/2026,EFACEC,Sede Lidl
+,358,São Brás de Alportel,SBA-00010,antes 11/03/2026,EFACEC,Sede Lidl
+,359,Sines,SNS-00019,antes 11/03/2026,ABB,Sede Lidl
+,361,Vendas Novas,VND-00015,antes 11/03/2026,EFACEC,Sede Lidl
+,363,Vila Viçosa,VVC-00007,antes 11/03/2026,ABB,Sede Lidl
+,365,Reguengos de Monsaraz,RMZ-00009,antes 11/03/2026,ABB,Sede Lidl
+,369,Grândola,GDL-00052,antes 11/03/2026,EFACEC,Sede Lidl
+,371,Santiago do Cacém - Santo André,STC-00019,antes 11/03/2026,EFACEC,Sede Lidl
+,372,Vila do Bispo,VBP-00019,antes 11/03/2026,ABB,Sede Lidl
+,435,Loures - Moscavide,LRS-00148,antes 11/03/2026,ABB,Sede Lidl
+,442,Vidigueira,VDG-00003,antes 11/03/2026,ABB,Sede Lidl
+,445,Sintra - Pero Pinheiro,SNT-00195,antes 11/03/2026,ABB,Sede Lidl
+,447,Loulé - Quarteira,LLE-00236,antes 11/03/2026,ABB,Sede Lidl
+,448,Cascais - Torre,CSC-00414,antes 11/03/2026,ABB,Sede Lidl
+,449,Estremoz,ETZ-00028,antes 11/03/2026,EFACEC,Sede Lidl
+,463,Silves-Rua Cruz da Palmeira,SLV-00033,antes 11/03/2026,ABB,Sede Lidl
+,466,Cascais - Abóboda,CSC-00412,antes 11/03/2026,EFACEC,Sede Lidl
+,469,Amadora - Alfragide,AMD-00111,antes 11/03/2026,EFACEC,Sede Lidl
+,471,"Sintra - Linhó, Avenida Pedro Alvares Cabral",SNT-00194,antes 11/03/2026,ABB,Sede Lidl
+,472,Loures - Sacavém,LRS-00143,antes 11/03/2026,EFACEC,Sede Lidl
+,474,Cascais - Tires,CSC-00411,antes 11/03/2026,ABB,Sede Lidl
+,478,Cascais-Fontaínhas,CSC-00417,antes 11/03/2026,ABB,Sede Lidl
+,479,Lagoa - Parchal,LGA-00043,antes 11/03/2026,EFACEC,Sede Lidl
+,483,Sintra - Casal de Cambra,SNT-00196,antes 11/03/2026,ABB,Sede Lidl
+,486,Lisboa - Casal Ribeiro,LSB-00976,antes 11/03/2026,ABB,Sede Lidl
+,488,Cascais - Rebelva,CSC-00413,antes 11/03/2026,EFACEC,Sede Lidl
+,492,Loulé - Boliqueime,LLE-00235,antes 11/03/2026,EFACEC,Sede Lidl
+,502,Loures - Frielas,LRS-00146,antes 11/03/2026,ABB,Sede Lidl
+,507,Lisboa - Rua Cidade de Bolama (Olivais Sul),LSB-00978,antes 11/03/2026,EFACEC,Sede Lidl
+,511,Odivelas Rua Heróis de Chaimite (A&N),ODV-00047,antes 11/03/2026,ABB,Sede Lidl
+,526,Oeiras - Porto Salvo,OER-00255,antes 11/03/2026,EFACEC,Sede Lidl
+,527,Oeiras - Linda-a-Velha,OER-00256,antes 11/03/2026,ABB,Sede Lidl
+,529,Lisboa - Av. Ilha da Madeira - Estádio do Restelo (NEO),LSB-00980,antes 11/03/2026,ABB,Sede Lidl
+,536,Serpa - Circular Interna de Serpa,SRP-00006,antes 11/03/2026,EFACEC,Sede Lidl
+,539,Sintra - Massamá Norte,SNT-00215,antes 11/03/2026,ABB,Sede Lidl
+,544,Vila Franca de Xira - Vialonga,VFX-00096,antes 11/03/2026,EFACEC,Sede Lidl
+,546,Loures - Santa Iria da Azoia,LRS-00144,antes 11/03/2026,EFACEC,Sede Lidl
+,548,Odivelas - Rua Soares dos Reis,ODV-00048,antes 11/03/2026,EFACEC,Sede Lidl
+,552,Amadora - Venda Nova,AMD-00110,antes 11/03/2026,ABB,Sede Lidl
+,557,Evora-Horta-Figueiras,EVR-00071,antes 11/03/2026,ABB,Sede Lidl
+,561,Porto Alto,BNV-00018,antes 11/03/2026,ABB,Sede Lidl
+,562,Sintra Mem Martins (A&N),SNT-00205,antes 11/03/2026,ABB,Sede Lidl
+,594,Almancil (NEO),LLE-00234,antes 11/03/2026,ABB,Sede Lidl
+,596,Sintra Lourel (NEO),SNT-00204,antes 11/03/2026,ABB,Sede Lidl
+,603,Castro Verde (NEO) - 2 PCVE,CVR-00008,antes 11/03/2026,ABB,Sede Lidl
+,609,Mértola (NEO),MTL-00003,antes 11/03/2026,ABB,Sede Lidl
+,612,Faro - Rua Eng.º Nuno Abecassis (UMZ),FAR-00075,antes 11/03/2026,ABB,Sede Lidl
+,618,Sintra Agualva (A&N),SNT-00199,antes 11/03/2026,ABB,Sede Lidl
+,622,Loulé - Caliços (NEO),LLE-00238,antes 11/03/2026,ABB,Sede Lidl
+,639,Sines,SNS-00021,antes 11/03/2026,ABB,Sede Lidl
+,642,Alverca,VFX-00138,antes 11/03/2026,ABB,Sede Lidl
+,603,Castro Verde (NEO) - 2 PCVE,CVR-00009,antes 11/03/2026,ABB,Sede Lidl
+,250,V.N. Gaia - S. Félix da Marinha,VNG-00200,antes 11/03/2026,ABB,VML
+,256,Vila Nova de Gaia - Pedroso,VNG-00196,antes 11/03/2026,EFACEC,VML
+,274,V.N.Gaia-Gulpilhares,VNG-00201,antes 11/03/2026,ABB,VML
+,323,Palmela - E.N. 379,PLM-00051,antes 11/03/2026,ABB,VML
+,326,Seixal - Amora,SXL-00072,antes 11/03/2026,ABB,VML
+,336,Sesimbra - Caminho Branco (EN 378),SSB-00021,antes 11/03/2026,ABB,VML
+,342,Setúbal-S. Sebastiao,STB-00101,antes 11/03/2026,ABB,VML
+,352,Alcochete,ACH-00037,antes 11/03/2026,EFACEC,VML
+,356,Palmela - Pinhal Novo,PLM-00049,antes 11/03/2026,ABB,VML
+,360,Almada - Sobreda,ALM-00101,antes 11/03/2026,ABB,VML
+,362,Seixal-Miratejo,SXL-00074,antes 11/03/2026,ABB,VML
+,364,Setúbal - Azeitão,STB-00100,antes 11/03/2026,ABB,VML
+,367,Almada - Pragal,ALM-00100,antes 11/03/2026,ABB,VML
+,370,Setúbal - Estrada de Algeruz,STB-00099,antes 11/03/2026,ABB,VML
+,373,Sesimbra - Quinta do Conde,SSB-00020,antes 11/03/2026,ABB,VML
+,419,Vila Nova de Gaia - Mafamude,VNG-00195,antes 11/03/2026,EFACEC,VML
+,436,Seixal - Corroios,SXL-00069,antes 11/03/2026,ABB,VML
+,455,Seixal - Avenida de Belverde,SXL-00071,antes 11/03/2026,ABB,VML
+,458,Seixal - Avenida Albano Narciso Pereira,SXL-00070,antes 11/03/2026,ABB,VML
+,460,Barreiro-Rua da Industria,BRR-00154,antes 11/03/2026,ABB,VML
+,461,Seixal - Fogueteiro,SXL-00068,antes 11/03/2026,EFACEC,VML
+,465,Espinho - Rua 43,ESP-00016,antes 11/03/2026,EFACEC,VML
+,497,Seixal - Fernão Ferro,SXL-00073,antes 11/03/2026,EFACEC,VML
+,504,Vila Nova de Gaia - Centro,VNG-00194,antes 11/03/2026,EFACEC,VML
+,528,Barreiro - Rua Miguel Bombarda,BRR-00153,antes 11/03/2026,EFACEC,VML
+,533,V.N.Gaia Monte da Virgem (UMZ),VNG-00202,antes 11/03/2026,ABB,VML
+,538,Almada - Charneca da Caparica,ALM-00118,antes 11/03/2026,ABB,VML
+,560,Moita - Quinta das Vargas,MTA-00021,antes 11/03/2026,EFACEC,VML
+,574,Montijo - Avenida de Olivença,MTJ-00116,antes 11/03/2026,EFACEC,VML
+,582,Almada - Monte da Caparica - UNL,ALM-00102,antes 11/03/2026,ABB,VML
+,113,Torres Novas,TNV-00025,depois 11/03/2026,ABB,VML
+,114,Abrantes,ABT-00038,depois 11/03/2026,ABB,VML
+,115,Marinha Grande (MOD),MGR-00023,depois 11/03/2026,ABB,VML
+,117,Castelo Branco,CTB-00057,depois 11/03/2026,ABB,VML
+,123,Torres Vedras,TVD-00086,depois 11/03/2026,ABB,VML
+,137,Alcobaça,ACB-00039,depois 11/03/2026,ABB,VML
+,138,Peniche,PNI-00020,depois 11/03/2026,ABB,VML
+,139,Rio Maior,RMR-00014,depois 11/03/2026,ABB,VML
+,145,Portalegre,PTG-00031,depois 11/03/2026,EFACEC,VML
+,163,Ponte de Sôr,PSR-00018,depois 11/03/2026,ABB,VML
+,168,Santarém,STR-00065,depois 11/03/2026,EFACEC,VML
+,175,Bombarral (MOD),BBR-00011,depois 11/03/2026,ABB,VML
+,176,Caldas da Rainha,CLD-00040,depois 11/03/2026,ABB,VML
+,178,Mafra - Malveira,MFR-00048,depois 11/03/2026,ABB,VML
+,181,Mafra - Ericeira,MFR-00049,depois 11/03/2026,ABB,VML
+,183,Arruda dos Vinhos,ARV-00020,depois 11/03/2026,ABB,VML
+,190,Lisboa - Av. Lusíada,LSB-00981,depois 11/03/2026,ABB,VML
+,201,Viseu - Pascoal,VIS-00115,depois 11/03/2026,ABB,VML
+,204,Gondomar-S.P.Cova,GDM-00061,depois 11/03/2026,ABB,VML
+,207,Matosinhos - Monte dos Burgos,MTS-00186,depois 11/03/2026,ABB,VML
+,214,Sto. Tirso - R. Jornal de S. Tirso,STS-00054,depois 11/03/2026,ABB,VML
+,221,Oliveira de Azeméis,OAZ-00022,depois 11/03/2026,ABB,VML
+,222,Pombal,PBL-00028,depois 11/03/2026,ABB,VML
+,227,Vila Nova de Gaia - Santa Marinha,VNG-00197,depois 11/03/2026,ABB,VML
+,228,Matosinhos - Senhora da Hora,MTS-00184,depois 11/03/2026,EFACEC,VML
+,230,Paredes,PRD-00036,depois 11/03/2026,ABB,VML
+,235,Figueira da Foz,FIG-00040,depois 11/03/2026,ABB,VML
+,241,Guarda,GRD-00042,depois 11/03/2026,EFACEC,VML
+,242,Porto - Agramonte,PRT-00310,depois 11/03/2026,EFACEC,VML
+,244,Famalicão-G.Delgado,VNF-00058,depois 11/03/2026,ABB,VML
+,247,Mangualde,MGL-00019,depois 11/03/2026,ABB,VML
+,249,V. do Conde - EN 13,VCD-00059,depois 11/03/2026,ABB,VML
+,255,Maia - Nogueira,MAI-00075,depois 11/03/2026,EFACEC,VML
+,258,Tondela,TND-00013,depois 11/03/2026,ABB,VML
+,259,Bragança,BGC-00026,depois 11/03/2026,EFACEC,VML
+,261,Coimbra - Santa Clara,CBR-00123,depois 11/03/2026,ABB,VML
+,262,Paços de Ferreira,PFR-00023,depois 11/03/2026,ABB,VML
+,263,Valença,VLN-00007,depois 11/03/2026,EFACEC,VML
+,264,Coimbra - Eiras,CBR-00126,depois 11/03/2026,EFACEC,VML
+,267,Esposende,EPS-00039,depois 11/03/2026,ABB,VML
+,268,Fafe,FAF-00023,depois 11/03/2026,ABB,VML
+,269,Lamego,LMG-00017,depois 11/03/2026,ABB,VML
+,273,Lousada,LOU-00011,depois 11/03/2026,ABB,VML
+,277,Matosinhos - Leça da Palmeira,MTS-00183,depois 11/03/2026,EFACEC,VML
+,278,Condeixa-a-Nova,CDN-00009,depois 11/03/2026,ABB,VML
+,279,Penafiel,PNF-00054,depois 11/03/2026,EFACEC,VML
+,281,Sever do Vouga,SVV-00005,depois 11/03/2026,ABB,VML
+,282,Povoa de Lanhoso,PVL-00007,depois 11/03/2026,ABB,VML
+,285,Mirandela,MDL-00014,depois 11/03/2026,EFACEC,VML
+,287,Castelo de Paiva,CPV-00005,depois 11/03/2026,ABB,VML
+,288,Barcelos,BCL-00045,depois 11/03/2026,ABB,VML
+,290,São Pedro do Sul,SPS-00009,depois 11/03/2026,EFACEC,VML
+,291,Macedo de Cavaleiros,MCD-00007,depois 11/03/2026,ABB,VML
+,292,Mealhada,MLD-00045,depois 11/03/2026,EFACEC,VML
+,293,Ponte de Lima,PTL-00027,depois 11/03/2026,EFACEC,VML
+,295,Vieira do Minho,VRM-00007,depois 11/03/2026,ABB,VML
+,297,Vizela (MOD),VIZ-00015,depois 11/03/2026,ABB,VML
+,298,Chaves,CHV-00027,depois 11/03/2026,EFACEC,VML
+,318,Évora,EVR-00062,depois 11/03/2026,EFACEC,VML
+,401,Leiria - Marrazes,LRA-00157,depois 11/03/2026,ABB,VML
+,402,Montemor-o-Velho,MMV-00012,depois 11/03/2026,EFACEC,VML
+,403,Miranda do Corvo,MCV-00006,depois 11/03/2026,ABB,VML
+,404,Tábua,TBU-00009,depois 11/03/2026,ABB,VML
+,405,Alcanena,ACN-00012,depois 11/03/2026,ABB,VML
+,406,Santa Comba Dão,SCD-00012,depois 11/03/2026,ABB,VML
+,407,Gouveia,GVA-00006,depois 11/03/2026,EFACEC,VML
+,408,Nelas,NLS-00008,depois 11/03/2026,ABB,VML
+,409,Alcobaça - Benedita,ACB-00038,depois 11/03/2026,ABB,VML
+,410,Oliveira do Bairro,OBR-00017,depois 11/03/2026,ABB,VML
+,411,Ourém,ORM-00029,depois 11/03/2026,ABB,VML
+,412,Penacova,PCV-00007,depois 11/03/2026,ABB,VML
+,413,Nazaré,NZR-00038,depois 11/03/2026,ABB,VML
+,414,Entroncamento,ENT-00011,depois 11/03/2026,ABB,VML
+,417,Felgueiras,FLG-00026,depois 11/03/2026,ABB,VML
+,418,São João da Madeira,SJM-00050,depois 11/03/2026,ABB,VML
+,420,Braga - Robert Smith,BRG-00139,depois 11/03/2026,ABB,VML
+,421,Vila Nova de Gaia - Avintes,VNG-00198,depois 11/03/2026,ABB,VML
+,422,Peso da Régua,PRG-00017,depois 11/03/2026,ABB,VML
+,423,Porto - Av. Camilo,PRT-00315,depois 11/03/2026,ABB,VML
+,425,Castelo Branco - Montalvão,CTB-00056,depois 11/03/2026,EFACEC,VML
+,426,Vila Nova de Gaia - Canidelo,VNG-00199,depois 11/03/2026,ABB,VML
+,427,Felgueiras - Lixa,FLG-00025,depois 11/03/2026,EFACEC,VML
+,428,Guimarães - Pevidém,GMR-00149,depois 11/03/2026,ABB,VML
+,429,Famalicão - Ribeirão,VNF-00054,depois 11/03/2026,EFACEC,VML
+,430,Soure,SRE-00007,depois 11/03/2026,ABB,VML
+,431,Maia - Vermoim,MAI-00072,depois 11/03/2026,EFACEC,VML
+,432,Guimarães - Mesão Frio,GMR-00146,depois 11/03/2026,EFACEC,VML
+,437,Fundão,FND-00028,depois 11/03/2026,ABB,VML
+,439,Batalha,BTL-00012,depois 11/03/2026,ABB,VML
+,440,Maia - Moreira,MAI-00074,depois 11/03/2026,EFACEC,VML
+,443,Gondomar - Baguim do Monte,GDM-00059,depois 11/03/2026,EFACEC,VML
+,444,Alenquer,ALQ-00028,depois 11/03/2026,ABB,VML
+,446,Póvoa do Varzim - Aver-o-Mar,PVZ-00046,depois 11/03/2026,ABB,VML
+,451,Gondomar - São Cosme,GDM-00060,depois 11/03/2026,ABB,VML
+,453,Matosinhos-Rua Roberto Ivens,MTS-00187,depois 11/03/2026,ABB,VML
+,454,Cantanhede - Chão do Conde,CNT-00031,depois 11/03/2026,ABB,VML
+,457,Matosinhos - São Mamede de Infesta,MTS-00185,depois 11/03/2026,EFACEC,VML
+,464,Barcelos - Rua Filipa Borges,BCL-00044,depois 11/03/2026,EFACEC,VML
+,467,Figueira da Foz - Billerud,FIG-00039,depois 11/03/2026,EFACEC,VML
+,468,Porto - Rua Diamantina,PRT-00312,depois 11/03/2026,EFACEC,VML
+,470,Viana do Castelo - Eça de Queirós,VCT-00066,depois 11/03/2026,ABB,VML
+,473,Estarreja,ETR-00023,depois 11/03/2026,EFACEC,VML
+,475,Vila Verde - Rua dos Bombeiros,VVD-00023,depois 11/03/2026,ABB,VML
+,476,"Lourosa - Avenida Principal / EN 1, km 284",VFR-00097,depois 11/03/2026,ABB,VML
+,477,"Monção - E.N.101, Gandra, Mazedo",MNC-00013,depois 11/03/2026,EFACEC,VML
+,480,Tomar,TMR-00048,depois 11/03/2026,ABB,VML
+,481,Covilhã,CVL-00048,depois 11/03/2026,ABB,VML
+,482,Porto - Rua Diogo Botelho,PRT-00309,depois 11/03/2026,EFACEC,VML
+,484,Vagos,VGS-00018,depois 11/03/2026,EFACEC,VML
+,487,Viana do Castelo - Darque,VCT-00065,depois 11/03/2026,EFACEC,VML
+,489,Vila Real - Avenida da Universidade,VRL-00048,depois 11/03/2026,EFACEC,VML
+,490,Barreiro - Quinta das Canas,BRR-00152,depois 11/03/2026,ABB,VML
+,494,Gondomar - Rio Tinto,GDM-00058,depois 11/03/2026,EFACEC,VML
+,496,Braga - Infias,BRG-00141,depois 11/03/2026,EFACEC,VML
+,499,Santa Maria da Feira - Centro,VFR-00096,depois 11/03/2026,EFACEC,VML
+,500,Porto - Av Fernão de Magalhães,PRT-00314,depois 11/03/2026,ABB,VML
+,501,Caldas da Rainha - Rua São João de Deus,CLD-00039,depois 11/03/2026,ABB,VML
+,505,Vila Nova de Famalicão - Pousada de Saramagos,VNF-00055,depois 11/03/2026,EFACEC,VML
+,509,Leiria - Guimarota,LRA-00155,depois 11/03/2026,EFACEC,VML
+,510,Lousã,LSA-00011,depois 11/03/2026,ABB,VML
+,512,Lourinhã,LNH-00038,depois 11/03/2026,ABB,VML
+,513,Almeirim,ALR-00011,depois 11/03/2026,EFACEC,VML
+,514,Viseu - Rua APPACDM,VIS-00114,depois 11/03/2026,EFACEC,VML
+,515,Seia,SEI-00017,depois 11/03/2026,EFACEC,VML
+,516,Setúbal - São Julião,STB-00098,depois 11/03/2026,ABB,VML
+,517,Aveiro - Esgueira,AVR-00092,depois 11/03/2026,EFACEC,VML
+,520,Amarante - São Gonçalo,AMT-00031,depois 11/03/2026,EFACEC,VML
+,523,Guimarães - Fermentões,GMR-00147,depois 11/03/2026,EFACEC,VML
+,524,Braga - Imaculada Conceição,BRG-00140,depois 11/03/2026,ABB,VML
+,525,Vila Franca de Xira - E.N. 1,VFX-00095,depois 11/03/2026,EFACEC,VML
+,534,Arganil,AGN-00007,depois 11/03/2026,EFACEC,VML
+,535,Santo Tirso - Vila das Aves,STS-00053,depois 11/03/2026,ABB,VML
+,541,Silves - Armação de Pêra,SLV-00032,depois 11/03/2026,EFACEC,VML
+,543,Rio de Mouro (UMZ),SNT-00200,depois 11/03/2026,ABB,VML
+,545,Cartaxo,CTX-00007,depois 11/03/2026,ABB,VML
+,549,Porto - Rotunda AEP,PRT-00313,depois 11/03/2026,ABB,VML
+,550,Marco de Canaveses,MCN-00020,depois 11/03/2026,ABB,VML
+,551,Leiria - Av. 25 de Abril,LRA-00156,depois 11/03/2026,ABB,VML
+,553,Valongo - Fonseca Dias,VLG-00053,depois 11/03/2026,ABB,VML
+,554,Valongo - Ermesinde,VLG-00051,depois 11/03/2026,ABB,VML
+,556,Vila do Conde - Avenida Julio Graça,VCD-00058,depois 11/03/2026,EFACEC,VML
+,558,Guimarães - Silvares,GMR-00148,depois 11/03/2026,EFACEC,VML
+,559,Valongo - Alfena,VLG-00052,depois 11/03/2026,ABB,VML
+,563,V. N. Famalicão - Av. Eng. Pinheiro Braga,VNF-00056,depois 11/03/2026,ABB,VML
+,564,Vila Conde - Mindelo (NEO),VCD-00060,depois 11/03/2026,ABB,VML
+,565,Viseu - Estrada de Satão,VIS-00116,depois 11/03/2026,ABB,VML
+,570,Anadia,AND-00031,depois 11/03/2026,ABB,VML
+,571,Oliveira do Hospital - Rotunda do Empresário,OHP-00022,depois 11/03/2026,ABB,VML
+,572,Ovar,OVR-00032,depois 11/03/2026,ABB,VML
+,576,S. J. Madeira - Oliveira Júnior (NEO),SJM-00051,depois 11/03/2026,ABB,VML
+,579,Porto - Rua Joaquim Bastos,PRT-00311,depois 11/03/2026,EFACEC,VML
+,584,Arcos de Valdevez (A&N),AVV-00013,depois 11/03/2026,ABB,VML
+,585,Albergaria a Velha,ALB-00032,depois 11/03/2026,ABB,VML
+,586,Mozelos,VFR-00100,depois 11/03/2026,ABB,VML
+,588,Vieira de Leiria (NEO),MGR-00024,depois 11/03/2026,ABB,VML
+,590,Torres Vedras - Silveira (NEO),TVD-00085,depois 11/03/2026,ABB,VML
+,595,Santarém - Av. Dr Francisco Sá Carneiro,STR-00071,depois 11/03/2026,ABB,VML
+,599,Vale de Cambra (NEO),VLC-00014,depois 11/03/2026,ABB,VML
+,608,Leiria Paulo VI (NEO),LRA-00158,depois 11/03/2026,ABB,VML
+,610,Mafra (A&N),MFR-00050,depois 11/03/2026,ABB,VML
+,611,Maia - Brás Oleiro (A&N),MAI-00073,depois 11/03/2026,EFACEC,VML
+,613,Matosinhos Custoias,MTS-00194,depois 11/03/2026,ABB,VML
+,619,Matosinhos Perafita (NEO),MTS-00188,depois 11/03/2026,ABB,VML
+,620,Alcains (NEO),CTB-00060,depois 11/03/2026,ABB,VML
+,624,Trofa (NEO),TRF-00019,depois 11/03/2026,ABB,VML
+,633,Porto de Mós,PMS-00015,depois 11/03/2026,ABB,VML
+,636,Aveiro - Verdemilho,AVR-00093,depois 11/03/2026,ABB,VML
+,637,Águeda,AGD-00038,depois 11/03/2026,ABB,VML
+,646,Penalva,BRR-00158,depois 11/03/2026,ABB,VML
