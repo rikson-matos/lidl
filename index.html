@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quantum AI PRO - Fleet Control</title>
+    <title>Quantum AI PRO - Firebase Edition</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { --blue: #0050aa; --yellow: #ffcc00; --red: #df0000; --green: #28a745; --dark: #333; --gps-blue: #2196F3; --orange-return: #ff8c00; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #f4f4f4; }
         
-        /* Telas */
         #login-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--blue); z-index: 20000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         #app-content { display: none; height: 100%; flex-direction: column; }
         
-        /* UI */
         #header { background: var(--blue); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
         #stats-bar { background: var(--dark); color: white; padding: 8px; font-size: 10px; display: flex; justify-content: space-around; text-align: center; }
         .stat-box { cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s; }
-        .stat-box:active { background: #444; }
         .stat-box b { display: block; font-size: 14px; color: var(--yellow); }
+        
         .tab-bar { display: flex; background: #eee; border-bottom: 1px solid #ddd; }
         .tab { flex: 1; padding: 15px 5px; text-align: center; cursor: pointer; font-size: 10px; font-weight: bold; color: #666; }
         .tab.active { background: white; border-bottom: 4px solid var(--yellow); color: var(--blue); }
@@ -32,29 +30,22 @@
         
         .store-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 6px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         
-        /* Modal */
         .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center; }
         .modal-box { background:white; width:85%; max-width:380px; padding:25px; border-radius:15px; text-align: center; max-height: 90vh; overflow-y: auto; }
         .btn { padding: 15px; width: 100%; margin: 8px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
         
         .gps-button { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid var(--blue); }
 
-        /* Pulsações */
         .pulse-marker { background: var(--gps-blue); border-radius: 50%; height: 14px; width: 14px; position: absolute; left: -7px; top: -7px; border: 2px solid white; }
         .pulse-marker::after { content: ""; border: 3px solid var(--gps-blue); border-radius: 50%; height: 40px; width: 40px; position: absolute; left: -16px; top: -16px; animation: pulsate 1.5s ease-out infinite; opacity: 0; }
-        
         .pulse-colega { background: #333; border-radius: 50%; height: 10px; width: 10px; position: absolute; left: -5px; top: -5px; border: 2px solid white; }
-        .pulse-colega::after { content: ""; border: 2px solid #666; border-radius: 50%; height: 30px; width: 30px; position: absolute; left: -12px; top: -12px; animation: pulsate 2s ease-out infinite; opacity: 0; }
-
         @keyframes pulsate { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
-        .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: bold; position: relative; top: 15px; left: -50%; }
-        #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; font-family: inherit; }
+        .colega-label { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; position: relative; top: 15px; left: -50%; }
         
-        /* ESTILO NOVO PARA DESTACAR O NÚMERO DO VINIL */
+        #obs-texto { width:100%; height:60px; margin-top:10px; border-radius:8px; border:1px solid #ccc; padding:8px; display:none; resize: none; }
+        
         .modal-info-details { text-align: center; margin: 15px 0; padding: 15px; background: #fff8e1; border-radius: 8px; border: 2px dashed var(--orange-return); display: none; }
-        .modal-info-details h4 { color: var(--orange-return); margin: 0 0 10px 0; font-size: 16px; text-transform: uppercase;}
-        .modal-info-details p { margin: 5px 0; font-size: 13px; color: #333; }
-        .vinil-numero { display: block; font-size: 24px; color: var(--red); font-weight: 900; margin-top: 5px; background: white; padding: 5px; border-radius: 5px; border: 1px solid #ccc;}
+        .vinil-numero { display: block; font-size: 24px; color: var(--red); font-weight: 900; background: white; padding: 5px; border-radius: 5px; border: 1px solid #ccc;}
     </style>
 </head>
 <body>
@@ -65,13 +56,13 @@
         <input type="email" id="loginEmail" placeholder="E-mail">
         <input type="password" id="loginPass" placeholder="Senha">
         <button class="btn" style="background: var(--yellow); color: var(--blue);" onclick="fazerLogin()">ENTRAR</button>
-        <div id="loginError" style="color: red; font-size: 12px; font-weight: bold; margin-top: 10px;"></div>
+        <div id="loginError" style="color: red; font-size: 12px; margin-top: 10px;"></div>
     </div>
 </div>
 
 <div id="app-content">
     <div id="header">
-        <div><h3 style="margin:0; font-size: 16px;">LIDL AUDIT</h3><small id="userDisplay"></small></div>
+        <div><h3 style="margin:0; font-size: 16px;">LIDL AUDIT PRO</h3><small id="userDisplay"></small></div>
         <button onclick="fazerLogout()" style="background:none; border:1px solid white; color:white; border-radius:4px; font-size:10px; padding:4px 8px;">SAIR</button>
     </div>
     <div id="stats-bar">
@@ -87,7 +78,7 @@
         <div id="tab-mapa" class="tab" style="background:#ddd" onclick="changeTab('mapa')">📍 MAPA</div>
     </div>
     <div id="content-wrapper">
-        <div id="store-list">Sincronizando...</div>
+        <div id="store-list">Carregando dados do Firebase...</div>
         <div id="map-container">
             <div id="map"></div>
             <button class="gps-button" onclick="focarUtilizador()">
@@ -102,37 +93,33 @@
         <h2 id="m-nome" style="color: var(--blue); margin-top:0;">Loja</h2>
         <p id="m-morada" style="font-size: 12px; color: #666; margin-bottom: 5px;"></p>
         
-        <!-- CAIXA DE DESTAQUE PARA O NÚMERO DO VINIL -->
         <div id="modal-return-info" class="modal-info-details">
-            <h4>⚠️ AÇÃO DE RETORNO</h4>
+            <h4 style="color: var(--orange-return); margin:0;">⚠️ AÇÃO DE RETORNO</h4>
             <p><b>Nº DO VINIL A APLICAR:</b></p>
             <span id="m-id-posto" class="vinil-numero"></span>
             <p style="margin-top: 10px; font-size: 11px;">Data Vinilização: <span id="m-data-vinilizacao"></span></p>
         </div>
         
         <button class="btn" style="background: var(--blue); color: white;" onclick="abrirRota()">🧭 COMO CHEGAR (ROTA)</button>
-        
         <div id="status-info" style="margin: 10px 0; font-weight: bold; padding: 10px; border-radius: 8px; font-size: 13px;"></div>
         <textarea id="obs-texto" placeholder="Notas do trabalho..."></textarea>
         
         <button id="btnStart" class="btn" style="background: var(--green); color:white;" onclick="dbAction('start')">INICIAR TRABALHO</button>
         <button id="btnFinish" class="btn" style="background: var(--red); color:white;" onclick="dbAction('finish')">FINALIZAR TAREFA</button>
-        <button id="btnCancel" class="btn" style="background: #333; color:white; font-size: 11px;" onclick="dbAction('cancel')">⚠️ CANCELAR / LIMPAR REGISTRO</button>
-        
+        <button id="btnCancel" class="btn" style="background: #333; color:white; font-size: 11px;" onclick="dbAction('cancel')">⚠️ LIMPAR REGISTRO</button>
         <button class="btn" style="background: #eee;" onclick="closeModal()">VOLTAR</button>
     </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- SCRIPTS FIREBASE COMPAT -->
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-    // Configuração do Firebase com a sua chave exata e correta
     const firebaseConfig = {
-        apiKey: "AIzaSyBdpRqdptOWD6kPZf4oFzvjpoa-XqXgP_tY", 
+        apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY", 
         authDomain: "lidl-audit.firebaseapp.com",
         databaseURL: "https://lidl-audit-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "lidl-audit",
@@ -143,42 +130,23 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth(), db = firebase.database();
 
-    let currentUser = null, baseLojas = [], returnLojas = [], statusRealtime = {}, lojaAtiva = null, userPos = null;
-    let currentTab = 'todas';
-    let currentFilter = 'todas';
-    let colegasMarkers = {};
+    let currentUser = null, baseLojas = [], statusRealtime = {}, lojasRetorno = {}, lojaAtiva = null, userPos = null;
+    let currentTab = 'todas', currentFilter = 'todas', colegasMarkers = {};
 
     const map = L.map('map', { tap: false, zoomControl: false }).setView([39.5, -8.0], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     const markersLayer = L.layerGroup().addTo(map);
-
-    const pulseIcon = L.divIcon({ className: 'c-pulse', html: '<div class="pulse-marker"></div>', iconSize: [0, 0] });
-    const userMarker = L.marker([0,0], { icon: pulseIcon }).addTo(map);
+    const userMarker = L.marker([0,0], { icon: L.divIcon({ className: 'c-pulse', html: '<div class="pulse-marker"></div>', iconSize: [0, 0] }) }).addTo(map);
 
     function fazerLogin() {
-        const emailInput = document.getElementById('loginEmail');
-        const passInput = document.getElementById('loginPass');
-        const loginErrorDiv = document.getElementById('loginError');
-        
-        loginErrorDiv.innerText = 'Aguarde...'; 
-        
-        auth.signInWithEmailAndPassword(emailInput.value, passInput.value).catch(error => {
-            console.error("Erro Firebase Auth:", error);
-            let errorMessage = "Erro: " + error.code;
-            
-            if (error.code === 'auth/invalid-email') errorMessage = "E-mail com formato inválido.";
-            else if (error.code === 'auth/user-not-found') errorMessage = "Usuário não cadastrado.";
-            else if (error.code === 'auth/wrong-password') errorMessage = "Senha incorreta.";
-            else if (error.code === 'auth/invalid-credential') errorMessage = "E-mail ou senha incorretos.";
-            else if (error.code === 'auth/network-request-failed') errorMessage = "Sem conexão com a internet.";
-            
-            loginErrorDiv.innerText = errorMessage;
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPass').value;
+        auth.signInWithEmailAndPassword(email, pass).catch(err => {
+            document.getElementById('loginError').innerText = "Erro: E-mail ou senha incorretos.";
         });
     }
     
-    function fazerLogout() { 
-        if(currentUser) db.ref('presenca/' + currentUser.uid).remove().then(() => auth.signOut().then(() => location.reload()));
-    }
+    function fazerLogout() { if(currentUser) db.ref('presenca/' + currentUser.uid).remove().then(() => auth.signOut().then(() => location.reload())); }
 
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -186,95 +154,129 @@
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('app-content').style.display = 'flex';
             document.getElementById('userDisplay').innerText = user.email.split('@')[0];
-            carregarDados();
-        } else {
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('app-content').style.display = 'none';
+            inicializarApp();
         }
     });
 
-    async function carregarDados() {
-        const urlLojasPrincipais = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
-        
-        // URL ATUALIZADA PARA O NOVO NOME DO ARQUIVO (lista.csv)
-        // Se o nome do seu arquivo no GitHub for diferente, mude aqui:
-        const urlLojasRetorno = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista.csv"; 
-
-        try {
-            // 1. CARREGAR LISTA PRINCIPAL
-            const resLojasPrincipais = await new Promise(resolve => {
-                Papa.parse(urlLojasPrincipais, { download: true, header: true, skipEmptyLines: true, complete: resolve });
-            });
-            baseLojas = resLojasPrincipais.data;
-
-            // 2. CARREGAR LISTA DE RETORNO (BLINDADO)
-            const responseRetorno = await fetch(urlLojasRetorno);
-            let csvText = await responseRetorno.text();
-            
-            // Separa o texto em linhas
-            let linhas = csvText.split('\n');
-            
-            // Procura qual é a linha verdadeira do Cabeçalho
-            let indexCabecalho = linhas.findIndex(linha => linha.includes('Nº Loja'));
-            
-            if (indexCabecalho !== -1) {
-                // Corta todo o lixo que estiver acima do cabeçalho
-                linhas = linhas.slice(indexCabecalho);
-                // Remove vírgulas vazias que ficam presas no começo de cada linha
-                linhas = linhas.map(linha => linha.replace(/^,+/, ''));
-                csvText = linhas.join('\n'); // Junta tudo de novo
+    // FUNÇÃO PRINCIPAL: Carrega tudo do Firebase
+    function inicializarApp() {
+        // 1. Escuta a lista de lojas estática
+        db.ref('configuracao/base_lojas').on('value', snap => {
+            const data = snap.val();
+            if (data) {
+                baseLojas = Object.values(data);
+                carregarStatusEDetalhes();
+            } else {
+                document.getElementById('store-list').innerHTML = "<div style='padding:20px; text-align:center;'>Banco de dados vazio. <br><button onclick='migrarDadosCSV()'>Clique aqui para carregar os dados pela 1ª vez</button></div>";
             }
+        });
+    }
 
-            const resLojasRetorno = await new Promise(resolve => {
-                Papa.parse(csvText, { header: true, skipEmptyLines: true, complete: resolve });
-            });
+    function carregarStatusEDetalhes() {
+        // 2. Escuta a lista de retornos (112 lojas)
+        db.ref('configuracao/lista_retorno').on('value', snap => {
+            lojasRetorno = snap.val() || {};
             
-            // FILTRO INTELIGENTE: Pega a linha se tiver Nº de Loja válido E a data contiver a palavra "antes"
-            returnLojas = resLojasRetorno.data.filter(row => {
-                const numLoja = row['Nº Loja'];
-                const dataVinil = row['Data de Vinilização'];
-                return numLoja && numLoja.trim() !== '' && dataVinil && dataVinil.toLowerCase().includes('antes');
-            });
-            
-            processarDadosLojas();
+            // 3. Escuta os status de trabalho em tempo real
+            db.ref('trabalhos').on('value', sReal => {
+                statusRealtime = sReal.val() || {};
+                
+                // Cruza os dados
+                baseLojas.forEach(loja => {
+                    const idRetorno = "ret_" + loja.Código;
+                    if (lojasRetorno[idRetorno]) {
+                        loja.needsReturn = true;
+                        loja.returnDetails = lojasRetorno[idRetorno];
+                    } else {
+                        loja.needsReturn = false;
+                    }
+                });
 
-            db.ref('trabalhos').on('value', snap => {
-                statusRealtime = snap.val() || {};
                 atualizarStats();
                 renderList();
             });
-            monitorarGPS();
-            ouvirPresenca();
-
-        } catch (error) {
-            console.error("Erro ao carregar os dados das lojas:", error);
-            document.getElementById('store-list').innerHTML = "<div style='color:red; padding:20px; text-align:center;'>Erro ao carregar lista de lojas (ou arquivo CSV não encontrado no GitHub). Verifique o nome do arquivo.</div>";
-        }
+        });
+        monitorarGPS();
+        ouvirPresenca();
     }
 
-    function processarDadosLojas() {
-        const returnMap = new Map();
-        returnLojas.forEach(rLoja => {
-            if (rLoja['Nº Loja']) {
-                const numeroLoja = rLoja['Nº Loja'].toString().trim();
-                if (!returnMap.has(numeroLoja)) returnMap.set(numeroLoja, []);
-                returnMap.get(numeroLoja).push({
-                    idPosto: rLoja['ID Posto'],
-                    dataVinilizacao: rLoja['Data de Vinilização']
-                });
-            }
-        });
+    function renderList() {
+        const container = document.getElementById('store-list');
+        if(currentTab !== 'mapa') container.innerHTML = '';
+        markersLayer.clearLayers();
+        
+        let exibir = [...baseLojas];
+        if (userPos) {
+            exibir.forEach(l => l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.Latitude), parseFloat(l.Longitude)));
+            if (currentTab === 'perto') exibir.sort((a, b) => a.dist - b.dist);
+        }
 
-        baseLojas.forEach(loja => {
-            if (loja.Código && returnMap.has(loja.Código.toString().trim())) {
-                loja.needsReturn = true;
-                loja.returnDetails = returnMap.get(loja.Código.toString().trim());
-            } else {
-                loja.needsReturn = false;
-                loja.returnDetails = [];
-            }
+        exibir.forEach((loja, idx) => {
+            const id = "loja_" + loja.Código;
+            const status = statusRealtime[id] || { estado: 'LIVRE' };
+            
+            if (currentFilter === 'feitas' && status.estado !== 'CONCLUIDO') return;
+            if (currentFilter === 'faltam' && status.estado === 'CONCLUIDO') return;
+            if (currentFilter === 'retorno' && !loja.needsReturn) return; 
+
+            let pinColor = loja.needsReturn ? 'var(--orange-return)' : (status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : 'var(--blue)'));
+            
+            L.circleMarker([loja.Latitude, loja.Longitude], {radius: 8, fillColor: pinColor, color: '#fff', fillOpacity: 0.8, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
+            
+            if(currentTab === 'mapa') return;
+            
+            const div = document.createElement('div');
+            div.className = 'store-item';
+            div.style.borderLeftColor = pinColor;
+            div.innerHTML = `<b>${loja.Nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km' : ''} - ${status.estado} ${loja.needsReturn ? '<b style="color:var(--orange-return)"> (RETORNO)</b>' : ''}</small>`;
+            div.onclick = () => abrirLoja(id, loja);
+            container.appendChild(div);
         });
-        console.log("Retornos processados com sucesso. Lojas cravadas: ", returnMap.size);
+    }
+
+    function abrirLoja(id, loja) {
+        lojaAtiva = { id, ...loja };
+        document.getElementById('m-nome').innerText = loja.Nome;
+        document.getElementById('m-morada').innerText = loja.Morada;
+        const status = statusRealtime[id] || { estado: 'LIVRE' };
+        
+        const modalRet = document.getElementById('modal-return-info');
+        if (loja.needsReturn) {
+            document.getElementById('m-id-posto').innerText = loja.returnDetails.idPosto;
+            document.getElementById('m-data-vinilizacao').innerText = loja.returnDetails.data;
+            modalRet.style.display = 'block';
+        } else {
+            modalRet.style.display = 'none';
+        }
+        
+        const info = document.getElementById('status-info');
+        info.innerText = status.estado;
+        info.style.background = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee');
+        document.getElementById('obs-texto').style.display = (status.estado !== 'LIVRE') ? 'block' : 'none';
+        document.getElementById('obs-texto').value = status.obs || "";
+        
+        document.getElementById('btnStart').style.display = status.estado === 'LIVRE' ? 'block' : 'none';
+        document.getElementById('btnFinish').style.display = status.estado === 'EM_CURSO' ? 'block' : 'none';
+        document.getElementById('btnCancel').style.display = (status.estado !== 'LIVRE') ? 'block' : 'none';
+        document.getElementById('modalTrabalho').style.display = 'flex';
+    }
+
+    function dbAction(acao) {
+        const ref = db.ref('trabalhos/' + lojaAtiva.id);
+        if(acao === 'start') ref.set({ estado: 'EM_CURSO', equipa: currentUser.email.split('@')[0], inicio: Date.now() });
+        else if(acao === 'finish') ref.update({ estado: 'CONCLUIDO', fim: Date.now(), obs: document.getElementById('obs-texto').value });
+        else if(confirm("Deseja limpar o registro?")) ref.remove();
+        closeModal();
+    }
+
+    function changeTab(t) {
+        currentTab = t;
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.getElementById('tab-' + t).classList.add('active');
+        document.getElementById('store-list').style.display = t === 'mapa' ? 'none' : 'block';
+        document.getElementById('map-container').style.display = t === 'mapa' ? 'block' : 'none';
+        if(t === 'mapa') setTimeout(() => map.invalidateSize(), 200);
+        renderList();
     }
 
     function monitorarGPS() {
@@ -301,123 +303,17 @@
         });
     }
 
-    function abrirRota() {
-        if(!lojaAtiva) return;
-        window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.Latitude},${lojaAtiva.Longitude}&travelmode=driving`, '_blank');
-    }
-
-    function setFilter(filter) {
-        currentFilter = filter;
-        if(currentTab === 'mapa') changeTab('todas'); 
-        renderList();
-    }
-
-    function renderList() {
-        const container = document.getElementById('store-list');
-        if(currentTab !== 'mapa') container.innerHTML = '';
-        markersLayer.clearLayers();
-        
-        let exibir = baseLojas.map((l, i) => ({...l, originalIndex: i}));
-        
-        if (userPos) {
-            exibir.forEach(l => l.dist = calcDist(userPos.lat, userPos.lon, parseFloat(l.Latitude), parseFloat(l.Longitude)));
-            if (currentTab === 'perto') exibir.sort((a, b) => a.dist - b.dist);
-        }
-
-        exibir.forEach((loja) => {
-            const id = "loja_" + loja.originalIndex;
-            const status = statusRealtime[id] || { estado: 'LIVRE' };
-            
-            if (currentFilter === 'feitas' && status.estado !== 'CONCLUIDO') return;
-            if (currentFilter === 'faltam' && status.estado === 'CONCLUIDO') return;
-            if (currentFilter === 'retorno' && !loja.needsReturn) return; 
-
-            let pinColor = loja.needsReturn ? 'var(--orange-return)' : (status.estado === 'EM_CURSO' ? 'orange' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : 'var(--blue)'));
-            
-            L.circleMarker([loja.Latitude, loja.Longitude], {radius: 8, fillColor: pinColor, color: '#fff', fillOpacity: 0.8, weight: 2}).on('click', () => abrirLoja(id, loja)).addTo(markersLayer);
-            
-            if(currentTab === 'mapa') return;
-            
-            const div = document.createElement('div');
-            div.className = 'store-item';
-            div.style.borderLeftColor = pinColor;
-            div.innerHTML = `<b>${loja.Nome}</b><br><small>${loja.dist ? '📍 '+loja.dist.toFixed(1)+'km' : ''} - ${status.estado} ${loja.needsReturn ? '<b style="color:var(--orange-return)"> (RETORNO)</b>' : ''}</small>`;
-            div.onclick = () => { abrirLoja(id, loja); };
-            container.appendChild(div);
-        });
-
-        if(container.innerHTML === '' && currentTab !== 'mapa') {
-            container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">Nenhuma loja encontrada neste filtro.</div>';
-        }
-    }
-
-    function abrirLoja(id, loja) {
-        lojaAtiva = { id, ...loja };
-        document.getElementById('m-nome').innerText = loja.Nome;
-        document.getElementById('m-morada').innerText = loja.Morada;
-        const status = statusRealtime[id] || { estado: 'LIVRE' };
-        
-        // GESTÃO DA TELA DE RETORNO / NÚMERO DO VINIL
-        const modalReturnInfo = document.getElementById('modal-return-info');
-        const mIdPosto = document.getElementById('m-id-posto');
-        const mDataVinilizacao = document.getElementById('m-data-vinilizacao');
-
-        if (loja.needsReturn && loja.returnDetails && loja.returnDetails.length > 0) {
-            // Caso a loja tenha 2 postos, ele vai colocar um embaixo do outro
-            mIdPosto.innerHTML = loja.returnDetails.map(d => d.idPosto).join('<hr style="margin:5px 0; border-top:1px solid #ddd;">');
-            mDataVinilizacao.innerHTML = loja.returnDetails.map(d => d.dataVinilizacao).join(' | ');
-            modalReturnInfo.style.display = 'block';
-        } else {
-            modalReturnInfo.style.display = 'none';
-        }
-        
-        const info = document.getElementById('status-info');
-        const obs = document.getElementById('obs-texto');
-        
-        info.innerText = status.estado;
-        info.style.background = status.estado === 'EM_CURSO' ? 'var(--yellow)' : (status.estado === 'CONCLUIDO' ? 'var(--green)' : '#eee');
-        obs.style.display = (status.estado === 'EM_CURSO' || status.estado === 'CONCLUIDO') ? 'block' : 'none';
-        obs.value = status.obs || "";
-        
-        document.getElementById('btnStart').style.display = status.estado === 'LIVRE' ? 'block' : 'none';
-        document.getElementById('btnFinish').style.display = status.estado === 'EM_CURSO' ? 'block' : 'none';
-        document.getElementById('btnCancel').style.display = (status.estado === 'EM_CURSO' || status.estado === 'CONCLUIDO') ? 'block' : 'none';
-        
-        document.getElementById('modalTrabalho').style.display = 'flex';
-    }
-
-    function dbAction(acao) {
-        const ref = db.ref('trabalhos/' + lojaAtiva.id);
-        if(acao === 'start') ref.set({ estado: 'EM_CURSO', equipa: currentUser.email.split('@')[0], inicio: Date.now() });
-        else if(acao === 'finish') ref.update({ estado: 'CONCLUIDO', fim: Date.now(), obs: document.getElementById('obs-texto').value });
-        else if(acao === 'cancel') { if(confirm("Deseja limpar o registro desta loja?")) ref.remove(); }
-        closeModal();
-    }
-
-    function changeTab(tab) {
-        currentTab = tab;
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('tab-' + tab).classList.add('active');
-        document.getElementById('store-list').style.display = tab === 'mapa' ? 'none' : 'block';
-        document.getElementById('map-container').style.display = tab === 'mapa' ? 'block' : 'none';
-        if(tab === 'mapa') setTimeout(() => map.invalidateSize(), 200);
-        renderList();
-    }
-
-    function focarUtilizador() { if(userPos) map.flyTo([userPos.lat, userPos.lon], 16); }
-    
     function atualizarStats() {
         const total = baseLojas.length;
         let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
-        let retorno = baseLojas.filter(loja => loja.needsReturn).length;
-
+        let retorno = baseLojas.filter(l => l.needsReturn).length;
         document.getElementById('stat-total').innerText = total;
         document.getElementById('stat-feitas').innerText = feitas;
         document.getElementById('stat-falta').innerText = total - feitas;
         document.getElementById('stat-retorno').innerText = retorno; 
         document.getElementById('stat-pct').innerText = total > 0 ? Math.round((feitas/total)*100) + "%" : "0%";
     }
-    
+
     function calcDist(lat1, lon1, lat2, lon2) {
         const R = 6371;
         const dLat = (lat2-lat1) * Math.PI / 180, dLon = (lon2-lon1) * Math.PI / 180;
@@ -425,7 +321,55 @@
         return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
     }
     
+    function setFilter(f) { currentFilter = f; if(currentTab==='mapa') changeTab('todas'); renderList(); }
+    function abrirRota() { window.open(`https://www.google.com/maps/dir/?api=1&destination=${lojaAtiva.Latitude},${lojaAtiva.Longitude}`, '_blank'); }
     function closeModal() { document.getElementById('modalTrabalho').style.display = 'none'; }
+
+    // FUNÇÃO DE MIGRAÇÃO ÚNICA: Use uma vez para subir seus CSVs para o Firebase
+    async function migrarDadosCSV() {
+        const confirmacao = confirm("Deseja carregar os dados dos arquivos CSV para o Firebase agora?");
+        if(!confirmacao) return;
+
+        // IMPORTANTE: Use os links dos seus CSVs aqui apenas para a migração
+        const csvLojasUrl = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista_final.csv";
+        const csvRetornoUrl = "https://raw.githubusercontent.com/rikson-matos/lidl/main/lista.csv";
+
+        alert("Iniciando migração... aguarde o aviso de sucesso.");
+
+        try {
+            // Carregar Lojas
+            const resLojas = await fetch(csvLojasUrl);
+            const textLojas = await resLojas.text();
+            // Simples parser manual para não depender de biblioteca externa na migração
+            const linhasLojas = textLojas.split('\n').slice(1);
+            const objLojas = {};
+            linhasLojas.forEach(linha => {
+                const c = linha.split(',');
+                if(c.length > 5) {
+                    objLojas["loja_" + c[0]] = { Código: c[0], Nome: c[1], Morada: c[4], Latitude: c[5], Longitude: c[6] };
+                }
+            });
+            await db.ref('configuracao/base_lojas').set(objLojas);
+
+            // Carregar Retornos
+            const resRet = await fetch(csvRetornoUrl);
+            const textRet = await resRet.text();
+            const linhasRet = textRet.split('\n');
+            const objRet = {};
+            linhasRet.forEach(linha => {
+                if(linha.includes('antes')) {
+                    const c = linha.replace(/^,+/, '').split(',');
+                    objRet["ret_" + c[0]] = { idPosto: c[3], data: c[4] };
+                }
+            });
+            await db.ref('configuracao/lista_retorno').set(objRet);
+
+            alert("SUCESSO! Os dados estão no Firebase. Você pode apagar os arquivos do GitHub se quiser.");
+            location.reload();
+        } catch (e) {
+            alert("Erro na migração: " + e.message);
+        }
+    }
 </script>
 </body>
 </html>
