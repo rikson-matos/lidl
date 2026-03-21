@@ -65,7 +65,7 @@
         <input type="email" id="loginEmail" placeholder="E-mail">
         <input type="password" id="loginPass" placeholder="Senha">
         <button class="btn" style="background: var(--yellow); color: var(--blue);" onclick="fazerLogin()">ENTRAR</button>
-        <div id="loginError" style="color: red; font-size: 11px; margin-top: 10px;"></div>
+        <div id="loginError" style="color: red; font-size: 12px; font-weight: bold; margin-top: 10px;"></div>
     </div>
 </div>
 
@@ -131,7 +131,7 @@
 
 <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyBdpRqdptOWD6kPZf4oFzvjpoa-XqXgP_tY", 
+        apiKey: "AIzaSyBdQpPtOWd6kPZfa0ofvrjpoa-XqXgP_tY", /* CHAVE ORIGINAL E CORRETA */
         authDomain: "lidl-audit.firebaseapp.com",
         databaseURL: "https://lidl-audit-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "lidl-audit",
@@ -158,12 +158,20 @@
         const emailInput = document.getElementById('loginEmail');
         const passInput = document.getElementById('loginPass');
         const loginErrorDiv = document.getElementById('loginError');
-        loginErrorDiv.innerText = ''; 
+        
+        loginErrorDiv.innerText = 'Aguarde...'; 
+        
         auth.signInWithEmailAndPassword(emailInput.value, passInput.value).catch(error => {
-            let errorMessage = "Erro no Login. Verifique as credenciais.";
-            if (error.code === 'auth/invalid-email') errorMessage = "E-mail inválido.";
-            else if (error.code === 'auth/user-not-found') errorMessage = "Usuário não encontrado.";
+            console.error("Erro Firebase Auth:", error);
+            let errorMessage = "Erro: " + error.code;
+            
+            // Tratamento de erros atualizado do Firebase
+            if (error.code === 'auth/invalid-email') errorMessage = "E-mail com formato inválido.";
+            else if (error.code === 'auth/user-not-found') errorMessage = "Usuário não cadastrado.";
             else if (error.code === 'auth/wrong-password') errorMessage = "Senha incorreta.";
+            else if (error.code === 'auth/invalid-credential') errorMessage = "E-mail ou senha incorretos.";
+            else if (error.code === 'auth/network-request-failed') errorMessage = "Sem conexão com a internet.";
+            
             loginErrorDiv.innerText = errorMessage;
         });
     }
@@ -203,13 +211,13 @@
             // Separa o texto em linhas
             let linhas = csvText.split('\n');
             
-            // Procura qual é a linha verdadeira do Cabeçalho (que tem a palavra "Nº Loja")
+            // Procura qual é a linha verdadeira do Cabeçalho
             let indexCabecalho = linhas.findIndex(linha => linha.includes('Nº Loja'));
             
             if (indexCabecalho !== -1) {
                 // Corta todo o lixo que estiver acima do cabeçalho
                 linhas = linhas.slice(indexCabecalho);
-                // Remove vírgulas vazias que ficam presas no começo de cada linha (ex: ,119,Amadora...)
+                // Remove vírgulas vazias que ficam presas no começo de cada linha
                 linhas = linhas.map(linha => linha.replace(/^,+/, ''));
                 csvText = linhas.join('\n'); // Junta tudo de novo
             }
@@ -218,7 +226,7 @@
                 Papa.parse(csvText, { header: true, skipEmptyLines: true, complete: resolve });
             });
             
-            // Filtra para garantir que só passa linha que tenha de fato um número de loja válido
+            // Filtra para garantir que só passa linha que tenha de fato um número de loja
             returnLojas = resLojasRetorno.data.filter(row => row['Nº Loja'] && row['Nº Loja'].trim() !== '');
             
             processarDadosLojas();
@@ -259,7 +267,7 @@
                 loja.returnDetails = [];
             }
         });
-        console.log("Retornos processados: ", returnMap.size, "lojas com ações de retorno.");
+        console.log("Retornos processados: ", returnMap.size, "lojas encontradas.");
     }
 
     function monitorarGPS() {
@@ -348,8 +356,8 @@
         const mDataVinilizacao = document.getElementById('m-data-vinilizacao');
 
         if (loja.needsReturn && loja.returnDetails && loja.returnDetails.length > 0) {
-            // Caso a loja tenha múltiplos postos de retorno, separa com uma linha e quebra de texto
-            mIdPosto.innerHTML = loja.returnDetails.map(d => d.idPosto).join('<hr style="margin:8px 0; border-top:1px dashed #ccc;">');
+            // Caso a loja tenha 2 postos, ele vai colocar um embaixo do outro
+            mIdPosto.innerHTML = loja.returnDetails.map(d => d.idPosto).join('<hr style="margin:5px 0; border-top:1px solid #ddd;">');
             mDataVinilizacao.innerHTML = loja.returnDetails.map(d => d.dataVinilizacao).join(' | ');
             modalReturnInfo.style.display = 'block';
         } else {
@@ -394,8 +402,6 @@
     function atualizarStats() {
         const total = baseLojas.length;
         let feitas = Object.values(statusRealtime).filter(s => s.estado === 'CONCLUIDO').length;
-        
-        // Conta quantas lojas têm a flag de retorno ativada
         let retorno = baseLojas.filter(loja => loja.needsReturn).length;
 
         document.getElementById('stat-total').innerText = total;
